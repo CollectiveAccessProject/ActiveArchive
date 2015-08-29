@@ -1,0 +1,442 @@
+
+/** ionic overrides **/
+.scroll{height: 100%; background-color: #000; padding: 0; margin: 0; border: 0px; } /* forces ionic to fill screen */
+.bar-black { background-color: #000; padding: 0; margin: 0; border: 0px; }
+
+/** MF styles **/
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+@font-face {
+    font-family: 'ProximaNovaBold';
+    src: url('fonts/proximanova-bold-webfont.eot');
+    src: url('fonts/proximanova-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/proximanova-bold-webfont.woff') format('woff'),
+         url('fonts/proximanova-bold-webfont.ttf') format('truetype'),
+         url('fonts/proximanova-bold-webfont.svg#ProximaNovaBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ProximaNovaBoldItalic';
+    src: url('fonts/proximanova-boldit-webfont.eot');
+    src: url('fonts/proximanova-boldit-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/proximanova-boldit-webfont.woff') format('woff'),
+         url('fonts/proximanova-boldit-webfont.ttf') format('truetype'),
+         url('fonts/proximanova-boldit-webfont.svg#ProximaNovaBoldItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ProximaNova';
+    src: url('fonts/proximanova-reg-webfont.eot');
+    src: url('fonts/proximanova-reg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/proximanova-reg-webfont.woff') format('woff'),
+         url('fonts/proximanova-reg-webfont.ttf') format('truetype'),
+         url('fonts/proximanova-reg-webfont.svg#ProximaNovaRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#ffffff;
+	color:#ffffff;
+    background-attachment:fixed;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12px;
+    margin:0px;
+    padding:0px;
+    text-shadow:none !important;
+}
+
+/* Landscape layout (default) */
+.viewArea {
+    /* background:url(../img/MF_logo.jpg) no-repeat 10px 710px; 170px x 200px */
+    background-size:70px 70px;                               /* offset horizontal: half of text area width */
+	background-color:#000;
+	width:100%;
+    
+    padding-top:30px;
+    padding-left:10px;
+}
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
+	background-color:#000 !important;
+}
+.event {
+    border-radius:4px;
+    -webkit-border-radius:4px;
+    color:#000000;
+    font-weight:bold;
+    font-size:16px;
+    margin:0px 30px;
+    margin-bottom:5px;
+    padding:5px 3px 8px 3px;
+    background-color:#ffffff;
+    text-decoration:none;
+    text-align:left;
+    float:left;
+    width:40%;
+    height:40px;
+}
+.event img {
+	height:40px;
+	width:auto;
+	padding-right:20px;
+}
+.event span {
+	display:inline-block;
+  	vertical-align: top;
+  	padding-top: 15px;
+}	
+.event a {
+	text-decoration:none;
+}
+a:-webkit-any-link {
+	text-decoration:none;
+}
+.event.listening {
+    background-color:#333333;
+    display:none;
+}
+.event.received {
+    background-color:#000000;
+    display:none;
+}
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+/* new styles */
+
+h1 {
+	color:#fff;
+	text-transform:capitalize;
+	font-size:150px;
+	text-align:left;
+	font-family:proximanovabold;
+	margin-bottom:20px;
+	margin-top:20px;
+}
+h2 {
+	font-size:40px;
+	color: red;
+	text-transform:capitalize;
+	font-weight:normal;
+	text-align:left;
+	margin-bottom:50px;
+	font-family:proximanova;
+	margin-top:30px;
+	text-shadow:none;
+}
+h3 {
+	color:#ffffff;
+	font-size:28px;
+	font-family:proximanovabold;
+	margin-top:0px;
+	margin-bottom:10px;
+}
+h5 {
+	color:#fff;
+	font-family:proximanovabold;
+	font-size:18px;
+	margin-bottom:5px;
+	margin-top:5px;
+}
+p {
+	color:#ffffff;
+	font-size:14px;
+	font-family:proximanova;
+}
+.subheader {
+	margin-top:0px;
+	padding-top:0px;
+	font-size:24px;
+	font-family:proximanovabold;
+	color:red;
+	text-shadow:none !important;
+}
+.right {
+	float:right;
+}	
+.left {
+	float:left;
+}
+.mfLogo {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+}
+.mfLogo img{
+	width:60px;
+	height:60px;
+}
+#mainMenu {
+	width:800px;
+	margin:0px auto 0px auto;
+	text-align:center;
+}
+.menuToggle {
+	width:75px;
+	height:70px;
+	position:fixed;
+	bottom:0px;
+	left:10px;
+}
+.menuToggle img {
+	width:100%;
+	height:auto;
+}
+/* Menu Panel */
+
+#menupanel {
+	background-color:#333;
+	opacity:.95;
+}
+#menupanel .event {
+	color:#fff;
+	background-color:#333;
+	width:100%;
+	margin:0px;
+	padding:10px 0px 10px 0px;
+	border-radius:0px;
+	border-bottom:1px solid #fff;
+}
+#menupanel .event span {
+	width: 172px;
+    float: right;
+    font-weight:normal;
+    font-family:proximanova;
+    text-shadow:none;
+}
+#menupanel .event.close {
+	width:230px;
+	position:fixed;
+	bottom:0px;
+	height:50px;
+	text-align:right;
+	border-bottom:0px;
+}
+#menupanel .event.close span{
+	width:auto;
+}
+#menupanel .event .fa {
+	font-size:40px;
+	text-shadow:none;
+}
+.navLinks {
+	margin-bottom:15px;
+}
+.navLinks a{
+	color:#fff;
+	background-color:red;
+	font-family:Proximanovabold;
+	padding:5px;
+	text-decoration:none;
+	border-bottom:0px;
+	margin-top:30px;
+}
+.navLinks .right a{
+	padding:0px;
+	font-size:18px;
+}
+.navLinks .right a .fa{
+	font-size:28px;
+}
+.navLinks .right a .button{
+	font-family:Proximanova;
+	border-top-right-radius:0px;
+	border-top-left-radius:0px;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:20px;
+	padding-bottom:10px;
+	margin-right:10px;
+	text-shadow:none !important;
+}
+.headerMain {
+	color:#ffffff;
+	padding-left:15px;
+}
+.headerMain .right {
+	padding-right:15px;
+}
+.blah {
+	background-color:red;
+	color:#fff;
+}
+.date {
+	font-family:proximanovabold;
+	font-size:18px;
+}
+.button {
+	background-color:red;
+	color:#fff;
+	border-radius:4px;
+	padding:7px 5px 5px 5px;
+	font-family:proximanovabold;
+	width:auto;
+}
+.timeline {
+	margin-left:100px;
+	position:absolute;
+	bottom:0px;
+}
+.timeline h3 {
+	margin-left:50px;
+	font-size:18px;
+	margin-bottom:10px;
+}
+.timeline img {
+	width:910px;
+}
+div.floorPlan {
+	margin:0px auto 0px auto;
+	width:100%;
+	text-align:center;
+}
+.floorPlan img {
+	width:950px;
+}
+.years {
+	padding-left:50px;
+}
+.years p {
+	display:inline-block;
+	width:33%;
+	margin-bottom:0px;
+}
+p.artist {
+	font-family:proximanova;
+	font-size: 25px;
+	margin-bottom:5px;
+	text-transform:uppercase;
+	margin-top:0px;
+}
+p.artist small{
+	text-transform: none;
+	font-size:14px;
+}
+p.title {
+	font-family:proximanovabold;
+	font-size: 25px;
+	margin-top:0px;
+	margin-bottom:0px;
+	text-transform:uppercase;
+}
+.contentMain .upperImages {
+	clear:both;
+	overflow:scroll;
+	overflow-x:scroll;
+	width:990px;
+	height:290px;
+}
+.contentMain {
+	clear:both;
+}
+.contentMain .upperImages img{
+	/* width:500px; */
+	display:inline;
+}
+.contentMain .right {
+	width:35%;
+	color:#fff;
+	font-size:16px;
+	font-family:proximanova;
+	text-transform:none;
+	line-height:1.4em;
+}
+.contentMain .left {
+	width:60%;
+	color:#fff;
+	font-size:16px;
+	font-family:proximanova;
+	text-transform:none;
+	line-height:1.4em;
+	height:270px;
+	overflow-y:scroll;
+}
+.pointer {
+	color:#fff;
+	font-size:30px;
+	font-family:proximanovabold;
+	padding-top:150px;
+	display:inline;
+	
+}
+.pointer.left {
+	width:10px;
+	height:20px;
+}
+.pointer.right {
+  float: none;
+  width: 10px;
+  height:20px;
+  left: 1000px;
+  position: absolute;
+}
+.scroller {
+	width:1500px;
+}
+.scrollUp {
+	height:auto;
+}
+.related p {
+	margin-bottom:5px;
+	margin-top:0px;
+}
+p.red {
+	margin-top:0px;
+	color:red;
+}
+.red {
+	color:red;
+}
+.unit {
+	margin-bottom:30px;
+}
+.artistList {
+  height: 600px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.letter {
+	width:20px;
+	display:inline-block;
+	float:left;
+	height:140px;
+	font-size:30px;
+	font-weight:bold;
+	padding-top:70px;
+}
+.artistRow {
+	width:994px;
+	height:240px;
+	overflow-x: scroll;	
+	float:left;
+}
+.artistScroll {
+	height:240px;
+	width:10000px;
+}
+.artistScroll img{
+	height:240px;
+	float:left;
+}
+
+

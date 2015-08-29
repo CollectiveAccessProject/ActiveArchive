@@ -1,0 +1,14 @@
+<ion-view view-title="Artists">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="artist in artists" type="item-text-wrap" href="#/tab/detail-artist/{{artist.entity_id}}">
+        <h2>{{artist.name}}</h2>
+        <p>{{artist.nationality}}</p>
+      </ion-item>
+    </ion-list>
+	<ion-infinite-scroll
+		on-infinite="loadNextArtistPage()"
+		distance="1%">
+	</ion-infinite-scroll>
+  </ion-content>
+</ion-view>

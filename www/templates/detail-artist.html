@@ -1,0 +1,53 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view view-title="{{artist.name}}">
+  <ion-content>
+
+	<div id="deviceready" class="viewArea">
+		<div class='headerMain'>
+			<div class='left'>
+				<p id='artistname' class='title'>{{artist.name}}</p>
+				<p class='material'>{{artist.nationality}}, {{artist.vital_dates}}</p>
+			</div>
+
+		</div>
+		<div class='contentMain'>
+			<div class='upperImages'>
+				<span class='pointer left'> < </span> <span class='pointer right'> > </span>
+				<div class='scroller' ng-bind-html="artist.pics">
+				</div>
+				
+			</div>
+
+			<div class='lowerInfo'>
+				<div class='left'>
+					<div class='scrollUp'>
+						<h5>About the Artist</h5>
+						<div ng-bind-html="artist.biography"></div>				
+					</div>
+				</div>
+				<div class='related right'>
+					<a href='artwork.html'><div class='unit'>
+						<h5>Related Artworks</h5>
+						<p>It’s all about ME, Not You, 1996</p>
+					</div></a>
+					<a href='exhibition.html'><div class='unit'>
+						<h5>Related Exhibitions</h5>
+						<p>Greer Lankton</p>
+						<p class='red'>October 19 1996 - June 29, 1997</p>
+					</div></a>
+					<div class='unit'>	
+						<h5>Related Events</h5>
+						<p>ARTLab: Be Proud of Who You Are!</p>
+						<p class='red'>June 7, 2014</p>
+					</div>	
+				</div>
+			</div>				
+		</div>
+	</div>
+  </ion-content>
+</ion-view>
