@@ -15,14 +15,13 @@ angular.module('mfactivearchive.controllers', [])
 
 	var artistsLoaded = 0;
 
-	Artists.load(0,30).then(function(d) { $scope.artists = d; artistsLoaded += Object.keys(d).length; });
+	Artists.load(0,30).then(function(d) { $scope.artists = d; artistsLoaded = d.length; });
 	
 	$scope.loadNextArtistPage = function() {
-		Artists.load(artistsLoaded, 30).then(function(d) { 
-			for (var attr in d) { 
-				$scope.artists[attr] = d[attr]; 
-			}
-			artistsLoaded += Object.keys(d).length; 
+		Artists.load(artistsLoaded, 30).then(function(d) {
+			$scope.artists = $scope.artists.concat(d);
+			artistsLoaded = $scope.artists.length;
+			console.log("artists loaded " + artistsLoaded);
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 		});
 	};

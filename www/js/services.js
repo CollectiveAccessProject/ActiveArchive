@@ -14,7 +14,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 		url : dataConfig.backend + '/service.php/simple/artists?q=*&limit=' + l + '&start=' + s
 		}).then(function(response) {
 			$log.log('Load complete');
-			return response.data;
+			return response.data['data'];
 		}, function() { 
 			$log.log("Error loading artists"); 
 		});
