@@ -43,13 +43,13 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#ffffff;
+    background-color:#000000;
 	color:#ffffff;
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     margin:0px;
-    padding:0px;
+    padding:0px 0px 0px 0px;
     text-shadow:none !important;
 }
 
@@ -162,6 +162,12 @@ p {
 	color:#ffffff;
 	font-size:14px;
 	font-family:proximanova;
+}
+[nav-bar-transition="ios"] [nav-bar="active"] .bar, [nav-bar-transition="ios"] [nav-bar="entering"] .bar {
+	background-color:#000000 !important;
+}
+.menu {
+	border-top:20px solid #000;
 }
 .subheader {
 	margin-top:0px;
@@ -287,10 +293,12 @@ p {
 .button {
 	background-color:red;
 	color:#fff;
-	border-radius:4px;
 	padding:7px 5px 5px 5px;
 	font-family:proximanovabold;
 	width:auto;
+}
+.button:hover {
+	color:#fff;
 }
 .timeline {
 	margin-left:100px;
