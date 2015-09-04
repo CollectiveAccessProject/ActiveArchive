@@ -46,7 +46,7 @@ body {
     background-color:#000000;
 	color:#ffffff;
     background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-family:'ProximaNova', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     margin:0px;
     padding:0px 0px 0px 0px;
@@ -140,7 +140,7 @@ h2 {
 	font-weight:normal;
 	text-align:left;
 	margin-bottom:50px;
-	font-family:proximanova;
+	font-family:proximanovabold;
 	margin-top:30px;
 	text-shadow:none;
 }
@@ -163,12 +163,6 @@ p {
 	font-size:14px;
 	font-family:proximanova;
 }
-[nav-bar-transition="ios"] [nav-bar="active"] .bar, [nav-bar-transition="ios"] [nav-bar="entering"] .bar {
-	background-color:#000000 !important;
-}
-.menu {
-	border-top:20px solid #000;
-}
 .subheader {
 	margin-top:0px;
 	padding-top:0px;
@@ -183,23 +177,23 @@ p {
 .left {
 	float:left;
 }
-.mfLogo {
-	position:absolute;
-	bottom:0px;
-	left:0px;
+.bar .title {
+	font-weight:bold;
 }
-.mfLogo img{
-	width:60px;
-	height:60px;
+[nav-bar-transition="ios"] [nav-bar="active"] .bar, [nav-bar-transition="ios"] [nav-bar="entering"] .bar {
+	background-color:#000000 !important;
 }
-#mainMenu {
-	width:800px;
-	margin:0px auto 0px auto;
-	text-align:center;
+/* Footer */
+.bar.bar-footer {
+	background-image:none;
+}
+.bar-footer {
+	background-color:#000;
+	height:50px;
 }
 .menuToggle {
 	width:75px;
-	height:70px;
+	height:45px;
 	position:fixed;
 	bottom:0px;
 	left:10px;
@@ -209,71 +203,36 @@ p {
 	height:auto;
 }
 /* Menu Panel */
-
-#menupanel {
+.menu {
+	border-top:20px solid #000;
 	background-color:#333;
+}
+.menu .item {
+	background-color:#000;
 	opacity:.95;
-}
-#menupanel .event {
 	color:#fff;
-	background-color:#333;
-	width:100%;
-	margin:0px;
-	padding:10px 0px 10px 0px;
-	border-radius:0px;
-	border-bottom:1px solid #fff;
-}
-#menupanel .event span {
-	width: 172px;
-    float: right;
-    font-weight:normal;
-    font-family:proximanova;
-    text-shadow:none;
-}
-#menupanel .event.close {
-	width:230px;
-	position:fixed;
-	bottom:0px;
-	height:50px;
-	text-align:right;
-	border-bottom:0px;
-}
-#menupanel .event.close span{
-	width:auto;
-}
-#menupanel .event .fa {
-	font-size:40px;
-	text-shadow:none;
-}
-.navLinks {
-	margin-bottom:15px;
-}
-.navLinks a{
-	color:#fff;
-	background-color:red;
-	font-family:Proximanovabold;
-	padding:5px;
-	text-decoration:none;
-	border-bottom:0px;
-	margin-top:30px;
-}
-.navLinks .right a{
-	padding:0px;
+	font-family:proximanova;
 	font-size:18px;
 }
-.navLinks .right a .fa{
-	font-size:28px;
+.menu .item i{
+	font-size:24px;
+	padding-right:15px;
 }
-.navLinks .right a .button{
-	font-family:Proximanova;
-	border-top-right-radius:0px;
-	border-top-left-radius:0px;
-	padding-left:10px;
-	padding-right:10px;
-	padding-top:20px;
-	padding-bottom:10px;
-	margin-right:10px;
-	text-shadow:none !important;
+.menu .item-complex .item-content, .menu .item-radio .item-content {
+	background-color:#000;
+	border-width:0px;
+}
+/* Artist list*/
+.gallery {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.artistList .item, .item-complex .item-content, .artistList .item-radio .item-content{
+	background-color:#000;
+	color:#ffffff;
+}
+.item p {
+	color: #ffffff;
 }
 .headerMain {
 	color:#ffffff;
