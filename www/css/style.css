@@ -183,6 +183,9 @@ p {
 [nav-bar-transition="ios"] [nav-bar="active"] .bar, [nav-bar-transition="ios"] [nav-bar="entering"] .bar {
 	background-color:#000000 !important;
 }
+.scroll-content {
+	background-color:#000;
+}
 /* Footer */
 .bar.bar-footer {
 	background-image:none;
@@ -218,22 +221,37 @@ p {
 	font-size:24px;
 	padding-right:15px;
 }
-.menu .item-complex .item-content, .menu .item-radio .item-content {
+.menu .item-complex .item-content, .menu .item-radio .item-content{
 	background-color:#000;
 	border-width:0px;
 }
+.item .item-content.activated{
+	background-color:#000 !important;
+} 
 /* Artist list*/
 .gallery {
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
 }
+.artistList .item {
+	border-width:0px;
+}
 .artistList .item, .item-complex .item-content, .artistList .item-radio .item-content{
 	background-color:#000;
 	color:#ffffff;
+	padding:20px;
+}
+.artistList .item, .item-complex .item-content h2, .artistList .item, .item-complex .item-content p {
+	text-align:center;
+}
+.artistList .item-avatar .item-content {
+	padding:0px;
 }
 .item p {
 	color: #ffffff;
 }
+/* Artist Detail*/
+
 .headerMain {
 	color:#ffffff;
 	padding-left:15px;
@@ -241,44 +259,14 @@ p {
 .headerMain .right {
 	padding-right:15px;
 }
-.blah {
-	background-color:red;
-	color:#fff;
-}
 .date {
 	font-family:proximanovabold;
 	font-size:18px;
 }
-.button {
-	background-color:red;
-	color:#fff;
-	padding:7px 5px 5px 5px;
-	font-family:proximanovabold;
-	width:auto;
-}
-.button:hover {
-	color:#fff;
-}
-.timeline {
-	margin-left:100px;
-	position:absolute;
-	bottom:0px;
-}
-.timeline h3 {
-	margin-left:50px;
-	font-size:18px;
-	margin-bottom:10px;
-}
-.timeline img {
-	width:910px;
-}
-div.floorPlan {
-	margin:0px auto 0px auto;
-	width:100%;
-	text-align:center;
-}
-.floorPlan img {
-	width:950px;
+.related p {
+	margin-bottom:5px;
+	margin-top:0px;
+	font-size:16px;
 }
 .years {
 	padding-left:50px;
@@ -305,6 +293,28 @@ p.title {
 	margin-top:0px;
 	margin-bottom:0px;
 	text-transform:uppercase;
+}
+p.vitals {
+	text-transform:uppercase;
+	font-family:proximanovabold;
+	margin-top:10px;
+}
+p.red {
+	margin-top:0px;
+	color:red;
+	font-family:proximanovabold;
+}
+.red {
+	color:red;
+}
+.unit {
+	margin-bottom:30px;
+}
+.artistScroller {
+	-webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;	
 }
 .contentMain .upperImages {
 	clear:both;
@@ -363,20 +373,8 @@ p.title {
 .scrollUp {
 	height:auto;
 }
-.related p {
-	margin-bottom:5px;
-	margin-top:0px;
-}
-p.red {
-	margin-top:0px;
-	color:red;
-}
-.red {
-	color:red;
-}
-.unit {
-	margin-bottom:30px;
-}
+
+
 .artistList {
   height: 600px;
   overflow: hidden;

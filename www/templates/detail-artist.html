@@ -4,45 +4,38 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="{{artist.name}}">
+<ion-view >
   <ion-content>
 
 	<div id="deviceready" class="viewArea">
 		<div class='headerMain'>
 			<div class='left'>
 				<p id='artistname' class='title'>{{artist.name}}</p>
-				<p class='material'>{{artist.nationality}}, {{artist.vital_dates}}</p>
+				<p class='vitals'>{{artist.nationality}}, {{artist.vital_dates}}</p>
 			</div>
 
 		</div>
 		<div class='contentMain'>
 			<div class='upperImages'>
-				<span class='pointer left'> < </span> <span class='pointer right'> > </span>
-				<div class='scroller' ng-bind-html="artist.pics">
-				</div>
-				
+				<ion-scroll direction="x" class="artistScroller" ng-bind-html="artist.pics">
+				</ion-scroll>
 			</div>
 
 			<div class='lowerInfo'>
 				<div class='left'>
 					<div class='scrollUp'>
-						<h5>About the Artist</h5>
+						<h5>Biography</h5>
 						<div ng-bind-html="artist.biography"></div>				
 					</div>
 				</div>
 				<div class='related right'>
 					<div class='unit'>
 						<h5>Related Artworks</h5>
-						<p>It’s all about ME, Not You, 1996</p>
+						<div ng-bind-html="artist.artworks"></div> 
 					</div>
 					<div class='unit'>
 						<h5>Related Exhibitions</h5>
-						<div ng-bind-html='artist.exhibitions'></div>
-					</div>
-					<div class='unit'>	
-						<h5>Related Events</h5>
-						<p>ARTLab: Be Proud of Who You Are!</p>
-						<p class='red'>June 7, 2014</p>
+						<div ng-bind-html='artist.exhibitions'></div> 
 					</div>	
 				</div>
 			</div>				
