@@ -2,7 +2,7 @@
   <ion-content>
     <ion-list class='artistList'>
     	<div class='row gallery'>
-      <ion-item class="item-remove-animate item-avatar item-icon-right col col-34" ng-repeat="artist in artists" type="item-text-wrap" href="#/tab/detail-artist/{{artist.entity_id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right col col-25" ng-repeat="artist in artists" type="item-text-wrap" href="#/tab/detail-artist/{{artist.entity_id}}">
         <div ng-bind-html='artist.thumb'></div>
         <h2>{{artist.name}}</h2>
         <p>{{artist.nationality}}</p>

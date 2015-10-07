@@ -247,6 +247,11 @@ p {
 .artistList .item-avatar .item-content {
 	padding:0px;
 }
+div.artistImage {
+	height:180px;
+	width:180px;
+	margin:auto;
+}
 .item p {
 	color: #ffffff;
 }
