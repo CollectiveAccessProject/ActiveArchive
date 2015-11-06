@@ -56,6 +56,16 @@
 			}
 		}
 	})
+	
+	.state('tab.exhibitions', {
+		url: '/exhibitions',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-exhibitions.html',
+				controller: 'ExhibitionsCtrl'
+			}
+		}
+	})	
 	.state('tab.detail-artist', {
 		url: '/detail-artist/:id',
 		views: {

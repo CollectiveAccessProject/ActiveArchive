@@ -1,0 +1,23 @@
+<ion-view view-title="Browse Mattress Factory Exhibitions">
+  <ion-content>
+    <ion-list class='exhibitionList'>
+    	<div class='row gallery'>
+		  <ion-item class="item-remove-animate item-avatar item-icon-right col col-25" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
+			<div ng-bind-html='exhibition.thumb'></div>
+			<h2>{{exhibition.name}}</h2>
+			<p style='width:100%;'>{{exhibition.dates}}</p>
+		  </ion-item>
+      </div>
+    </ion-list>
+	<ion-infinite-scroll
+		on-infinite="loadNextExhibitionPage()"
+		distance="50%">
+	</ion-infinite-scroll>
+
+  </ion-content>
+  <ion-footer-bar>
+  		<div id="footer" class='menuToggle'>
+			<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
+		</div>
+	</ion-footer-bar>		
+</ion-view>

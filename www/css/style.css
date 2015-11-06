@@ -379,6 +379,19 @@ p.red {
 	height:auto;
 }
 
+/* Exhibition List */
+
+.exhibitionList .item {
+	border-width:0px;
+}
+.exhibitionList .col {
+	padding-bottom: 0px;
+}
+.item-complex.item-icon-right .item-content {
+	padding-right:0px;
+}
+
+
 
 .artistList {
   height: 600px;
