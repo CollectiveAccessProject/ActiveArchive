@@ -252,6 +252,12 @@ div.artistImage {
 	width:180px;
 	margin:auto;
 }
+.artistThumb {
+	margin: 0px auto 10px auto;
+	background-color:#333;
+	width:180px;
+	height:180px; 
+}
 .item p {
 	color: #ffffff;
 }
@@ -311,6 +317,9 @@ p.red {
 }
 .red {
 	color:red;
+}
+.artistBio {
+	height:500px;
 }
 .unit {
 	margin-bottom:30px;
@@ -375,9 +384,6 @@ p.red {
 .scroller {
 	width:1500px;
 }
-.scrollUp {
-	height:auto;
-}
 
 /* Exhibition List */
 
@@ -413,13 +419,6 @@ p.red {
 	overflow-x: scroll;	
 	float:left;
 }
-.artistScroll {
-	height:240px;
-	width:10000px;
-}
-.artistScroll img{
-	height:240px;
-	float:left;
-}
+
 
 

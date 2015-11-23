@@ -3,7 +3,7 @@
     <ion-list class='exhibitionList'>
     	<div class='row gallery'>
 		  <ion-item class="item-remove-animate item-avatar item-icon-right col col-25" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
-			<div ng-bind-html='exhibition.thumb'></div>
+			<div ng-bind-html='exhibition.thumb' class='artistThumb'></div>
 			<h2>{{exhibition.name}}</h2>
 			<p style='width:100%;'>{{exhibition.dates}}</p>
 		  </ion-item>
