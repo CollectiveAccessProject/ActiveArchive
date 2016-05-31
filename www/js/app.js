@@ -47,6 +47,26 @@
 		}
 	})
 
+    .state('tab.museum', {
+		url: '/museum',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-museum.html',
+				controller: 'MuseumCtrl'
+			}
+		}
+	})
+
+    .state('tab.neighborhood', {
+		url: '/neighborhood',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-neighborhood.html',
+				controller: 'NeighborhoodCtrl'
+			}
+		}
+	})
+
 	.state('tab.artists', {
 		url: '/artists',
 		views: {
@@ -66,12 +86,33 @@
 			}
 		}
 	})	
+
+    .state('tab.search', {
+		url: '/search',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-search.html',
+				controller: 'SearchCtrl'
+			}
+		}
+	})
+
 	.state('tab.detail-artist', {
 		url: '/detail-artist/:id',
 		views: {
 			'menuContent': {
 				templateUrl: 'templates/detail-artist.html',
 				controller: 'ArtistDetailCtrl'
+			}
+		}
+	})
+
+    .state('tab.detail-exhibition', {
+		url: '/detail-exhibition/:id',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/detail-exhibition.html',
+				controller: 'ExhibitionDetailCtrl'
 			}
 		}
 	});
