@@ -73,29 +73,39 @@ angular.module('mfactivearchive.controllers', [])
 
 .controller('SearchCtrl', function($scope, $stateParams, Search, $log) {
 
+    var searchLoaded = 0;
+
+    if($scope.search_term === null) {
+        term = '';
+    } else {
+        term = $scope.search_term;
+    }
+
     $scope.search = function(form) {
 
         $log.log('Form: ');
         $log.log(form);
 
         if(form.$valid) {
-            var search_term = form.searchterm.$modelValue;
+            $scope.search_term = form.searchterm.$modelValue;
 
-            Search.get(search_term).then(function(d) {
-                $scope.results = $scope.results.concat(d);
+            Search.get($scope.search_term).then(function(d) {
+
+                $log.log('d: ');
+                $log.log(d);
+
+                $log.log( $scope.results );
+
+                $scope.results = d;
+                searchLoaded = $scope.results.length;
                 console.log("search results gotten");
+                $scope.$broadcast('scroll.infiniteScrollComplete');
             });
         }
     };
-
-    var searchLoaded = 0;
-
-    $scope.value = 0;
-
-	Search.load(0,32).then(function(d) { $scope.results = d; searchLoaded = d.length; });
-	
+    	
 	$scope.loadNextSearchPage = function() {
-		Search.load(searchLoaded, 32).then(function(d) {
+		Search.load(searchLoaded, 32, $scope.search_term).then(function(d) {
 			$scope.results = $scope.results.concat(d);
 			searchLoaded = $scope.results.length;
 			console.log("search results loaded " + searchLoaded);
