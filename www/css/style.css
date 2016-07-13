@@ -389,7 +389,17 @@ p.red {
 
 .exhibitionList .item {
 	border-width:0px;
+    background: #000;
 }
+
+.exhibitionList .item h2 {
+    color: #fff;
+}
+
+.exhibitionList .item-active h2 {
+    font-size: 2em;
+}
+
 .exhibitionList .col {
 	padding-bottom: 0px;
 }

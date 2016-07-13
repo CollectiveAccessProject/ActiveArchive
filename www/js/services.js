@@ -38,9 +38,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
   };
 })
 .factory('Exhibitions', function($http, dataConfig, $log) {
-  // Might use a resource here that returns a JSON array
 
- 	  
   return {
     load: function(s, l) {
     	if (s < 1) { s = 0; }
@@ -74,4 +72,48 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 	}
     	
   };
+}).factory('Search', function($http, dataConfig, $log) {
+
+    return {
+        load: function(s, l, search_term) {
+    	    if (s < 1) { s = 0; }
+    	    if (l < 1) { l = 20; }
+    	
+
+		    var promise = $http({
+		    method : 'POST',
+		    url : dataConfig.backend + '/service.php/simple/artists?q=' + search_term + '&limit=' + l + '&start=' + s
+		    }).then(function(response) {
+			    $log.log('Load complete');
+
+                if('' === search_term) {
+                    return [];
+                } else {
+			        return response.data['data'];
+                }
+
+		    }, function() { 
+			    $log.log("Error loading search results"); 
+		    });
+		
+		    return promise;
+        },
+     
+        get: function(term) {
+
+            $log.log('Getting Term: ' + term);
+
+            var promise = $http({
+                method: 'POST',
+                url: dataConfig.backend + '/service.php/simple/artists?q=' + term + '&limit=20&start=0'
+            }).then(function(response) {
+                $log.log('Load complete');
+                return response.data['data'];
+            }, function() {
+                $log.log("Error loading search results");
+            });
+
+            return promise;
+        }
+    };
 });

@@ -16,7 +16,7 @@
 		</div>
 		<div class='contentMain'>
 			<div class='upperImages'>
-				<ion-scroll direction="x" class="artistScroller"><div ng-bind-html="exhibition.thumb">
+				<ion-scroll direction="x" class="artistScroller"><div ng-bind-html="exhibition.pics">
 				</div></ion-scroll>
 			</div>
 
@@ -32,11 +32,11 @@
 				<div class='related right'>
 					<div class='unit'>
 						<h5>Related Artworks</h5>
-						<div ng-bind-html="artist.artworks"></div> 
+						<div ng-bind-html="exhibition.artworks"></div> 
 					</div>
 					<div class='unit'>
 						<h5>Related Exhibitions</h5>
-						<div ng-bind-html='artist.exhibitions'></div> 
+						<div ng-bind-html='exhibition.exhibitions'></div> 
 					</div>	
 				</div>
 			</div>				

@@ -47,6 +47,26 @@
 		}
 	})
 
+    .state('tab.museum', {
+		url: '/museum',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-museum.html',
+				controller: 'MuseumCtrl'
+			}
+		}
+	})
+
+    .state('tab.neighborhood', {
+		url: '/neighborhood',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-neighborhood.html',
+				controller: 'NeighborhoodCtrl'
+			}
+		}
+	})
+
 	.state('tab.artists', {
 		url: '/artists',
 		views: {
@@ -66,6 +86,17 @@
 			}
 		}
 	})	
+
+    .state('tab.search', {
+		url: '/search',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-search.html',
+				controller: 'SearchCtrl'
+			}
+		}
+	})
+
 	.state('tab.detail-artist', {
 		url: '/detail-artist/:id',
 		views: {
@@ -84,6 +115,7 @@
 			}
 		}
 	});	
+
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/front');
