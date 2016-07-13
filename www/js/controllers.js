@@ -56,4 +56,12 @@ angular.module('mfactivearchive.controllers', [])
 	}, function() {
 		$log.log("Could not load artist");
 	});
+})
+
+.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log) {
+	Exhibitions.get($stateParams.id).then(function(d) {
+		$scope.exhibition = d;
+	}, function() {
+		$log.log("Could not load exhibition");
+	});
 });

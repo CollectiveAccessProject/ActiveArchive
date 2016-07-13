@@ -74,7 +74,16 @@
 				controller: 'ArtistDetailCtrl'
 			}
 		}
-	});
+	})
+	.state('tab.detail-exhibition', {
+		url: '/detail-exhibition/:id',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/detail-exhibition.html',
+				controller: 'ExhibitionDetailCtrl'
+			}
+		}
+	});	
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/front');
