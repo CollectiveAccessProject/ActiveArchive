@@ -8,37 +8,42 @@
   <ion-content>
 
 	<div id="deviceready" class="viewArea">
-		<div class='headerMain'>
-			<div class='left'>
-				<p id='artistname' class='title'>{{exhibition.name}}</p>
-			</div>
-
-		</div>
 		<div class='contentMain'>
 			<div class='upperImages'>
 				<ion-scroll direction="x" class="artistScroller"><div ng-bind-html="exhibition.pics">
 				</div></ion-scroll>
 			</div>
 
-			<div class='lowerInfo'>
-				<div class='left'>
-					<h5>Biography</h5>
-					<ion-scroll direction="y" >
-						
-							<div ng-bind-html="exhibition.description"></div>	
-						
-					</ion-scroll>					
+			<div class='exLowerInfo'>
+				<div class='exHeader'>
+					<div class='exTitle'>{{exhibition.name}}<small ng-if='exhibition.curator'>, curated by {{exhibition.curator}}</small></div>
+					<div class='red date'>{{exhibition.dates}}</div>
 				</div>
-				<div class='related right'>
-					<div class='unit'>
-						<h5>Related Artworks</h5>
+				<ion-scroll direction="y" class='col1' ng-if='exhibition.statement || exhibition.description'>
+						<div ng-bind-html="exhibition.description"></div>
+						<p ng-if='exhibition.statement'>
+							<br/><H5>Artist Statement</H5>
+							<div ng-bind-html="exhibition.statement"></div>	
+						</p>					
+				</ion-scroll>
+				<ion-scroll class='related col2'>
+					<div class='unit' ng-if='exhibition.contributors'>
+						<h5>Contributors</h5>
+						<div ng-bind-html="exhibition.contributors"></div> 
+					</div>
+					<div class='unit' ng-if='exhibition.artworks'>
+						<h5>Artworks</h5>
 						<div ng-bind-html="exhibition.artworks"></div> 
 					</div>
-					<div class='unit'>
-						<h5>Related Exhibitions</h5>
+					<div class='unit' ng-if='exhibition.events'>
+						<h5>Events</h5>
+						<div ng-bind-html='exhibition.events'></div> 
+					</div>	
+					<div class='unit' ng-if='exhibition.exhibitions'>
+						<h5>Exhibitions</h5>
 						<div ng-bind-html='exhibition.exhibitions'></div> 
 					</div>	
-				</div>
+				</ion-scroll>
 			</div>				
 		</div>
 	</div>	

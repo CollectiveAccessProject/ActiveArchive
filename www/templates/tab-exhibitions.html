@@ -1,31 +1,19 @@
-<ion-view view-title="Browse Mattress Factory Exhibitions">
+<ion-view view-title="Browse Mattress Factory Exhibitions"> 
   <ion-content>
-
-    <div class="row">
-        <div class="col col-50">
-            <div class="artistThumb" ng-bind-html="exhibition.thumb"></div>
-            <p style="text-align: center; width: 100%;">Exhibition Date</p>
-        </div>
-
-
-        <div class="col col-50">
-            <ion-list on-drag="listScroll()" ng-controller="ExhibitionsCtrl" class='exhibitionList'>
-                <ion-item class="item-remove-animate item-icon-right" 
-                                collection-repeat="exhibition in exhibitions" 
-                                ng-class="{'item-active': $index==value}"
-                                type="item-text-wrap" 
-                                href="#/tab/deatail-exhibition/{{exhibition.occurrence_id}}">
-                    <h2>{{$index}} - {{exhibition.name}}</h2>
-
-                    <div class="artistThumb" ng-bind-html="exhibition.thumb"></div>
-                    <p>{{exhibition.dates}}</p>
-                </ion-item>
-            </ion-list>
-        </div>
-    </div>
-
+    <div on-swipe-right="console.log('swiped')">
+    <ion-list class='artistList'>
+    	<div class='row gallery'>
+		  <ion-item class="item-remove-animate item-avatar item-icon-right col col-25" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
+			<div ng-bind-html='exhibition.thumb' class='artistThumb'></div>
+			<h2>{{exhibition.name}}</h2>
+			<p>{{exhibition.dates}}</p>
+			<p>{{exhibition.idno}}</p>
+		  </ion-item>
+      </div>
+    </ion-list>
+</div>
 	<ion-infinite-scroll
-		on-infinite="loadNextExhibitionPage()" 
+		on-infinite="loadNextExhibitionPage()"
 		distance="50%">
 	</ion-infinite-scroll>
 

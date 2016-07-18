@@ -5,19 +5,19 @@
 	angular.module('mfactivearchive', ['ionic', 'mfactivearchive.config', 'mfactivearchive.controllers', 'mfactivearchive.services'])
 
 	.run(function($ionicPlatform) {
-	$ionicPlatform.ready(function() {
-	// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-	// for form inputs)
-	if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-	cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-	cordova.plugins.Keyboard.disableScroll(true);
+		$ionicPlatform.ready(function() {
+			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+			// for form inputs)
+			if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+			cordova.plugins.Keyboard.disableScroll(true);
 
-	}
-	if (window.StatusBar) {
-	// org.apache.cordova.statusbar required
-	StatusBar.styleLightContent();
-	}
-	});
+			}
+			if (window.StatusBar) {
+			// org.apache.cordova.statusbar required
+			StatusBar.styleLightContent();
+			}
+		});
 	})
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -78,7 +78,7 @@
 	})
 	
 	.state('tab.exhibitions', {
-		url: '/exhibitions',
+		url: '/exhibitions/:decade',
 		views: {
 			'menuContent': {
 				templateUrl: 'templates/tab-exhibitions.html',
@@ -112,6 +112,15 @@
 			'menuContent': {
 				templateUrl: 'templates/detail-exhibition.html',
 				controller: 'ExhibitionDetailCtrl'
+			}
+		}
+	})
+	.state('tab.detail-artwork', {
+		url: '/detail-artwork/:id',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/detail-artwork.html',
+				controller: 'ArtworkDetailCtrl'
 			}
 		}
 	});	

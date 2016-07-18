@@ -9,11 +9,8 @@
 
 	<div id="deviceready" class="viewArea">
 		<div class='headerMain'>
-			<div class='left'>
-				<p id='artistname' class='title'>{{artist.name}}</p>
-				<p class='vitals'>{{artist.nationality}}, {{artist.vital_dates}}</p>
-			</div>
-
+			<div class='title'>{{artist.name}}</div>
+			<div class='subTitle red'>{{artist.nationality}}, {{artist.vital_dates}}</div>
 		</div>
 		<div class='contentMain'>
 			<div class='upperImages'>
@@ -21,25 +18,25 @@
 				</div></ion-scroll>
             </div>
 
-			<div class='lowerInfo'>
-				<div class='left'>
+			<div class='artistLowerInfo'>
+				<ion-scroll direction="y" class='col1' ng-if='artist.biography'>
 					<h5>Biography</h5>
-					<ion-scroll direction="y" >
-						
-							<div ng-bind-html="artist.biography"></div>	
-						
-					</ion-scroll>					
-				</div>
-				<div class='related right'>
-					<div class='unit'>
-						<h5>Related Artworks</h5>
+					<div ng-bind-html="artist.biography"></div>				
+				</ion-scroll>
+				<ion-scroll direction="y" class='related col2'>
+					<div class='unit' ng-if='artist.artworks'>
+						<h5>Artworks</h5>
 						<div ng-bind-html="artist.artworks"></div> 
 					</div>
-					<div class='unit'>
-						<h5>Related Exhibitions</h5>
+					<div class='unit' ng-if='artist.exhibitions'>
+						<h5>Exhibitions</h5>
 						<div ng-bind-html='artist.exhibitions'></div> 
+					</div>
+					<div class='unit' ng-if='artist.events'>
+						<h5>Events</h5>
+						<div ng-bind-html='artist.events'></div> 
 					</div>	
-				</div>
+				</ion-scroll>
 			</div>				
 		</div>
 	</div>	

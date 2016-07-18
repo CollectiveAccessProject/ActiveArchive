@@ -27,7 +27,7 @@ angular.module('mfactivearchive.controllers', [])
 	};
 })
 
-.controller('ExhibitionsCtrl', function($scope, Exhibitions, $ionicScrollDelegate) {
+.controller('ExhibitionsCtrl', function($scope, $stateParams, Exhibitions, $location) {
 	// With the new view caching in Ionic, Controllers are only called
 	// when they are recreated or on app start, instead of every page change.
 	// To listen for when this page is active (for example, to refresh data),
@@ -36,6 +36,21 @@ angular.module('mfactivearchive.controllers', [])
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
 
+	var exhibitionsLoaded = 0;
+
+	Exhibitions.load(0,32,$stateParams.decade).then(function(d) { $scope.exhibitions = d; exhibitionsLoaded = d.length; });
+	
+	$scope.loadNextExhibitionPage = function() {
+		Exhibitions.load(exhibitionsLoaded, 32,$stateParams.decade).then(function(d) {
+			$scope.exhibitions = $scope.exhibitions.concat(d);
+			exhibitionsLoaded = $scope.exhibitions.length;
+			console.log("exhibitions loaded " + exhibitionsLoaded);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+		});
+	};
+})
+	
+.controller('ExhibitionsCtrlOld', function($scope, $stateParams, Exhibitions, $ionicScrollDelegate) {	
 	var exhibitionsLoaded = 0;
 
     $scope.value = 0;
@@ -133,6 +148,14 @@ angular.module('mfactivearchive.controllers', [])
 		$scope.exhibition = d;
 	}, function() {
 		$log.log("Could not load exhibition");
+	});
+})
+
+.controller('ArtworkDetailCtrl', function($scope, $stateParams, Artworks, $log) {
+	Artworks.get($stateParams.id).then(function(d) {
+		$scope.artwork = d;
+	}, function() {
+		$log.log("Could not load artwork");
 	});
 });
 

@@ -47,12 +47,16 @@ body {
 	color:#ffffff;
     background-attachment:fixed;
     font-family:'ProximaNova', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
+    font-size:14px;
     margin:0px;
     padding:0px 0px 0px 0px;
     text-shadow:none !important;
 }
 
+a{
+	color:#FFFFFF;
+	text-decoration:none;
+}
 /* Landscape layout (default) */
 .viewArea {
     /* background:url(../img/MF_logo.jpg) no-repeat 10px 710px; 170px x 200px */
@@ -60,8 +64,8 @@ body {
 	background-color:#000;
 	width:100%;
     
-    padding-top:30px;
-    padding-left:10px;
+   /* padding-top:30px;
+    padding-left:10px;*/
 }
 .ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
 	background-color:#000 !important;
@@ -153,10 +157,11 @@ h3 {
 }
 h5 {
 	color:#fff;
-	font-family:proximanovabold;
-	font-size:18px;
+	font-family:proximanova;
+	font-size:20px;
 	margin-bottom:5px;
-	margin-top:5px;
+	margin-top:0px;
+	text-transform:uppercase;
 }
 p {
 	color:#ffffff;
@@ -263,15 +268,11 @@ div.artistImage {
 }
 /* Artist Detail*/
 
-.headerMain {
-	color:#ffffff;
-	padding-left:15px;
-}
 .headerMain .right {
 	padding-right:15px;
 }
 .date {
-	font-family:proximanovabold;
+	font-family:proximanova;
 	font-size:18px;
 }
 .related p {
@@ -313,7 +314,7 @@ p.vitals {
 p.red {
 	margin-top:0px;
 	color:red;
-	font-family:proximanovabold;
+	font-family:proximanova;
 }
 .red {
 	color:red;
@@ -334,15 +335,20 @@ p.red {
 	clear:both;
 	overflow:scroll;
 	overflow-x:scroll;
+	width:100%;
+	height:290px;
+}
+.contentMain .upperImages div{
 	width:990px;
 	height:290px;
 }
 .contentMain {
 	clear:both;
 }
-.contentMain .upperImages img{
+.upperImages img{
 	/* width:500px; */
-	display:inline;
+	height:100%;
+	width:auto;
 }
 .contentMain .right {
 	width:35%;
@@ -429,6 +435,66 @@ p.red {
 	overflow-x: scroll;	
 	float:left;
 }
+/* common detail styles */
+.headerMain {
+	color:#ffffff;
+	padding:0px 0px 10px 20px;
+	text-transform: none;
+}
+.headerMain .title {
+	color:#ffffff;
+	font-size: 30px;
+	line-height: 1em;
+	font-family: "ProximaNova";
+	text-transform: uppercase;
+}
+.headerMain .subTitle {
+	font-family:proximanova;
+	font-size:15px;
+	line-height: 1.2em;
+	text-transform: uppercase;
+}
+.col1{
+	float:left;
+	width:65%;
+	margin-right:5%;
+	height:190px;
+}
+.col2{
+	float:left;
+	width:30%;
+	height:190px;
+}
+.related a{
+	font-family: "ProximaNovaBold";
+	font-size:16px;
+}
+.related p, .related div{
+	font-size:16px;
+}
 
-
+/* Exhibition Detail */
+.exHeader{
+	padding-top:30px;
+	padding-bottom:20px;
+	line-height:30px;	
+}
+.exLowerInfo{
+	padding-left:20px;
+}
+.exTitle {
+	font-size: 30px;
+	margin: 0px;
+	padding: 0px;
+	font-family: "ProximaNova";
+	text-transform: none;
+}
+.exTitle small {
+	font-size: 18px;
+}
+/* Artist Detail */
+.artistLowerInfo{
+	padding-top:30px;
+	padding-left:20px;
+}
 

@@ -11,7 +11,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     	
 		var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/artists?q=*&limit=' + l + '&start=' + s
+		url : dataConfig.backend + '/service.php/simple/artists?q=*&limit=' + l + '&start=' + s + '&noCache=1'
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data['data'];
@@ -25,7 +25,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     get: function(id) {
 		var promise = $http({
 			method : 'POST',
-			url : dataConfig.backend + '/service.php/simple/artist?id=' + id
+			url : dataConfig.backend + '/service.php/simple/artist?id=' + id + '&noCache=1'
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data;
@@ -40,13 +40,15 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 .factory('Exhibitions', function($http, dataConfig, $log) {
 
   return {
-    load: function(s, l) {
+    load: function(s, l, decade) {
+    	$log.log('decade ' + decade);
+    	if (!decade) { decade = "2000-2009"; }
     	if (s < 1) { s = 0; }
     	if (l < 1) { l = 20; }
     	
 		var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/exhibitions?q=*&limit=' + l + '&start=' + s
+		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_occurrences.event_dates:' + decade + '&limit=' + l + '&start=' + s + '&noCache=1'
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data['data'];
@@ -60,7 +62,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     get: function(id) {
 		var promise = $http({
 			method : 'POST',
-			url : dataConfig.backend + '/service.php/simple/exhibition?id=' + id
+			url : dataConfig.backend + '/service.php/simple/exhibition?id=' + id + '&noCache=1'
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data;
@@ -72,7 +74,27 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 	}
     	
   };
-}).factory('Search', function($http, dataConfig, $log) {
+})
+.factory('Artworks', function($http, dataConfig, $log) {
+
+  return {
+    get: function(id) {
+		var promise = $http({
+			method : 'POST',
+			url : dataConfig.backend + '/service.php/simple/artworks?id=' + id + '&noCache=1'
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data;
+		}, function() { 
+			$log.log("Error loading exhibition"); 
+		});
+		
+		return promise;
+	}
+    	
+  };
+})
+.factory('Search', function($http, dataConfig, $log) {
 
     return {
         load: function(s, l, search_term) {
@@ -82,7 +104,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 
 		    var promise = $http({
 		    method : 'POST',
-		    url : dataConfig.backend + '/service.php/simple/artists?q=' + search_term + '&limit=' + l + '&start=' + s
+		    url : dataConfig.backend + '/service.php/simple/artists?q=' + search_term + '&limit=' + l + '&start=' + s + '&noCache=1'
 		    }).then(function(response) {
 			    $log.log('Load complete');
 
@@ -105,7 +127,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 
             var promise = $http({
                 method: 'POST',
-                url: dataConfig.backend + '/service.php/simple/artists?q=' + term + '&limit=20&start=0'
+                url: dataConfig.backend + '/service.php/simple/artists?q=' + term + '&limit=20&start=0' + '&noCache=1'
             }).then(function(response) {
                 $log.log('Load complete');
                 return response.data['data'];
