@@ -1,26 +1,27 @@
 <ion-view view-title="Browse Mattress Factory Exhibitions"> 
   <ion-content>
-    <div on-swipe-right="console.log('swiped')">
-    <ion-list class='artistList'>
-    	<div class='row gallery'>
-		  <ion-item class="item-remove-animate item-avatar item-icon-right col col-25" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
-			<div ng-bind-html='exhibition.thumb' class='artistThumb'></div>
-			<h2>{{exhibition.name}}</h2>
-			<p>{{exhibition.dates}}</p>
-			<p>{{exhibition.idno}}</p>
-		  </ion-item>
-      </div>
-    </ion-list>
-</div>
-	<ion-infinite-scroll
-		on-infinite="loadNextExhibitionPage()"
-		distance="50%">
-	</ion-infinite-scroll>
-
+  	<div class="row">
+  		<ion-scroll class="col col-50">
+			<H2>2010's</H2>
+			<ion-list class='exhibitionInfoList'>
+				  <ion-item ng-show="showExhibition == {{exhibition.occurrence_id}}" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
+					<div ng-bind-html='exhibition.thumb'></div>
+					<p>{{exhibition.dates}}</p>
+				  </ion-item>
+			</ion-list>
+		</ion-scroll>
+		<ion-scroll class="col col-50 exhibitionList">
+			<ion-list>
+				<ion-item ng-repeat="exhibition in exhibitions" type="item-text-wrap" ng-click="showExhibitionInfo({{exhibition.occurrence_id}})">
+					<h2 ng-class='{"active":highlightExhibition=={{exhibition.occurrence_id}}}' ng-click='highlightExhibitionTitle({{exhibition.occurrence_id}})'>{{exhibition.name}}</h2>
+				</ion-item>
+			</ion-list>
+		</ion-scroll>
+	</div>
   </ion-content>
   <ion-footer-bar>
-  		<div id="footer" class='menuToggle'>
-			<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
-		</div>
-	</ion-footer-bar>		
+	<div id="footer" class='menuToggle'>
+		<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
+	</div>
+  </ion-footer-bar>		
 </ion-view>

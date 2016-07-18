@@ -393,6 +393,9 @@ p.red {
 
 /* Exhibition List */
 
+.exhibitionList{
+	height:600px;
+}
 .exhibitionList .item {
 	border-width:0px;
     background: #000;
@@ -400,17 +403,12 @@ p.red {
 
 .exhibitionList .item h2 {
     color: #fff;
+    font-family:proximanova;
+    font-size:20px;
 }
 
-.exhibitionList .item-active h2 {
+.exhibitionList h2.active {
     font-size: 2em;
-}
-
-.exhibitionList .col {
-	padding-bottom: 0px;
-}
-.item-complex.item-icon-right .item-content {
-	padding-right:0px;
 }
 
 

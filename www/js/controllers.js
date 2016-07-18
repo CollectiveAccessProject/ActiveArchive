@@ -48,6 +48,13 @@ angular.module('mfactivearchive.controllers', [])
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 		});
 	};
+	
+	$scope.showExhibitionInfo= function(showExhibition){
+		$scope.showExhibition = showExhibition;
+	};
+	$scope.highlightExhibitionTitle= function(highlightExhibition){
+		$scope.highlightExhibition = highlightExhibition;
+	};
 })
 	
 .controller('ExhibitionsCtrlOld', function($scope, $stateParams, Exhibitions, $ionicScrollDelegate) {	
