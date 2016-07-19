@@ -1,12 +1,12 @@
 <ion-view view-title="Browse Mattress Factory Exhibitions"> 
   <ion-content>
-  	<div class="row">
+  	<div class="row" on-swipe-right="loadPreviousDecade()" on-swipe-left="loadNextDecade()">
   		<ion-scroll class="col col-50">
-			<H2>2010's</H2>
-			<ion-list class='exhibitionInfoList'>
+			<div class="exhibitionDecade">{{decadeTitle}}</div>
+			<ion-list class='exhibitionListInfo'>
 				  <ion-item ng-show="showExhibition == {{exhibition.occurrence_id}}" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
-					<div ng-bind-html='exhibition.thumb'></div>
-					<p>{{exhibition.dates}}</p>
+					<div ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
+					<div ng-if='exhibition.dates' class="red date">{{exhibition.dates}}</div>
 				  </ion-item>
 			</ion-list>
 		</ion-scroll>

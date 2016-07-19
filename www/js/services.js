@@ -42,7 +42,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
   return {
     load: function(s, l, decade) {
     	$log.log('decade ' + decade);
-    	if (!decade) { decade = "2000-2009"; }
+    	if (!decade) { decade = "2010-2019"; }
     	if (s < 1) { s = 0; }
     	if (l < 1) { l = 20; }
     	

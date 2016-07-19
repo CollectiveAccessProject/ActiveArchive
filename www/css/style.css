@@ -410,6 +410,23 @@ p.red {
 .exhibitionList h2.active {
     font-size: 2em;
 }
+.exhibitionListInfo img{
+	max-width:100%;
+	height:auto;
+}
+.exhibitionListInfo .date{
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.exhibitionListInfo .item{
+	border:0px;
+}
+.exhibitionDecade{
+	font-size: 40px;
+	font-family: "ProximaNovaBold";
+	line-height:1em;
+	padding-left:20px;
+}
 
 
 

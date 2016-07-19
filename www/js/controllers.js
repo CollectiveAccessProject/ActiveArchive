@@ -27,7 +27,7 @@ angular.module('mfactivearchive.controllers', [])
 	};
 })
 
-.controller('ExhibitionsCtrl', function($scope, $stateParams, Exhibitions, $location) {
+.controller('ExhibitionsCtrl', function($scope, $stateParams, Exhibitions, $location, $state, $ionicViewSwitcher) {
 	// With the new view caching in Ionic, Controllers are only called
 	// when they are recreated or on app start, instead of every page change.
 	// To listen for when this page is active (for example, to refresh data),
@@ -37,8 +37,16 @@ angular.module('mfactivearchive.controllers', [])
 	//});
 
 	var exhibitionsLoaded = 0;
-
-	Exhibitions.load(0,32,$stateParams.decade).then(function(d) { $scope.exhibitions = d; exhibitionsLoaded = d.length; });
+	$scope.decades = ["1980-1989", "1990-1999", "2000-2009", "2010-2019"];
+	
+	if($stateParams.decade && ($scope.decades.indexOf($stateParams.decade) != -1)){
+		$scope.decade = $stateParams.decade;
+	}else{
+		$scope.decade = $scope.decades[$scope.decades.length - 1];
+	}
+	$scope.decadeTitle = $scope.decade.substring(0,$scope.decade.indexOf("-")) + "'s";
+	
+	Exhibitions.load(0,32,$scope.decade).then(function(d) { $scope.exhibitions = d; exhibitionsLoaded = d.length; });
 	
 	$scope.loadNextExhibitionPage = function() {
 		Exhibitions.load(exhibitionsLoaded, 32,$stateParams.decade).then(function(d) {
@@ -55,6 +63,23 @@ angular.module('mfactivearchive.controllers', [])
 	$scope.highlightExhibitionTitle= function(highlightExhibition){
 		$scope.highlightExhibition = highlightExhibition;
 	};
+	
+	$scope.nextDecade = $scope.decades[$scope.decades.indexOf($scope.decade) + 1];
+	$scope.previousDecade = $scope.decades[$scope.decades.indexOf($scope.decade) - 1];
+	
+	$scope.loadNextDecade = function(){
+		if($scope.nextDecade){
+			$ionicViewSwitcher.nextDirection('forward');
+			$state.go("tab.exhibitions", { "decade": $scope.nextDecade });
+		}
+	};
+	$scope.loadPreviousDecade = function(){
+		if($scope.previousDecade){
+			$ionicViewSwitcher.nextDirection('back');
+			$state.go("tab.exhibitions", { "decade": $scope.previousDecade });
+		}
+	};
+		
 })
 	
 .controller('ExhibitionsCtrlOld', function($scope, $stateParams, Exhibitions, $ionicScrollDelegate) {	
