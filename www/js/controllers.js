@@ -66,11 +66,13 @@ angular.module('mfactivearchive.controllers', [])
 		});
 	};
 	
-	$scope.showExhibitionInfo= function(showExhibition){
+	$scope.showExhibitionInfo= function(showExhibition, $event){
 		$scope.showExhibition = showExhibition;
+		if ($event) { $event.stopPropagation(); }
 	};
-	$scope.highlightExhibitionTitle= function(highlightExhibition){
+	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
 		$scope.highlightExhibition = highlightExhibition;
+		if ($event) {$event.stopPropagation(); }
 	};
 	
 	$scope.nextDecade = $scope.decades[$scope.decades.indexOf($scope.decade) + 1];
@@ -93,14 +95,15 @@ angular.module('mfactivearchive.controllers', [])
 	$scope.getScrollPosition = function(){
 		var t = $ionicScrollDelegate.$getByHandle('exhibitionList').getScrollPosition().top;	// distance scrolled from top
 		var l = Math.floor(t/30); // estimate # of lines in we are
-
+		if (isNaN(l)) { return; }
 		if ((!$state.oldLine) || (l !== $state.oldLine)) {
 			// set current highlight
 			$scope.showExhibitionInfo($scope.exhibitions[l]['occurrence_id']);
 			$scope.highlightExhibitionTitle($scope.exhibitions[l]['occurrence_id']);
 
 			// force view to reload
-			$state.reload();
+			//$state.reload();
+			angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l]['occurrence_id'])).triggerHandler('click');
 
 			$state.oldScrollTop = t;
 			$state.oldLine = l;
