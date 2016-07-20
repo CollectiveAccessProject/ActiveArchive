@@ -10,10 +10,10 @@
 				  </ion-item>
 			</ion-list>
 		</ion-scroll>
-		<ion-scroll class="col col-50 exhibitionList">
+		<ion-scroll class="col col-50 exhibitionList" delegate-handle="exhibitionList" on-scroll="getScrollPosition()">
 			<ion-list>
-				<ion-item ng-repeat="exhibition in exhibitions" type="item-text-wrap" ng-click="showExhibitionInfo({{exhibition.occurrence_id}})">
-					<h2 ng-class='{"active":highlightExhibition=={{exhibition.occurrence_id}}}' ng-click='highlightExhibitionTitle({{exhibition.occurrence_id}})'>{{exhibition.name}}</h2>
+				<ion-item ng-repeat="exhibition in exhibitions" type="item-text-wrap" ng-click="showExhibitionInfo({{exhibition.occurrence_id}}); highlightExhibitionTitle({{exhibition.occurrence_id}});">
+					<h2 ng-class='{"active":highlightExhibition=={{exhibition.occurrence_id}}}'>{{exhibition.name}}</h2>
 				</ion-item>
 			</ion-list>
 		</ion-scroll>
