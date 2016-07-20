@@ -11,7 +11,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     	
 		var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/artists?q=*&limit=' + l + '&start=' + s + '&noCache=1'
+		url : dataConfig.backend + '/service.php/simple/artists?q=*&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data['data'];
@@ -25,7 +25,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     get: function(id) {
 		var promise = $http({
 			method : 'POST',
-			url : dataConfig.backend + '/service.php/simple/artist?id=' + id + '&noCache=1'
+			url : dataConfig.backend + '/service.php/simple/artist?id=' + id + '&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data;
@@ -48,7 +48,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     	
 		var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_occurrences.event_dates:' + decade + '&limit=' + l + '&start=' + s + '&noCache=1'
+		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_occurrences.event_dates:' + decade + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data['data'];
@@ -62,7 +62,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     get: function(id) {
 		var promise = $http({
 			method : 'POST',
-			url : dataConfig.backend + '/service.php/simple/exhibition?id=' + id + '&noCache=1'
+			url : dataConfig.backend + '/service.php/simple/exhibition?id=' + id + '&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data;
@@ -81,7 +81,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     get: function(id) {
 		var promise = $http({
 			method : 'POST',
-			url : dataConfig.backend + '/service.php/simple/artwork?id=' + id + '&noCache=1'
+			url : dataConfig.backend + '/service.php/simple/artworks?id=' + id + '&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data;
@@ -104,7 +104,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 
 		    var promise = $http({
 		    method : 'POST',
-		    url : dataConfig.backend + '/service.php/simple/artists?q=' + search_term + '&limit=' + l + '&start=' + s + '&noCache=1'
+		    url : dataConfig.backend + '/service.php/simple/artists?q=' + search_term + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
 		    }).then(function(response) {
 			    $log.log('Load complete');
 
@@ -127,7 +127,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 
             var promise = $http({
                 method: 'POST',
-                url: dataConfig.backend + '/service.php/simple/artists?q=' + term + '&limit=20&start=0' + '&noCache=1'
+                url: dataConfig.backend + '/service.php/simple/artists?q=' + term + '&limit=20&start=0' + '&noCache=' + dataConfig.noCache
             }).then(function(response) {
                 $log.log('Load complete');
                 return response.data['data'];
