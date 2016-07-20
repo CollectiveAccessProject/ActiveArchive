@@ -396,19 +396,47 @@ p.red {
 .exhibitionList{
 	height:620px;
 }
+.exhibitionList div.list{
+	padding-bottom:200px !important;
+}
 .exhibitionList .item {
 	border-width:0px;
     background: #000;
+   	opacity:.3;
 }
 
 .exhibitionList .item h2 {
     color: #fff;
     font-family:proximanova;
     font-size:20px;
+    padding-left:5px;
+    text-shadow: 0 0 1px white;
+   	color: transparent;
 }
-
-.exhibitionList h2.active {
+.exhibitionList .item h2 .redDot{
+	display:none;
+}
+.exhibitionList .active {
+    opacity:1 !important;
+}
+.exhibitionList .active + ion-item{
+	opacity:.7 !important;
+}
+.exhibitionList .active h2 {
+	color: #fff;
+	text-shadow:none;
     font-size: 2em;
+}
+.exhibitionList .active h2 .redDot{
+	display:inline;
+	position:absolute;
+	left:0px;
+	top:12px;
+	z-index:10;
+}
+.exhibitionList .item .active h2 .redDot img{
+	width:10px;
+	height:auto;
 }
 .exhibitionListInfo img{
 	max-width:100%;

@@ -71,7 +71,9 @@ angular.module('mfactivearchive.controllers', [])
 		if ($event) { $event.stopPropagation(); }
 	};
 	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
+		angular.element(document.querySelectorAll('.exhibitionListItem')).css('opacity', '.3');
 		$scope.highlightExhibition = highlightExhibition;
+		angular.element(document.querySelector('#exhibition_' + highlightExhibition).previousElementSibling).css('opacity', '.7');
 		if ($event) {$event.stopPropagation(); }
 	};
 	
@@ -94,7 +96,7 @@ angular.module('mfactivearchive.controllers', [])
 	// Handle scrolling of exhibition title
 	$scope.getScrollPosition = function(){
 		var t = $ionicScrollDelegate.$getByHandle('exhibitionList').getScrollPosition().top;	// distance scrolled from top
-		var l = Math.floor(t/30); // estimate # of lines in we are
+		var l = Math.floor(t/36); // estimate # of lines in we are
 		if (isNaN(l)) { return; }
 		if ((!$state.oldLine) || (l !== $state.oldLine)) {
 			// set current highlight
@@ -104,6 +106,12 @@ angular.module('mfactivearchive.controllers', [])
 			// force view to reload
 			//$state.reload();
 			angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l]['occurrence_id'])).triggerHandler('click');
+			//angular.element(document.querySelector('.exhibitionListItem')).css('opacity', '.3');
+			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l]['occurrence_id'])).css('opacity', '1');
+			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l + 1]['occurrence_id'])).css('opacity', '.7');
+			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l + 2]['occurrence_id'])).css('opacity', '.5');
+			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l - 1]['occurrence_id'])).css('opacity', '.7');
+			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l - 2]['occurrence_id'])).css('opacity', '.5');
 
 			$state.oldScrollTop = t;
 			$state.oldLine = l;
