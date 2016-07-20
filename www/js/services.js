@@ -81,7 +81,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     get: function(id) {
 		var promise = $http({
 			method : 'POST',
-			url : dataConfig.backend + '/service.php/simple/artworks?id=' + id + '&noCache=' + dataConfig.noCache
+			url : dataConfig.backend + '/service.php/simple/artwork?id=' + id + '&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data;
