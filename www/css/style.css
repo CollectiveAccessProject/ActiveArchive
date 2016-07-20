@@ -394,7 +394,7 @@ p.red {
 /* Exhibition List */
 
 .exhibitionList{
-	height:600px;
+	height:620px;
 }
 .exhibitionList .item {
 	border-width:0px;
@@ -427,7 +427,6 @@ p.red {
 	line-height:1em;
 	padding-left:20px;
 }
-
 
 
 .artistList {
@@ -512,4 +511,3 @@ p.red {
 	padding-top:30px;
 	padding-left:20px;
 }
-

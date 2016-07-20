@@ -81,12 +81,12 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     get: function(id) {
 		var promise = $http({
 			method : 'POST',
-			url : dataConfig.backend + '/service.php/simple/artworks?id=' + id + '&noCache=1'
+			url : dataConfig.backend + '/service.php/simple/artwork?id=' + id + '&noCache=1'
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data;
 		}, function() { 
-			$log.log("Error loading exhibition"); 
+			$log.log("Error loading artwork"); 
 		});
 		
 		return promise;
