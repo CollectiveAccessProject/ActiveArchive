@@ -234,38 +234,103 @@ p {
 	background-color:#000 !important;
 } 
 /* Artist list*/
+.artistListContainer{
+	padding-top:180px;
+}
+.letterBar{
+	opacity:.5;
+	margin-left:100px;
+}
+.artistListScroller {
+	width:100%;
+	overflow-x:scroll;
+	overflow-y:hidden;
+	position:relative;
+}
+.letterBar.activeLetter {
+	opacity:1;
+	margin-left:0px;
+}
+.artistList {
+	width: -webkit-max-content;
+	width: max-content;
+	height: 180px;
+	overflow:hidden;
+}
+.activeLetter .artistList {
+	border-top:2px solid #FFF;
+	border-bottom:2px solid #FFF;
+}
+.artistList{
+	padding-left:100px;
+}
+.artistLetter{
+	font-size:60px;
+	font-family:proximanovabold;
+	position:absolute;
+	height:100%;
+	width:200px;
+	padding-left:40px;
+	padding-top:80px;
+	text-transform:capitalize;
+	background: linear-gradient(to right, black, transparent);
+	z-index:10;
+}
+.artistListItem {
+	float:left;
+	width:auto;
+}
+.artistListItem{
+	padding:20px 10px 20px 10px;
+	text-align:center;
+}
+.artistListItem img{
+	height:120px;
+	width:auto;
+}
+.artistListItem h2 {
+	font-family:proximanova;
+	text-align:center;
+	font-size:13px;
+	margin-top:0px;
+	padding-top:5px;
+	line-height:1em;
+	color:#FFF;
+	text-transform:uppercase;
+}
 .gallery {
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
 }
-.artistList .item {
-	border-width:0px;
+.letter {
+	width:20px;
+	display:inline-block;
+	float:left;
+	height:140px;
+	font-size:30px;
+	font-weight:bold;
+	padding-top:70px;
 }
-.artistList .item, .item-complex .item-content, .artistList .item-radio .item-content{
-	background-color:#000;
-	color:#ffffff;
-	padding:20px;
+/*.artistRow {
+	width:994px;
+	height:240px;
+	overflow-x: scroll;	
+	float:left;
 }
-.artistList .item, .item-complex .item-content h2, .artistList .item, .item-complex .item-content p {
-	text-align:center;
-}
-.artistList .item-avatar .item-content {
-	padding:0px;
-}
+
+
+
+
+
 div.artistImage {
 	height:180px;
 	width:180px;
 	margin:auto;
 }
-.artistThumb {
-	margin: 0px auto 10px auto;
-	background-color:#333;
-	width:180px;
-	height:180px; 
-}
 .item p {
 	color: #ffffff;
 }
+*/
 /* Artist Detail*/
 
 .headerMain .right {
@@ -446,8 +511,10 @@ p.red {
 	padding-top:10px;
 	padding-bottom:10px;
 }
-.exhibitionListInfo .item{
+.exhibitionListInfo .item, .exhibitionListInfo .item-complex{
 	border:0px;
+	background-color:#000 !important;
+	background:none;
 }
 .exhibitionDecade{
 	font-size: 40px;
@@ -455,27 +522,47 @@ p.red {
 	line-height:1em;
 	padding-left:20px;
 }
-
-
-.artistList {
-  height: 600px;
-  overflow: hidden;
-  overflow-y: scroll;
-}
-.letter {
-	width:20px;
-	display:inline-block;
-	float:left;
-	height:140px;
-	font-size:30px;
-	font-weight:bold;
-	padding-top:70px;
-}
-.artistRow {
+/*.artistRow {
 	width:994px;
 	height:240px;
 	overflow-x: scroll;	
 	float:left;
+}
+
+
+
+.gallery {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.artistList .item {
+	border-width:0px;
+	float:left;
+}
+.artistList .item, .item-complex .item-content, .artistList .item-radio .item-content{
+	background-color:#000;
+	color:#ffffff;
+	padding:20px;
+}
+.artistList .item, .item-complex .item-content h2, .artistList .item, .item-complex .item-content p {
+	text-align:center;
+}
+.artistList .item-avatar .item-content {
+	padding:0px;
+}
+div.artistImage {
+	height:180px;
+	width:180px;
+	margin:auto;
+}
+.artistThumb {
+	margin: 0px auto 10px auto;
+	background-color:#333;
+	width:180px;
+	height:180px; 
+}
+.item p {
+	color: #ffffff;
 }
 /* common detail styles */
 .headerMain {
@@ -515,6 +602,11 @@ p.red {
 	font-size:16px;
 }
 
+.item-complex .item-content{
+	background-color:#000;
+	color:#ffffff;
+	padding:20px;
+}
 /* Exhibition Detail */
 .exHeader{
 	padding-top:30px;

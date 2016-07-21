@@ -4,7 +4,7 @@ angular.module('mfactivearchive.controllers', [])
  	
 })
 
-.controller('ArtistsCtrl', function($scope, Artists) {
+.controller('ArtistsCtrl', function($scope, $stateParams, Artists, $ionicScrollDelegate, $state) {
 	// With the new view caching in Ionic, Controllers are only called
 	// when they are recreated or on app start, instead of every page change.
 	// To listen for when this page is active (for example, to refresh data),
@@ -13,17 +13,43 @@ angular.module('mfactivearchive.controllers', [])
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
 
-	var artistsLoaded = 0;
-
-	Artists.load(0,32).then(function(d) { $scope.artists = d; artistsLoaded = d.length; });
+	var artistLetter = "a";
+	$scope.letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+	var nextArtistLetter = $scope.letters[$scope.letters.indexOf(artistLetter) + 1];
+	$scope.artistsList = [];
+	$scope.highlightLetter = artistLetter;
+	
+	Artists.load(artistLetter).then(function(d) {
+		d["letter"] = artistLetter;
+		$scope.artistsList.push(d);
+	});
 	
 	$scope.loadNextArtistPage = function() {
-		Artists.load(artistsLoaded, 32).then(function(d) {
-			$scope.artists = $scope.artists.concat(d);
-			artistsLoaded = $scope.artists.length;
-			console.log("artists loaded " + artistsLoaded);
-			$scope.$broadcast('scroll.infiniteScrollComplete');
-		});
+		if(nextArtistLetter){
+			Artists.load(nextArtistLetter).then(function(d) {
+				d["letter"] = nextArtistLetter;
+				$scope.artistsList.push(d);
+				nextArtistLetter = $scope.letters[$scope.letters.indexOf(nextArtistLetter) + 1];
+				console.log("artists letter loaded " + nextArtistLetter);
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+			});
+		}
+	};
+	// Handle scrolling of exhibition title
+	$scope.getScrollPosition = function(){
+		var t = $ionicScrollDelegate.$getByHandle('artistListRow').getScrollPosition().top;	// distance scrolled from top
+		var l = Math.floor(t/180); // estimate # of lines in we are
+		if (isNaN(l)) { return; }
+		if ((!$state.oldLine) || (l !== $state.oldLine)) {
+			// set current highlight
+			$scope.highlightLetter = $scope.letters[l];
+			// force view to reload
+			//$state.reload();
+			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l]['occurrence_id'])).triggerHandler('click');
+
+			$state.oldScrollTop = t;
+			$state.oldLine = l;
+		}
 	};
 })
 
@@ -106,12 +132,6 @@ angular.module('mfactivearchive.controllers', [])
 			// force view to reload
 			//$state.reload();
 			angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l]['occurrence_id'])).triggerHandler('click');
-			//angular.element(document.querySelector('.exhibitionListItem')).css('opacity', '.3');
-			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l]['occurrence_id'])).css('opacity', '1');
-			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l + 1]['occurrence_id'])).css('opacity', '.7');
-			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l + 2]['occurrence_id'])).css('opacity', '.5');
-			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l - 1]['occurrence_id'])).css('opacity', '.7');
-			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l - 2]['occurrence_id'])).css('opacity', '.5');
 
 			$state.oldScrollTop = t;
 			$state.oldLine = l;

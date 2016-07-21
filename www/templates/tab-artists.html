@@ -1,19 +1,24 @@
 <ion-view view-title="Browse Mattress Factory Artists">
-  <ion-content>
-    <ion-list class='artistList'>
-    	<div class='row gallery'>
-		  <ion-item class="item-remove-animate item-avatar item-icon-right col col-25" ng-repeat="artist in artists" type="item-text-wrap" href="#/tab/detail-artist/{{artist.entity_id}}">
-			<div ng-bind-html='artist.thumb' class='artistThumb'></div>
-			<h2>{{artist.name}}</h2>
-			<p>{{artist.nationality}}</p>
-		  </ion-item>
-      </div>
-    </ion-list>
-	<ion-infinite-scroll
-		on-infinite="loadNextArtistPage()"
-		distance="50%">
-	</ion-infinite-scroll>
-
+  <ion-content overflow-scroll="true"  delegate-handle="artistListRow" on-scroll="getScrollPosition()">
+	<div class="artistListContainer">
+		<div ng-repeat="artists in artistsList" style="position:relative;" ng-class="highlightLetter==artists.letter ? 'activeLetter letterBar' : 'letterBar'">
+			<p class="artistLetter">{{artists.letter}}</p>
+			<div class="artistListScroller">
+				<div class='artistList'>
+					<div ng-repeat="artist in artists" class="artistListItem">
+						<a href="#/tab/detail-artist/{{artist.entity_id}}">
+							<div ng-bind-html='artist.thumb'></div>
+							<h2>{{artist.name}}</h2>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ion-infinite-scroll
+			on-infinite="loadNextArtistPage()"
+			distance="100%" immediate-check="1">
+		</ion-infinite-scroll>
+	 </div>
   </ion-content>
   <ion-footer-bar>
   		<div id="footer" class='menuToggle'>

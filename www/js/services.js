@@ -5,15 +5,13 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 
  	  
   return {
-    load: function(s, l) {
-    	if (s < 1) { s = 0; }
-    	if (l < 1) { l = 20; }
+    load: function(letter) {
     	
 		var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/artists?q=*&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
+		url : dataConfig.backend + '/service.php/simple/artists?q=ca_entities.preferred_labels.surname:' + letter + '*&noCache=' + dataConfig.noCache
 		}).then(function(response) {
-			$log.log('Load complete');
+			$log.log('Load complete for ' + letter);
 			return response.data['data'];
 		}, function() { 
 			$log.log("Error loading artists"); 
