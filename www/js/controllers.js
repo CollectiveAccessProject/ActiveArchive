@@ -36,19 +36,29 @@ angular.module('mfactivearchive.controllers', [])
 		}
 	};
 	// Handle scrolling of exhibition title
+	var artistScrollDelegate = $ionicScrollDelegate.$getByHandle('artistListRow');
 	$scope.getScrollPosition = function(){
-		var t = $ionicScrollDelegate.$getByHandle('artistListRow').getScrollPosition().top;	// distance scrolled from top
-		var l = Math.floor(t/180); // estimate # of lines in we are
+		var t = parseInt(artistScrollDelegate.getScrollPosition().top) + 200;	// distance scrolled from top
+
+		if (isNaN(t)) { return; }
+		if (t < 0) { t = 0; }
+		var l = Math.floor(t/170); // estimate # of lines in we are
 		if (isNaN(l)) { return; }
-		if ((!$state.oldLine) || (l !== $state.oldLine)) {
+
+		if ((!$state.oldLine) || (l !== parseInt($state.oldLine))) {
 			// set current highlight
-			$scope.highlightLetter = $scope.letters[l];
+			if (!$scope.letters[l]) { return; }
+			//$scope.highlightLetter = $scope.letters[l];
+
 			// force view to reload
 			//$state.reload();
-			//angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l]['occurrence_id'])).triggerHandler('click');
+			angular.element(document.querySelector('#artist_letter_' + $scope.letters[l])).addClass('activeLetter');
+			if ($state.oldHighlightLetter) {
+				angular.element(document.querySelector('#artist_letter_' + $state.oldHighlightLetter)).removeClass('activeLetter');
 
-			$state.oldScrollTop = t;
+			}
 			$state.oldLine = l;
+			$state.oldHighlightLetter =  $scope.letters[l]
 		}
 	};
 })
