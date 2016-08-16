@@ -18,6 +18,7 @@ angular.module('mfactivearchive.controllers', [])
 	var nextArtistLetter = $scope.letters[$scope.letters.indexOf(artistLetter) + 1];
 	$scope.artistsList = [];
 	$scope.highlightLetter = artistLetter;
+	$state.oldHighlightLetter = artistLetter;
 	
 	Artists.load(artistLetter).then(function(d) {
 		d["letter"] = artistLetter;
@@ -38,25 +39,25 @@ angular.module('mfactivearchive.controllers', [])
 	// Handle scrolling of exhibition title
 	var artistScrollDelegate = $ionicScrollDelegate.$getByHandle('artistListRow');
 	$scope.getScrollPosition = function(){
-		var t = parseInt(artistScrollDelegate.getScrollPosition().top) + 200;	// distance scrolled from top
+		if(!$state.oldHighlightLetter){
+			$state.oldHighlightLetter = "a";
+		}
+		var t = parseInt(artistScrollDelegate.getScrollPosition().top);	// distance scrolled from top
 
 		if (isNaN(t)) { return; }
 		if (t < 0) { t = 0; }
 		var l = Math.floor(t/170); // estimate # of lines in we are
 		if (isNaN(l)) { return; }
-
 		if ((!$state.oldLine) || (l !== parseInt($state.oldLine))) {
 			// set current highlight
 			if (!$scope.letters[l]) { return; }
 			//$scope.highlightLetter = $scope.letters[l];
-
 			// force view to reload
 			//$state.reload();
-			angular.element(document.querySelector('#artist_letter_' + $scope.letters[l])).addClass('activeLetter');
 			if ($state.oldHighlightLetter) {
 				angular.element(document.querySelector('#artist_letter_' + $state.oldHighlightLetter)).removeClass('activeLetter');
-
 			}
+			angular.element(document.querySelector('#artist_letter_' + $scope.letters[l])).addClass('activeLetter');
 			$state.oldLine = l;
 			$state.oldHighlightLetter =  $scope.letters[l]
 		}

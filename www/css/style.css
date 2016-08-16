@@ -245,11 +245,15 @@ p {
 	width:100%;
 	overflow-x:scroll;
 	overflow-y:hidden;
-	position:relative;
 }
 .letterBar.activeLetter {
 	opacity:1;
 	margin-left:0px;
+	/*position:fixed !important;
+	top:180px;
+	left:0px;
+	z-index:10;
+	background-color:#000;*/
 }
 .artistList {
 	width: -webkit-max-content;
