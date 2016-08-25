@@ -132,8 +132,8 @@ angular.module('mfactivearchive.controllers', [])
 
 	// Handle scrolling of exhibition title
 	$scope.getScrollPosition = function(){
-		var t = $ionicScrollDelegate.$getByHandle('exhibitionList').getScrollPosition().top;	// distance scrolled from top
-		var l = Math.floor(t/36); // estimate # of lines in we are
+		var t = $ionicScrollDelegate.$getByHandle('exhibitionList').getScrollPosition().top - 275;	// distance scrolled from top - minus padding
+		var l = Math.floor(t/55) + 5; // estimate # of lines in we are + 5 to highlight middle result
 		if (isNaN(l)) { return; }
 		if ((!$state.oldLine) || (l !== $state.oldLine)) {
 			// set current highlight
@@ -187,8 +187,17 @@ angular.module('mfactivearchive.controllers', [])
     });
 })
 
-.controller('SearchCtrl', function($scope, $stateParams, Search, $log) {
+.controller('OnViewCtrl', function($scope, $stateParams, Exhibitions, $log, $ionicSlideBoxDelegate) {
+    Exhibitions.loadOnView().then(function(d) {
+		$scope.exhibitions = d;
+		exhibitionsLoaded = d.length;
+		$ionicSlideBoxDelegate.update();
+	}, function() {
+        $log.log("Could not load current exhibitions");
+    });
+})
 
+.controller('SearchCtrl', function($scope, $stateParams, Search, $log, $location, $state, $ionicScrollDelegate) {
     var searchLoaded = 0;
 
     if($scope.search_term === null) {
@@ -216,17 +225,50 @@ angular.module('mfactivearchive.controllers', [])
                 searchLoaded = $scope.results.length;
                 console.log("search results gotten");
                 $scope.$broadcast('scroll.infiniteScrollComplete');
+                // Highlight first result in list
+				$scope.showResult = $scope.highlightResult = d[0]['collection_id'];
             });
         }
     };
     	
 	$scope.loadNextSearchPage = function() {
-		Search.load(searchLoaded, 32, $scope.search_term).then(function(d) {
+		Search.load(searchLoaded, 40, $scope.search_term).then(function(d) {
 			$scope.results = $scope.results.concat(d);
 			searchLoaded = $scope.results.length;
 			console.log("search results loaded " + searchLoaded);
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 		});
+	};
+	
+	$scope.showResultInfo= function(showResult, $event){
+		$scope.showResult = showResult;
+		if ($event) { $event.stopPropagation(); }
+	};
+	$scope.highlightResultTitle= function(highlightResult, $event){
+		angular.element(document.querySelectorAll('.resultListItem')).css('opacity', '.3');
+		$scope.highlightResult = highlightResult;
+		angular.element(document.querySelector('#result_' + highlightResult).previousElementSibling).css('opacity', '.7');
+		if ($event) {$event.stopPropagation(); }
+	};
+
+	// Handle scrolling of Result title
+	$scope.getScrollPosition = function(){
+		var t = $ionicScrollDelegate.$getByHandle('resultList').getScrollPosition().top - 275;	// distance scrolled from top - minus padding
+		var l = Math.floor(t/55) + 5; // estimate # of lines in we are/ +5 to highlight middle result
+		if (isNaN(l)) { return; }
+		if ((!$state.oldLine) || (l !== $state.oldLine)) {
+			// set current highlight
+			if($scope.results[l]){
+				$scope.showResultInfo($scope.results[l]['collection_id']);
+				$scope.highlightResultTitle($scope.results[l]['collection_id']);
+				// force view to reload
+				//$state.reload();
+				angular.element(document.querySelector('#result_' + $scope.results[l]['collection_id'])).triggerHandler('click');
+
+				$state.oldScrollTop = t;
+				$state.oldLine = l;
+			}
+		}
 	};
 })
 

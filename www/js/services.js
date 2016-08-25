@@ -69,7 +69,21 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 		});
 		
 		return promise;
-	}
+	},
+	loadOnView: function() {
+    	$log.log('loading on view');
+    	var promise = $http({
+		method : 'POST',
+		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_occurrences.event_dates:may 2015&noCache=' + dataConfig.noCache
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data['data'];
+		}, function() { 
+			$log.log("Error loading exhibitions"); 
+		});
+		
+		return promise;
+    }
     	
   };
 })
@@ -102,7 +116,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 
 		    var promise = $http({
 		    method : 'POST',
-		    url : dataConfig.backend + '/service.php/simple/artists?q=' + search_term + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
+		    url : dataConfig.backend + '/service.php/simple/artworks?q=' + search_term + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
 		    }).then(function(response) {
 			    $log.log('Load complete');
 
@@ -125,7 +139,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 
             var promise = $http({
                 method: 'POST',
-                url: dataConfig.backend + '/service.php/simple/artists?q=' + term + '&limit=20&start=0' + '&noCache=' + dataConfig.noCache
+                url: dataConfig.backend + '/service.php/simple/artworks?q=' + term + '&limit=32&start=0' + '&noCache=' + dataConfig.noCache
             }).then(function(response) {
                 $log.log('Load complete');
                 return response.data['data'];

@@ -115,6 +115,15 @@
 			}
 		}
 	})
+	.state('tab.onview', {
+		url: '/onview',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-onview.html',
+				controller: 'OnViewCtrl'
+			}
+		}
+	})
 	.state('tab.detail-artwork', {
 		url: '/detail-artwork/:id',
 		views: {

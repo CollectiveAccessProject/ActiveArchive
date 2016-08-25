@@ -8112,7 +8112,15 @@ ionic.views.Slider = ionic.views.View.inherit({
       length = slides.length;
 
       // set continuous to false if only one slide
-      if (slides.length < 2) options.continuous = false;
+      //if (slides.length < 2) options.continuous = false;
+      // Maria changed to fix slideshow looping bug
+      if (slides.length < 2) {
+        options.initialContinuous = options.continuous;
+        options.continuous = false;
+      } else if (options.initialContinuous) {
+        //if original  continuous is true, recover it
+        options.continuous = options.initialContinuous;
+      }
 
       //special case if two slides
       if (browser.transitions && options.continuous && slides.length < 3) {

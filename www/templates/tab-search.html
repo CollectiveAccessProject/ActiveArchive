@@ -1,50 +1,38 @@
-<ion-view view-title="">
+<ion-view view-title="Search the Archive"> 
   <ion-content>
-  	 <div id="deviceready" class="viewArea">
-		<div id="content">
-			<h1>Mattress Factory</h1>
-			<h2>Art You Can Get Into</h2>
-
-            <div class="row">
-                <form name="searchForm" id="searchForm" novalidate="" ng-submit="search(searchForm)">
-
-                    <div class="list">
-                        <input class="search-bar" type="text" name="searchterm" ng-model="search.searchterm" placeholder="Browse the Mattress Factory">
-                    </div>
-
-                    <button class="button button-full button-positive" type="submit">Search!</button>
-
-                </form>
-            </div>
-
-
-            <div class="row">
-                <div class="col col-50">
-                    <h2>Search Results:</h2>
-                </div>
-                
-                <div class="col col-50">
-                <ion-list on-drag="listScroll()" ng-controller="SearchCtrl" class='searchList'>
-                    <ion-item class="item-remove-animate item-icon-right" 
-                                collection-repeat="result in results" 
-                                ng-class="{'item-active': $index==value}"
-                                type="item-text-wrap" 
-                                href="#/tab/detail-artist/{{result.occurrence_id}}">
-                        <h2>{{$index}} - {{result.name}}</h2>
-
-                        <div class="artistThumb" ng-bind-html="result.thumb"></div>
-                    </ion-item>
-                </ion-list>
-                </div>
-            </div>
-
-
-		</div>
+  	<div class="row">
+  		<ion-scroll class="col col-50">
+			<div class="resultHeading">
+				<form name="searchForm" id="searchForm" novalidate="" ng-submit="search(searchForm)">
+					Search the Mattress Factory Archive<br/><input class="search-bar" type="text" name="searchterm" ng-model="search.searchterm" placeholder="enter search terms"><button type="submit"><i class='fa fa-search'></i></button>
+				</form>
+			</div>
+			<ion-list class='resultListInfo'>
+				  <ion-item ng-show="showResult == {{result.collection_id}}" ng-repeat="result in results" type="item-text-wrap">
+					<a href="#/tab/detail-artwork/{{result.collection_id}}">
+						<div ng-if='result.pic' ng-bind-html="result.pic"></div>
+						<H2 ng-if='result.name' ng-bind-html="result.name"></H2>
+					</a>
+					<div ng-if='result.artist' ng-bind-html="result.artist"></div>
+				  </ion-item>
+			</ion-list>
+		</ion-scroll>
+		<ion-scroll class="col col-50 resultList" delegate-handle="resultList" on-scroll="getScrollPosition()">
+			<ion-list>
+				<ion-item class='resultListItem' ng-class='{"active":highlightResult=={{result.collection_id}}}' ng-repeat="result in results" type="item-text-wrap" id="result_{{result.collection_id}}" ng-click="showResultInfo({{result.collection_id}}); highlightResultTitle({{result.collection_id}});">
+					<h2><span class="redDot"><img src='img/redDot.png'></span>{{result.name}}</h2>
+				</ion-item>
+			</ion-list>
+			<ion-infinite-scroll
+				on-infinite="loadNextSearchPage()"
+				distance="25%">
+			</ion-infinite-scroll>
+		</ion-scroll>
 	</div>
   </ion-content>
   <ion-footer-bar>
-  		<div id="footer" class='menuToggle'>
-			<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
-		</div>
-	</ion-footer-bar>  
+	<div id="footer" class='menuToggle'>
+		<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
+	</div>
+  </ion-footer-bar>		
 </ion-view>

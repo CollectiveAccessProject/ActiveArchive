@@ -1,0 +1,21 @@
+<ion-view view-title="On View"> 
+	<ion-content scroll="false">
+		<ion-slide-box does-continue="true" auto-play="true" interval="3000" show-pager="false">
+			<ion-slide ng-repeat="exhibition in exhibitions" id="exhibition_{{exhibition.occurrence_id}}">
+					<a href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}"><div class="onViewSlide">
+						<div ng-if='exhibition.large' ng-bind-html='exhibition.large'></div>
+						<div class="exhibitionInfo">
+							<h1>Now Showing</h1>
+							<h2>{{exhibition.name}}</h2>
+							<h3 ng-if='exhibition.dates'>{{exhibition.dates}}</h3>
+						</div>
+					</div></a>
+			</ion-slide>
+		</ion-slide-box>
+	</ion-content>
+	<ion-footer-bar>
+		<div id="footer" class='menuToggle'>
+			<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
+		</div>
+	</ion-footer-bar>		
+</ion-view>

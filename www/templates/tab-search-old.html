@@ -1,0 +1,50 @@
+<ion-view view-title="">
+  <ion-content>
+  	 <div id="deviceready" class="viewArea">
+		<div id="content">
+			<h1>Mattress Factory</h1>
+			<h2>Art You Can Get Into</h2>
+
+            <div class="row">
+                <form name="searchForm" id="searchForm" novalidate="" ng-submit="search(searchForm)">
+
+                    <div class="list">
+                        <input class="search-bar" type="text" name="searchterm" ng-model="search.searchterm" placeholder="Browse the Mattress Factory">
+                    </div>
+
+                    <button class="button button-full button-positive" type="submit">Search!</button>
+
+                </form>
+            </div>
+
+
+            <div class="row">
+                <div class="col col-50">
+                    <h2>Search Results:</h2>
+                </div>
+                
+                <div class="col col-50">
+                <ion-list on-drag="listScroll()" ng-controller="SearchCtrl" class='searchList'>
+                    <ion-item class="item-remove-animate item-icon-right" 
+                                collection-repeat="result in results" 
+                                ng-class="{'item-active': $index==value}"
+                                type="item-text-wrap">
+                        <h2><a href="#/tab/detail-artwork/{{result.collection_id}}">{{$index}} - {{result.name}}</a></h2>
+                        <h2 ng-bind-html="result.artist"></h2>
+
+                        <div class="artistThumb" ng-bind-html="result.pic" href="#/tab/detail-artwork/{{result.collection_id}}"></div>
+                    </ion-item>
+                </ion-list>
+                </div>
+            </div>
+
+
+		</div>
+	</div>
+  </ion-content>
+  <ion-footer-bar>
+  		<div id="footer" class='menuToggle'>
+			<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
+		</div>
+	</ion-footer-bar>  
+</ion-view>
