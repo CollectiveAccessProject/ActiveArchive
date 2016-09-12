@@ -343,6 +343,7 @@ p {
 	width:100%;
 	overflow-x:scroll;
 	overflow-y:hidden;
+	height:200px;
 }
 .floorBar.activeFloor {
 	opacity:1;
@@ -351,7 +352,7 @@ p {
 .museumList {
 	width: -webkit-max-content;
 	width: max-content;
-	height: 180px;
+	height: 200px;
 	overflow:hidden;
 }
 .activeFloor .museumList {
@@ -404,7 +405,13 @@ p {
 	font-weight:bold;
 	padding-top:70px;
 }
-*/
+#floorPlan{
+	text-align:center;
+	color:#fff;	
+}
+#floorPlan img{
+	position:relative;
+}
 /* Artist Detail*/
 
 .headerMain .right {
@@ -584,6 +591,11 @@ p.red {
 .exhibitionListInfo img{
 	max-width:100%;
 	height:auto;
+}
+.exhibitionListInfo .name{
+	color: #fff;
+    font-family:proximanova;
+    font-size:20px;
 }
 .exhibitionListInfo .date{
 	padding-top:10px;

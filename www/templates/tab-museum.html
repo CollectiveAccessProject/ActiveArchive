@@ -1,18 +1,18 @@
 <ion-view view-title="Explore the Museum">
-  <ion-content overflow-scroll="true"  delegate-handle="museumListRow" on-scroll="getScrollPosition()">
+  <ion-content overflow-scroll="true" direction="x" delegate-handle="museumListRow" on-scroll="getScrollPosition()">
 	<div class="museumListContainer">
 		<div ng-repeat="floor in place" style="position:relative;" ng-class="highlightFloor==floor.place_id ? 'activeFloor floorBar' : 'floorBar'" id="museum_floor_{{floor.place_id}}">
-			<p class="museumFloor">{{floor.name}}</p>
+			<p class="museumFloor">{{floor.name}}-</p>
 			<div class="museumListScroller">
-				<ion-infinite-scroll
-					on-infinite="loadExhibitionsForFloor(floor.place_id)"
-					distance="25%">
-				</ion-infinite-scroll>
 				<div class='museumList'>
 					<div class='museumListItem' ng-repeat="exhibitionResult in exhibitions[floor.place_id]">
-						{{exhibitionResult.name}}
+						<a ng-bind-html="exhibitionResult.exhibitions" href="#/tab/detail-museum/{{floor.place_id}}/{{exhibitionResult.occurrence_id}}"></a>
 					</div>
-				</div>
+				</div>				
+				<ion-infinite-scroll
+					on-infinite="loadMoreExhibitionsForFloor(floor.place_id)"
+					distance="50%">
+				</ion-infinite-scroll>
 			</div>
 		</div>
 	 </div>

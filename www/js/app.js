@@ -57,7 +57,7 @@
 		}
 	})
 	.state('tab.detail-museum', {
-		url: '/detail-museum/:id',
+		url: '/detail-museum/:id/:exhibition',
 		views: {
 			'menuContent': {
 				templateUrl: 'templates/detail-museum.html',

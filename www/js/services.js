@@ -94,7 +94,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 		url : dataConfig.backend + '/service.php/simple/exhibitionsFloorList?q=ca_places.place_id:' + id  + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
-			return response.data['data'];
+			return [id, response.data['data']];
 		}, function() { 
 			$log.log("Error loading building exhibitions"); 
 		});

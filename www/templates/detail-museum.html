@@ -5,16 +5,24 @@
 		<div class='headerMain'>
 			<div class='title'>{{floor.name}}</div>
 		</div>
-		<div class='col col-50'>
-			<ion-list class='exhibitionListInfo'>
-			  <ion-item ng-show="showExhibition == {{exhibition.occurrence_id}}" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
-				<div ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
-				<div ng-if='exhibition.dates' class="red date">{{exhibition.dates}}</div>
-			  </ion-item>
-			</ion-list>
-		</div>
-		<div class='col col-50'>
-			<div ng-bind-html="floor.floor_plan"></div>		
+		<div class="row">
+			<div class='col col-50'>
+				<ion-list class='exhibitionListInfo'>
+				  <ion-item ng-show="showExhibition == {{exhibition.occurrence_id}}" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
+					<div ng-if='exhibition.name' class="name">{{exhibition.name}}</div>
+					<div ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
+					<div ng-if='exhibition.dates' class="red date">{{exhibition.dates}}</div>
+				  </ion-item>
+				</ion-list>
+			</div>
+			<div class='col col-50' id='floorPlan'>
+				{{floor.floor_plan_coor}}
+				<div ng-bind-html="floor.floor_plan"></div>	
+				
+				<div ng-repeat="exhibition in exhibitions" ng-click="showExhibitionInfo({{exhibition.occurrence_id}});">
+					{{exhibition.name}}
+				</div>
+			</div>
 		</div>
 	</div>	
   </ion-content>

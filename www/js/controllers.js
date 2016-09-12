@@ -326,10 +326,10 @@ angular.module('mfactivearchive.controllers', [])
 			console.log("initial loading exhibitions for : " + $scope.place[key].place_id);
 			p = $scope.place[key].place_id;
 			Exhibitions.loadBuilding(p, 0, 40).then(function(e) {
-				//console.log(e);
-				$scope.exhibitions[p] = e;
-				console.log("completed initial loading exhibitions for : " + p);
-				console.log($scope.exhibitions[p]);
+				//returns array[floor_id, results]
+				$scope.exhibitions[e[0]] = e[1];
+				console.log("completed initial loading exhibitions for : " + e[0]);
+				console.log($scope.exhibitions[e[0]]);
 			});
 		  }
 		}
@@ -338,16 +338,16 @@ angular.module('mfactivearchive.controllers', [])
 		$log.log("Could not load place");
 	});
 	
-	$scope.loadExhibitionsForFloor = function(floor_id) {	
+	$scope.loadMoreExhibitionsForFloor = function(floor_id) {	
 			
-		//if(!$scope.exhibitions[floor_id]){
-			console.log("loading exhibitions for : " + floor_id);
-			Exhibitions.loadBuilding(floor_id, $scope.exhibitions[floor_id].length, 40).then(function(e) {
-				//console.log(e);
-				$scope.exhibitions[floor_id].concat = e;
-				$scope.$broadcast('scroll.infiniteScrollComplete');
-			});
-		//}
+		if($scope.exhibitions[floor_id]){
+			console.log("loading more exhibitions for : " + floor_id);
+			//Exhibitions.loadBuilding(floor_id, $scope.exhibitions[floor_id].length, 40).then(function(e) {
+				//returns array[floor_id, results]
+			//	$scope.exhibitions[e[0]].concat = e[1];
+			//	$scope.$broadcast('scroll.infiniteScrollComplete');
+			//});
+		}
 	};
 	
 	
@@ -361,7 +361,7 @@ angular.module('mfactivearchive.controllers', [])
 
 		if (isNaN(t)) { return; }
 		if (t < 0) { t = 0; }
-		var l = Math.floor(t/170); // estimate # of lines in we are
+		var l = Math.floor(t/200); // estimate # of lines in we are
 		if (isNaN(l)) { return; }
 		if ((!$state.oldLine) || (l !== parseInt($state.oldLine))) {
 			// set current highlight
@@ -381,21 +381,29 @@ angular.module('mfactivearchive.controllers', [])
 .controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings) {
 	$scope.buildings = buildings;
 	var exhibitionsLoaded = 0;
+	$scope.showExhibition = null;
 	
 	Museum.get($stateParams.id).then(function(d) {
 		$scope.floor = d;
-		Exhibitions.loadFloor(0,32,$stateParams.id).then(function(e) {
-			$scope.exhibitions = e;
-			exhibitionsLoaded = e.length;
-		});
+
 
 	}, function() {
 		$log.log("Could not load place");
 	});
+	if($stateParams.exhibition){
+		$scope.showExhibition = $stateParams.exhibition;
+	}
 
-
+	Exhibitions.loadFloor(0,40,$stateParams.id).then(function(e) {
+		$scope.exhibitions = e;
+		exhibitionsLoaded = e.length;
+		if(!$scope.showExhibition){
+			$scope.showExhibition = $scope.exhibitions[0].occurrence_id;
+			console.log("highlighting exhibiton");
+		}
+	});
 	$scope.loadMoreExhibitions = function() {
-		Exhibitions.loadFloor(exhibitionsLoaded, 32,$stateParams.id).then(function(d) {
+		Exhibitions.loadFloor(exhibitionsLoaded, 40,$stateParams.id).then(function(d) {
 			$scope.exhibitions = $scope.exhibitions.concat(d);
 			exhibitionsLoaded = $scope.exhibitions.length;
 			console.log("exhibitions loaded " + exhibitionsLoaded);
