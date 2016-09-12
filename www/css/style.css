@@ -210,6 +210,22 @@ p {
 	width:100%;
 	height:auto;
 }
+.menuBuildings{
+	text-align:center;
+	padding-top:15px;
+	width:100%;
+}
+.menuBuildings a{
+	padding-left:25px;
+	color:#FFFFFF;
+	font-size:14px;
+	font-family:proximanova;
+	text-transform:uppercase;
+	opacity:.5;
+}
+.menuBuildings a.activeBuilding{
+	opacity:1;
+}
 /* Menu Panel */
 .menu {
 	border-top:20px solid #000;
@@ -315,24 +331,78 @@ p {
 	font-weight:bold;
 	padding-top:70px;
 }
-/*.artistRow {
-	width:994px;
-	height:240px;
-	overflow-x: scroll;	
+/* Museum list*/
+.museumListContainer{
+	padding-top:180px;
+}
+.floorBar{
+	opacity:.5;
+	margin-left:100px;
+}
+.museumListScroller {
+	width:100%;
+	overflow-x:scroll;
+	overflow-y:hidden;
+}
+.floorBar.activeFloor {
+	opacity:1;
+	margin-left:0px;
+}
+.museumList {
+	width: -webkit-max-content;
+	width: max-content;
+	height: 180px;
+	overflow:hidden;
+}
+.activeFloor .museumList {
+	border-top:2px solid #FFF;
+	border-bottom:2px solid #FFF;
+}
+.museumList{
+	padding-left:100px;
+}
+.museumFloor{
+	font-size:30px;
+	font-family:proximanovabold;
+	position:absolute;
+	height:100%;
+	width:200px;
+	padding-left:40px;
+	padding-top:80px;
+	text-transform:capitalize;
+	background: linear-gradient(to right, black, transparent);
+	z-index:10;
+}
+.museumListItem {
 	float:left;
+	width:auto;
 }
-
-
-
-
-
-div.artistImage {
-	height:180px;
-	width:180px;
-	margin:auto;
+.museumListItem{
+	padding:20px 10px 20px 10px;
+	text-align:center;
 }
-.item p {
-	color: #ffffff;
+.museumListItem img{
+	height:120px;
+	width:auto;
+}
+.museumListItem h2 {
+	font-family:proximanova;
+	text-align:center;
+	font-size:13px;
+	margin-top:0px;
+	padding-top:5px;
+	line-height:1em;
+	color:#FFF;
+	text-transform:uppercase;
+}
+.floor {
+	width:20px;
+	display:inline-block;
+	float:left;
+	height:140px;
+	font-size:30px;
+	font-weight:bold;
+	padding-top:70px;
 }
 */
 /* Artist Detail*/

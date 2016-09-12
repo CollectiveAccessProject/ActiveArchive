@@ -1,0 +1,31 @@
+<ion-view >
+  <ion-content>
+
+	<div id="deviceready" class="viewArea">
+		<div class='headerMain'>
+			<div class='title'>{{floor.name}}</div>
+		</div>
+		<div class='col col-50'>
+			<ion-list class='exhibitionListInfo'>
+			  <ion-item ng-show="showExhibition == {{exhibition.occurrence_id}}" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
+				<div ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
+				<div ng-if='exhibition.dates' class="red date">{{exhibition.dates}}</div>
+			  </ion-item>
+			</ion-list>
+		</div>
+		<div class='col col-50'>
+			<div ng-bind-html="floor.floor_plan"></div>		
+		</div>
+	</div>	
+  </ion-content>
+	<ion-footer-bar>
+		<div id="footer" class='menuToggle'>
+			<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
+		</div>
+		<div class='menuBuildings'>
+			<a ng-repeat="building in buildings" href="#/tab/museum/{{building.place_id}}" ng-class="floor.parent_id==building.place_id ? 'activeBuilding' : ''">
+				{{building.name}}
+			</a>
+		</div>
+	</ion-footer-bar>
+</ion-view>

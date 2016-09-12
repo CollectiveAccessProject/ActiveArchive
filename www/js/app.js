@@ -48,7 +48,7 @@
 	})
 
     .state('tab.museum', {
-		url: '/museum',
+		url: '/museum/:parent_id',
 		views: {
 			'menuContent': {
 				templateUrl: 'templates/tab-museum.html',
@@ -56,7 +56,16 @@
 			}
 		}
 	})
-
+	.state('tab.detail-museum', {
+		url: '/detail-museum/:id',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/detail-museum.html',
+				controller: 'MuseumDetailCtrl'
+			}
+		}
+	})
+	
     .state('tab.neighborhood', {
 		url: '/neighborhood',
 		views: {
@@ -132,7 +141,7 @@
 				controller: 'ArtworkDetailCtrl'
 			}
 		}
-	});	
+	});
 
 
 	// if none of the above states are matched, use this as the fallback

@@ -83,6 +83,40 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 		});
 		
 		return promise;
+    },
+	loadBuilding: function(id, s, l) {
+    	if (s < 1) { s = 0; }
+    	if (l < 1) { l = 40; }
+    	
+    	$log.log('loading building exhibitions');
+    	var promise = $http({
+		method : 'POST',
+		url : dataConfig.backend + '/service.php/simple/exhibitionsFloorList?q=ca_places.place_id:' + id  + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data['data'];
+		}, function() { 
+			$log.log("Error loading building exhibitions"); 
+		});
+		
+		return promise;
+    },
+	loadFloor: function(s, l, id) {
+    	if (s < 1) { s = 0; }
+    	if (l < 1) { l = 20; }
+    	
+    	$log.log('loading floor exhibitions');
+    	var promise = $http({
+		method : 'POST',
+		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_places.place_id:' + id  + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data['data'];
+		}, function() { 
+			$log.log("Error loading floor exhibitions"); 
+		});
+		
+		return promise;
     }
     	
   };
@@ -104,6 +138,38 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 		return promise;
 	}
     	
+  };
+})
+.factory('Museum', function($http, dataConfig, $log) {
+  return {
+    load: function(parent) {
+    	$log.log('parent ' + parent);
+    	
+    	var promise = $http({
+		method : 'POST',
+		url : dataConfig.backend + '/service.php/simple/places?q=ca_places.parent_id:' + parent + '&noCache=' + dataConfig.noCache
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data['data'];
+		}, function() { 
+			$log.log("Error loading places"); 
+		});
+		
+		return promise;
+    },
+    get: function(id) {
+		var promise = $http({
+			method : 'POST',
+			url : dataConfig.backend + '/service.php/simple/place?id=' + id + '&noCache=' + dataConfig.noCache
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data;
+		}, function() { 
+			$log.log("Error loading place"); 
+		});
+		
+		return promise;
+	}	
   };
 })
 .factory('Search', function($http, dataConfig, $log) {
