@@ -303,6 +303,7 @@ angular.module('mfactivearchive.controllers', [])
 	$scope.buildings = buildings;
 	$scope.parent_ids = [];
 	$scope.exhibitions = [];
+	$scope.completeFloors = [];
 	//$log.log(buildings);
 	for (var key in buildings) {
 	  if (buildings.hasOwnProperty(key)) {
@@ -319,7 +320,7 @@ angular.module('mfactivearchive.controllers', [])
 	}
 	Museum.load($scope.parent_id).then(function(d) {
 		$scope.place = d;
-		$scope.highlightFloor = d[0]['place_id'];
+ 		$scope.highlightFloor = d[0]['place_id'];
 		$scope.oldHighlightFloor = d[0]['place_id'];
 		for (var key in $scope.place) {
 		  if ($scope.place.hasOwnProperty(key)) {
@@ -327,9 +328,9 @@ angular.module('mfactivearchive.controllers', [])
 			p = $scope.place[key].place_id;
 			Exhibitions.loadBuilding(p, 0, 40).then(function(e) {
 				//returns array[floor_id, results]
-				$scope.exhibitions[e[0]] = e[1];
+				$scope.exhibitions[Number(e[0])] = e[1];
 				console.log("completed initial loading exhibitions for : " + e[0]);
-				console.log($scope.exhibitions[e[0]]);
+				console.log($scope.exhibitions[Number(e[0])]);
 			});
 		  }
 		}
@@ -339,17 +340,31 @@ angular.module('mfactivearchive.controllers', [])
 	});
 	
 	$scope.loadMoreExhibitionsForFloor = function(floor_id) {	
-			
-		if($scope.exhibitions[floor_id]){
-			console.log("loading more exhibitions for : " + floor_id);
-			//Exhibitions.loadBuilding(floor_id, $scope.exhibitions[floor_id].length, 40).then(function(e) {
+		$log.log("trying to load more" + $scope.exhibitions);
+		if($scope.exhibitions[Number(floor_id)]){
+			$log.log("loading more exhibitions for : " + floor_id + "already loaded " + $scope.exhibitions[Number(floor_id)].length);
+			Exhibitions.loadBuilding(floor_id, $scope.exhibitions[Number(floor_id)].length, 40).then(function(e) {
 				//returns array[floor_id, results]
-			//	$scope.exhibitions[e[0]].concat = e[1];
-			//	$scope.$broadcast('scroll.infiniteScrollComplete');
-			//});
+				if(!e[1]){
+					$log.log("Failed!!!");
+					$scope.completeFloors.push(Number(e[0]));
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+				}else{
+					$log.log("results found!!!!");
+					$scope.exhibitions[Number(e[0])].concat(e[1]);
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+				}
+			});
 		}
 	};
-	
+	$scope.floorComplete = function(floor_id) {	
+		$log.log("checking floor complete " + $scope.completeFloors.indexOf(Number(floor_id)));
+		if($scope.completeFloors.indexOf(Number(floor_id)) > -1){
+			return false;
+		}else{
+			return true;
+		}
+	};
 	
 	// Handle scrolling of floors
 	var museumScrollDelegate = $ionicScrollDelegate.$getByHandle('museumListRow');

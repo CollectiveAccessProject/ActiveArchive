@@ -1,7 +1,7 @@
 angular.module('mfactivearchive.config', [])
 .constant('dataConfig', {
 	'backend': 'http://app:appy@mattress.whirl-i-gig.com/archive/admin',
-	'noCache' : 1
+	'noCache' : 0
 })
 .constant('buildings', {
 	1 : {'name' : '516 Sampsonia Way', 'place_id' : 7},

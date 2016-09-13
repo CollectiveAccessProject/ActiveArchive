@@ -1,9 +1,9 @@
 <ion-view view-title="Explore the Museum">
-  <ion-content overflow-scroll="true" direction="x" delegate-handle="museumListRow" on-scroll="getScrollPosition()">
+  <ion-content overflow-scroll="true" direction="y" delegate-handle="museumListRow" on-scroll="getScrollPosition()">
 	<div class="museumListContainer">
 		<div ng-repeat="floor in place" style="position:relative;" ng-class="highlightFloor==floor.place_id ? 'activeFloor floorBar' : 'floorBar'" id="museum_floor_{{floor.place_id}}">
-			<p class="museumFloor">{{floor.name}}-</p>
-			<div class="museumListScroller">
+			<p class="museumFloor">{{floor.name}}</p>
+			<ion-scroll direction="x" class="museumListScroller">
 				<div class='museumList'>
 					<div class='museumListItem' ng-repeat="exhibitionResult in exhibitions[floor.place_id]">
 						<a ng-bind-html="exhibitionResult.exhibitions" href="#/tab/detail-museum/{{floor.place_id}}/{{exhibitionResult.occurrence_id}}"></a>
@@ -11,9 +11,11 @@
 				</div>				
 				<ion-infinite-scroll
 					on-infinite="loadMoreExhibitionsForFloor(floor.place_id)"
-					distance="50%">
+					distance="10%"
+					direction="x"
+					ng-if="floorComplete(floor.place_id)">
 				</ion-infinite-scroll>
-			</div>
+			</ion-scroll>
 		</div>
 	 </div>
   </ion-content>

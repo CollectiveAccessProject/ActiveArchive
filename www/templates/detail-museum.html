@@ -1,5 +1,5 @@
 <ion-view >
-  <ion-content>
+  <ion-content overflow-scroll="true">
 
 	<div id="deviceready" class="viewArea">
 		<div class='headerMain'>
@@ -16,7 +16,7 @@
 				</ion-list>
 			</div>
 			<div class='col col-50' id='floorPlan'>
-				{{floor.floor_plan_coor}}
+				here: {{floor.floor_plan_coor}}
 				<div ng-bind-html="floor.floor_plan"></div>	
 				
 				<div ng-repeat="exhibition in exhibitions" ng-click="showExhibitionInfo({{exhibition.occurrence_id}});">
