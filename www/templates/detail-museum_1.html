@@ -1,42 +1,12 @@
 <ion-view >
-  <ion-content>
+  <ion-content overflow-scroll="true">
 
-		
+	<div id="deviceready" class="viewArea">
+		<div class='headerMain'>
+			<div class='title'>{{floor.name}}</div>
+		</div>
 		<div class="row">
-			<div class="col col-50">
-				<div class="floorTitle">{{floor.name}}</div>
-				<div id="floorPlan">
-					<span>
-						<div class='floorArea'></div>
-						<div ng-bind-html="floor.floor_plan"></div>
-					</span>
-				</div>
-			</div>
-			<ion-scroll class="col col-50 floorExhibitionList" delegate-handle="floorExhibitionList" on-scroll="getScrollPosition()">
-				<ion-list>
-					<ion-item class='floorExhibitionListItem' ng-class='{"active":highlightExhibition=={{exhibition.occurrence_id}}}' ng-repeat="exhibition in exhibitions" type="item-text-wrap" id="exhibition_{{exhibition.occurrence_id}}" ng-click="showExhibitionInfo({{exhibition.occurrence_id}}); highlightExhibitionTitle({{exhibition.occurrence_id}});">
-						<h2>
-							<div class="exhibitImage" ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
-							<br/>{{exhibition.name}}
-							<div ng-if='exhibition.dates' class="red date">{{exhibition.dates}}</div>
-						</h2>
-					</ion-item>
-				</ion-list>
-			</ion-scroll>
-		</div>	
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-<!--			<div class='col col-50'>
+			<div class='col col-50'>
 				<ion-list class='exhibitionListInfo'>
 				  <ion-item ng-show="showExhibition == {{exhibition.occurrence_id}}" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
 					<div ng-if='exhibition.name' class="name">{{exhibition.name}}</div>
@@ -55,7 +25,6 @@
 			</div>
 		</div>
 	</div>	
--->
   </ion-content>
 	<ion-footer-bar>
 		<div id="footer" class='menuToggle'>

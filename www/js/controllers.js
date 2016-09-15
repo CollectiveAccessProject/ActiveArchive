@@ -299,7 +299,7 @@ angular.module('mfactivearchive.controllers', [])
 		$log.log("Could not load artwork");
 	});
 })
-.controller('MuseumCtrl', function($scope, $stateParams, Museum, Exhibitions, $log, $ionicScrollDelegate, $state, buildings) {
+.controller('MuseumCtrl_1', function($scope, $stateParams, Museum, Exhibitions, $log, $ionicScrollDelegate, $state, buildings) {
 	$scope.buildings = buildings;
 	$scope.parent_ids = [];
 	$scope.exhibitions = [];
@@ -386,14 +386,14 @@ angular.module('mfactivearchive.controllers', [])
 			}
 			angular.element(document.querySelector('#museum_floor_' + $scope.place[l]['place_id'])).addClass('activeFloor');
 			$state.oldLine = l;
-			$state.oldHighlightLetter =  $scope.place[l]['place_id'];
+			$state.oldHighlightFloor =  $scope.place[l]['place_id'];
 		}
 	};
 	
 	
 	
 })
-.controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings) {
+.controller('MuseumDetailCtrl_1', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings) {
 	$scope.buildings = buildings;
 	var exhibitionsLoaded = 0;
 	$scope.showExhibition = null;
@@ -430,6 +430,174 @@ angular.module('mfactivearchive.controllers', [])
 		$scope.showExhibition = showExhibition;
 		if ($event) { $event.stopPropagation(); }
 	};
+//	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
+//		angular.element(document.querySelectorAll('.exhibitionListItem')).css('opacity', '.3');
+//		$scope.highlightExhibition = highlightExhibition;
+//		angular.element(document.querySelector('#exhibition_' + highlightExhibition).previousElementSibling).css('opacity', '.7');
+//		if ($event) {$event.stopPropagation(); }
+//	};
+})
+
+
+
+.controller('MuseumCtrl', function($scope, $stateParams, Museum, $log, $ionicScrollDelegate, $state, buildings) {
+	$scope.buildings = buildings;
+	$scope.places = [];
+	$scope.placeNames = [];
+	
+	$scope.highlightBuilding = null;
+	$state.oldHighlightBuilding = null;
+	
+	//$log.log(buildings);
+	for (var key in buildings) {
+		if (buildings.hasOwnProperty(key)) {
+			//$log.log("what? " + buildings[key].name + buildings[key].place_id);
+			var p_id = Number(buildings[key].place_id);
+			if(!$scope.highlightBuilding){
+  				$scope.highlightBuilding = p_id;
+  				$state.oldHighlightBuilding = p_id;
+  			}
+			Museum.getPlaceHeir(p_id).then(function(d) {
+				$scope.placeNames[d.place_id] = d.name;
+				$scope.places.push(d);
+			}, function() {
+				$log.log("Could not load place");
+			});
+		}
+	}
+	
+	$scope.highlightTheBuilding = function(place_id){
+		if(!$state.oldHighlightBuilding){
+			$state.oldHighlightBuilding = $scope.highlightBuilding;
+		}
+		$scope.highlightBuilding = place_id;
+		if ($state.oldHighlightBuilding) {
+			angular.element(document.querySelector('#museum_building_' + $state.oldHighlightBuilding)).removeClass('activeBuilding');
+		}
+		angular.element(document.querySelector('#museum_building_' + place_id)).addClass('activeBuilding');
+		
+	};
+	
+	
+	
+	
+})
+.controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings, $ionicScrollDelegate) {
+	$scope.buildings = buildings;
+	var exhibitionsLoaded = 0;
+	$scope.showExhibition = null;
+	
+	Museum.get($stateParams.id).then(function(d) {
+		$scope.floor = d;
+	}, function() {
+		$log.log("Could not load place");
+	});
+	
+	
+	
+	Exhibitions.load(0,32,$stateParams.id).then(function(d) {
+		$scope.exhibitions = d;
+		exhibitionsLoaded = d.length;
+
+		// Highlight first exhibition in list
+		$scope.showExhibition = $scope.highlightExhibition = d[0]['occurrence_id'];
+	});
+	
+	$scope.loadNextExhibitionPage = function() {
+		Exhibitions.load(exhibitionsLoaded, 32,$stateParams.id).then(function(d) {
+			$scope.exhibitions = $scope.exhibitions.concat(d);
+			exhibitionsLoaded = $scope.exhibitions.length;
+			console.log("exhibitions loaded " + exhibitionsLoaded);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+
+			// Highlight first exhibition in list
+			$scope.showExhibition = $scope.highlightExhibition = d[0]['occurrence_id'];
+		});
+	};
+	
+	$scope.showExhibitionInfo= function(showExhibition, $event){
+		$scope.showExhibition = showExhibition;
+		if ($event) { $event.stopPropagation(); }
+	};
+	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
+		angular.element(document.querySelectorAll('.floorExhibitionListItem')).css('opacity', '.3');
+		$scope.highlightExhibition = highlightExhibition;
+		angular.element(document.querySelector('#exhibition_' + highlightExhibition).previousElementSibling).css('opacity', '.7');
+		if ($event) {$event.stopPropagation(); }
+	};
+	
+	// Handle scrolling of exhibition title
+	$scope.getScrollPosition = function(){
+		var t = $ionicScrollDelegate.$getByHandle('floorExhibitionList').getScrollPosition().top - 150;	// distance scrolled from top - minus padding
+		var l = Math.floor(t/150) + 1; // estimate # of lines in we are + 5 to highlight middle result
+		if (isNaN(l)) { return; }
+		if ((!$state.oldLine) || (l !== $state.oldLine)) {
+			// set current highlight
+			$scope.showExhibitionInfo($scope.exhibitions[l]['occurrence_id']);
+			$scope.highlightExhibitionTitle($scope.exhibitions[l]['occurrence_id']);
+
+			// force view to reload
+			//$state.reload();
+			angular.element(document.querySelector('#exhibition_' + $scope.exhibitions[l]['occurrence_id'])).triggerHandler('click');
+
+			$state.oldScrollTop = t;
+			$state.oldLine = l;
+		}
+	};	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+// 	if($stateParams.exhibition){
+// 		$scope.showExhibition = $stateParams.exhibition;
+// 	}
+// 
+// 	Exhibitions.loadFloor(0,40,$stateParams.id).then(function(e) {
+// 		$scope.exhibitions = e;
+// 		exhibitionsLoaded = e.length;
+// 		if(!$scope.showExhibition){
+// 			$scope.showExhibition = $scope.exhibitions[0].occurrence_id;
+// 			console.log("highlighting exhibiton");
+// 		}
+// 	});
+// 	$scope.loadMoreExhibitions = function() {
+// 		Exhibitions.loadFloor(exhibitionsLoaded, 40,$stateParams.id).then(function(d) {
+// 			$scope.exhibitions = $scope.exhibitions.concat(d);
+// 			exhibitionsLoaded = $scope.exhibitions.length;
+// 			console.log("exhibitions loaded " + exhibitionsLoaded);
+// 			$scope.$broadcast('scroll.infiniteScrollComplete');
+// 		});
+// 	};
+// 	
+// 	$scope.showExhibitionInfo= function(showExhibition, $event){
+// 		$scope.showExhibition = showExhibition;
+// 		if ($event) { $event.stopPropagation(); }
+// 	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
 //		angular.element(document.querySelectorAll('.exhibitionListItem')).css('opacity', '.3');
 //		$scope.highlightExhibition = highlightExhibition;

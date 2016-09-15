@@ -169,6 +169,19 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 		});
 		
 		return promise;
+	},
+    getPlaceHeir: function(id) {
+		var promise = $http({
+			method : 'POST',
+			url : dataConfig.backend + '/service.php/simple/placeHier?id=' + id + '&noCache=' + dataConfig.noCache
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data;
+		}, function() { 
+			$log.log("Error loading place"); 
+		});
+		
+		return promise;
 	}	
   };
 })

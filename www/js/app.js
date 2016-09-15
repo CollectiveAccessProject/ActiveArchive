@@ -47,8 +47,28 @@
 		}
 	})
 
+//		settings for showing all exhibitions on museum landing
+//     .state('tab.museum', {
+// 		url: '/museum/:parent_id',
+// 		views: {
+// 			'menuContent': {
+// 				templateUrl: 'templates/tab-museum.html',
+// 				controller: 'MuseumCtrl'
+// 			}
+// 		}
+// 	})
+// 	.state('tab.detail-museum', {
+// 		url: '/detail-museum/:id/:exhibition',
+// 		views: {
+// 			'menuContent': {
+// 				templateUrl: 'templates/detail-museum.html',
+// 				controller: 'MuseumDetailCtrl'
+// 			}
+// 		}
+// 	})
+	
     .state('tab.museum', {
-		url: '/museum/:parent_id',
+		url: '/museum',
 		views: {
 			'menuContent': {
 				templateUrl: 'templates/tab-museum.html',
@@ -57,7 +77,7 @@
 		}
 	})
 	.state('tab.detail-museum', {
-		url: '/detail-museum/:id/:exhibition',
+		url: '/detail-museum/:id',
 		views: {
 			'menuContent': {
 				templateUrl: 'templates/detail-museum.html',

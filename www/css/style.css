@@ -332,6 +332,253 @@ p {
 	padding-top:70px;
 }
 /* Museum list*/
+.buildings{
+	border-bottom:2px solid #FFF;
+	padding-bottom:10px;
+	margin-bottom:10px;
+}
+.building{
+	text-align:center;
+	height:400px;
+	font-size:18px;
+	color: #FFFFFF;
+	text-transform:uppercase;
+	font-weight:normal;
+	font-family:proximanova;
+	overflow:hidden;
+	opacity:.5;
+	text-shadow: 0 0 1px white;
+   	color: transparent;
+}
+.building img{
+	-webkit-filter: blur(.7px);
+	filter: blur(.7px);
+	height:300px;
+	width:auto;
+	margin-bottom:10px;
+}
+.building.activeBuilding{
+	opacity:1;
+	color:#fff;
+	text-shadow:none;
+}
+.building.activeBuilding img{
+	-webkit-filter: blur(0px);
+	filter: blur(0px);
+}
+.buildingFloorplans{
+	text-align:center;
+}
+.buildingFloorplan{
+	display:inline-block;
+	padding:0px 10px 0px 10px;
+}
+.buildingFloorplan img{
+	height:150px;
+	width:auto;
+}
+
+/* Museum list*/
+/*.museumListContainer{
+	padding-top:100px;
+}
+.buildingBar{
+	opacity:.5;
+	margin-left:100px;
+}
+.museumListScroller {
+	width:100%;
+	overflow-x:scroll;
+	overflow-y:hidden;
+}
+.buildingBar.activeBuilding {
+	opacity:1;
+	margin-left:0px;
+}
+.museumList {
+	width: -webkit-max-content;
+	width: max-content;
+	height: 300px;
+	overflow:hidden;
+}
+.activeBuilding .museumList {
+	border-top:2px solid #FFF;
+	border-bottom:2px solid #FFF;
+}
+.museumList{
+	padding-left:300px;
+}
+.museumBuilding{
+	font-size:30px;
+	font-family:proximanovabold;
+	position:absolute;
+	height:100%;
+	width:200px;
+	padding-left:40px;
+	padding-top:80px;
+	text-transform:capitalize;
+	background: linear-gradient(to right, black, transparent);
+	z-index:10;
+}
+.museumListItem {
+	float:left;
+	width:auto;
+	padding:20px 10px 20px 10px;
+	text-align:center;
+}
+.museumListItem img{
+	height:240px;
+	width:auto;
+}
+.museumListItem {
+	font-family:proximanova;
+	text-align:center;
+	font-size:13px;
+	margin-top:0px;
+	padding-top:5px;
+	line-height:1em;
+	color:#FFF;
+	text-transform:uppercase;
+}
+.building {
+	width:20px;
+	display:inline-block;
+	float:left;
+	height:140px;
+	font-size:30px;
+	font-weight:bold;
+	padding-top:70px;
+}
+*/
+/* museum detail */
+#floorPlan{
+	text-align:center;
+	color:#fff;	
+}
+#floorPlan span{
+	position:relative;
+}
+#floorPlan span .floorArea{
+	background-color:rgba(255,0,0,.7);
+	position:absolute;
+	z-index:10;
+	top:40px;
+	left:50px;
+	width:40px;
+	height:40px;
+}
+#floorPlan img{
+	height:200px;
+	width:auto;
+}
+.floorExhibitionList{
+	height:620px;
+}
+.floorExhibitionList div.list{
+	padding-bottom:400px !important;
+	padding-top:150px !important;
+}
+.floorExhibitionList .item {
+	border-width:0px;
+    background: #000;
+   	opacity:.3;
+   	height:150px;
+   	overflow:hidden;
+   	margin:0px !important;
+   	border:0px;
+}
+.floorExhibitionList .item h2 {
+    color: #fff;
+    font-family:proximanova;
+    font-size:20px;
+    padding-left:5px;
+    text-shadow: 0 0 1px white;
+   	color: transparent;
+}
+.floorExhibitionList .item h2 .redDot{
+	display:none;
+}
+.floorExhibitionList .active {
+    opacity:1 !important;
+}
+.floorExhibitionList .active + ion-item{
+	opacity:.7 !important;
+}
+.floorExhibitionList .active h2 {
+	color: #fff;
+	text-shadow:none;
+    font-size: 2em;
+}
+.floorExhibitionList .active h2 .redDot{
+	display:inline;
+	position:absolute;
+	left:0px;
+	top:12px;
+	z-index:10;
+}
+.floorExhibitionList .item .active h2 .redDot img{
+	width:10px;
+	height:auto;
+}
+.floorExhibitionList .item .exhibitImage{
+	float:left;
+	margin-right:20px;
+	height:130px;
+	width:130px;
+	overflow:hidden;
+}
+.floorExhibitionList .item .exhibitImage img{
+	height:130px;
+	width:auto;
+	-webkit-filter: blur(.7px);
+	filter: blur(.7px);
+}
+.floorExhibitionList .item.active .exhibitImage img{
+	-webkit-filter: blur(0px);
+	filter: blur(0px);
+}
+.floorExhibitionListInfoContainer{
+	height:250px;
+	margin-bottom:20px;
+}
+.floorExhibitionListInfo{
+	text-align:center;
+}
+.floorExhibitionListInfo img{
+	height:200px;
+	width:auto;
+}
+.floorExhibitionListInfo .name{
+	color: #fff;
+    font-family:proximanova;
+    font-size:20px;
+}
+.floorExhibitionListInfo .date{
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.floorExhibitionListInfo .item, .floorExhibitionListInfo .item-complex{
+	border:0px;
+	background-color:#000 !important;
+	background:none;
+}
+.floorTitle{
+	font-size: 40px;
+	font-family: "ProximaNovaBold";
+	line-height:1em;
+	padding-left:20px;
+}
+
+
+
+
+
+
+
+
+
+/*
+OLD STYLES FOR LISTING EXHIBITS ON MUSEUM TAB
 .museumListContainer{
 	padding-top:180px;
 }
@@ -414,6 +661,7 @@ p {
 	height:600px;
 	width:auto;
 }
+/*
 /* Artist Detail*/
 
 .headerMain .right {

@@ -1,0 +1,33 @@
+<ion-view view-title="Explore the Museum">
+  <ion-content overflow-scroll="true" direction="y" delegate-handle="museumListRow" on-scroll="getScrollPosition()">
+	<div class="museumListContainer">
+		<div ng-repeat="floor in place" style="position:relative;" ng-class="highlightFloor==floor.place_id ? 'activeFloor floorBar' : 'floorBar'" id="museum_floor_{{floor.place_id}}">
+			<p class="museumFloor">{{floor.name}}</p>
+			<ion-scroll direction="x" class="museumListScroller">
+				<div class='museumList'>
+					<div class='museumListItem' ng-repeat="exhibitionResult in exhibitions[floor.place_id]">
+						<a ng-bind-html="exhibitionResult.exhibitions" href="#/tab/detail-museum/{{floor.place_id}}/{{exhibitionResult.occurrence_id}}"></a>
+					</div>
+				</div>				
+				<ion-infinite-scroll
+					on-infinite="loadMoreExhibitionsForFloor(floor.place_id)"
+					distance="10%"
+					direction="x"
+					ng-if="floorComplete(floor.place_id)">
+				</ion-infinite-scroll>
+			</ion-scroll>
+		</div>
+	 </div>
+  </ion-content>
+  <ion-footer-bar>
+  		<div id="footer" class='menuToggle'>
+			<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
+		</div>
+		<div class='menuBuildings'>
+			<a ng-repeat="building in buildings" href="#/tab/museum/{{building.place_id}}" ng-class="parent_id==building.place_id ? 'activeBuilding' : ''">
+				{{building.name}}
+			</a>
+		</div>
+	</ion-footer-bar>		
+</ion-view>
+
