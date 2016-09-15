@@ -1,20 +1,17 @@
 <ion-view >
   <ion-content>
 
-		
+		<!--{{floor.floor_plan_coor}}-->
 		<div class="row">
-			<div class="col col-50">
-				<div class="floorTitle">{{floor.name}}</div>
+			<ion-scroll class="col col-50">
+				<div class="floorTitle">{{floor.parent}}: {{floor.name}}</div>
 				<div id="floorPlan">
-					<span>
-						<div class='floorArea'></div>
-						<div ng-bind-html="floor.floor_plan"></div>
-					</span>
+					<span ng-bind-html="trustAsHtml(floor.floor_plan + coordinates)"></span>
 				</div>
-			</div>
+			</ion-scroll>
 			<ion-scroll class="col col-50 floorExhibitionList" delegate-handle="floorExhibitionList" on-scroll="getScrollPosition()">
 				<ion-list>
-					<ion-item class='floorExhibitionListItem' ng-class='{"active":highlightExhibition=={{exhibition.occurrence_id}}}' ng-repeat="exhibition in exhibitions" type="item-text-wrap" id="exhibition_{{exhibition.occurrence_id}}" ng-click="showExhibitionInfo({{exhibition.occurrence_id}}); highlightExhibitionTitle({{exhibition.occurrence_id}});">
+					<ion-item class='floorExhibitionListItem' ng-class='{"active":highlightExhibition=={{exhibition.occurrence_id}}}' ng-repeat="exhibition in exhibitions" type="item-text-wrap" id="exhibition_{{exhibition.occurrence_id}}" ng-click="highlightCoor({{exhibition.occurrence_id}}); highlightExhibitionTitle({{exhibition.occurrence_id}});">
 						<h2>
 							<div class="exhibitImage" ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
 							<br/>{{exhibition.name}}
@@ -22,6 +19,10 @@
 						</h2>
 					</ion-item>
 				</ion-list>
+				<ion-infinite-scroll
+					on-infinite="loadNextExhibitionPage()" immediate-check="false"
+					distance="25%">
+				</ion-infinite-scroll>
 			</ion-scroll>
 		</div>	
 			
@@ -61,10 +62,10 @@
 		<div id="footer" class='menuToggle'>
 			<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
 		</div>
-		<div class='menuBuildings'>
+		<!--<div class='menuBuildings'>
 			<a ng-repeat="building in buildings" href="#/tab/museum/{{building.place_id}}" ng-class="floor.parent_id==building.place_id ? 'activeBuilding' : ''">
 				{{building.name}}
 			</a>
-		</div>
+		</div>-->
 	</ion-footer-bar>
 </ion-view>

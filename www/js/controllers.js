@@ -482,29 +482,45 @@ angular.module('mfactivearchive.controllers', [])
 	
 	
 })
-.controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings, $ionicScrollDelegate) {
+.controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings, $ionicScrollDelegate, $sce) {
 	$scope.buildings = buildings;
 	var exhibitionsLoaded = 0;
-	$scope.showExhibition = null;
+	//$scope.showExhibition = null;
+	$scope.highlightExhibition = null;
+	$scope.coordinates = "";
 	
 	Museum.get($stateParams.id).then(function(d) {
 		$scope.floor = d;
+		for (var occ_id in $scope.floor.floor_plan_coor) {
+			if ($scope.floor.floor_plan_coor.hasOwnProperty(occ_id)) {
+				coor_entires = $scope.floor.floor_plan_coor[occ_id];
+				//$log.log($scope.floor.floor_plan_coor[occ_id]);
+				for (var key in coor_entires) {
+					var tag = "<div class='floorArea coorBlock" + occ_id + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'>" + coor_entires[key].label + "</div>";
+					$scope.coordinates += tag;
+				}
+			}
+		}
+		$scope.coordinates = $sce.trustAsHtml(String($scope.coordinates));
+		$scope.floor.floorplan = $sce.trustAsHtml($scope.floor.floorplan);
 	}, function() {
 		$log.log("Could not load place");
 	});
 	
 	
 	
-	Exhibitions.load(0,32,$stateParams.id).then(function(d) {
+	Exhibitions.loadFloor(0,32,$stateParams.id).then(function(d) {
 		$scope.exhibitions = d;
 		exhibitionsLoaded = d.length;
-
+		$scope.$broadcast('scroll.infiniteScrollComplete');
 		// Highlight first exhibition in list
-		$scope.showExhibition = $scope.highlightExhibition = d[0]['occurrence_id'];
+		$scope.highlightExhibition = d[0]['occurrence_id'];
+		// Highlight first exhibition floorplans
+		$scope.highlightCoor(d[0]['occurrence_id']);
 	});
 	
 	$scope.loadNextExhibitionPage = function() {
-		Exhibitions.load(exhibitionsLoaded, 32,$stateParams.id).then(function(d) {
+		Exhibitions.loadFloor(exhibitionsLoaded, 32,$stateParams.id).then(function(d) {
 			$scope.exhibitions = $scope.exhibitions.concat(d);
 			exhibitionsLoaded = $scope.exhibitions.length;
 			console.log("exhibitions loaded " + exhibitionsLoaded);
@@ -515,15 +531,20 @@ angular.module('mfactivearchive.controllers', [])
 		});
 	};
 	
-	$scope.showExhibitionInfo= function(showExhibition, $event){
-		$scope.showExhibition = showExhibition;
-		if ($event) { $event.stopPropagation(); }
-	};
+	// $scope.showExhibitionInfo= function(showExhibition, $event){
+// 		$scope.showExhibition = showExhibition;
+// 		if ($event) { $event.stopPropagation(); }
+// 	};
 	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
 		angular.element(document.querySelectorAll('.floorExhibitionListItem')).css('opacity', '.3');
 		$scope.highlightExhibition = highlightExhibition;
 		angular.element(document.querySelector('#exhibition_' + highlightExhibition).previousElementSibling).css('opacity', '.7');
 		if ($event) {$event.stopPropagation(); }
+	};
+	
+	$scope.highlightCoor = function(exhibition_id){
+		angular.element(document.querySelectorAll('.floorArea')).css('display', 'none');
+		angular.element(document.querySelector('.coorBlock' + exhibition_id)).css('display', 'block');
 	};
 	
 	// Handle scrolling of exhibition title
@@ -533,7 +554,7 @@ angular.module('mfactivearchive.controllers', [])
 		if (isNaN(l)) { return; }
 		if ((!$state.oldLine) || (l !== $state.oldLine)) {
 			// set current highlight
-			$scope.showExhibitionInfo($scope.exhibitions[l]['occurrence_id']);
+			$scope.highlightCoor($scope.exhibitions[l]['occurrence_id']);
 			$scope.highlightExhibitionTitle($scope.exhibitions[l]['occurrence_id']);
 
 			// force view to reload
@@ -545,7 +566,10 @@ angular.module('mfactivearchive.controllers', [])
 		}
 	};	
 	
-	
+	$scope.trustAsHtml = function(html){
+		return $sce.trustAsHtml(String(html));
+	};
+		
 	
 	
 	

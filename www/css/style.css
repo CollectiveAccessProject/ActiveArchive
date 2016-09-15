@@ -453,23 +453,33 @@ p {
 /* museum detail */
 #floorPlan{
 	text-align:center;
-	color:#fff;	
+	color:#fff;
 }
 #floorPlan span{
+	display:inline-block;
 	position:relative;
+	width:75%;
 }
 #floorPlan span .floorArea{
 	background-color:rgba(255,0,0,.7);
 	position:absolute;
 	z-index:10;
-	top:40px;
+	display:none;
+	text-align:center;
+	color:#000;
+	font-size:10px;
+	line-height:2em;
+	overflow:visible;
+	white-space: nowrap;
+	/*top:40px;
 	left:50px;
 	width:40px;
-	height:40px;
+	height:40px;*/
 }
-#floorPlan img{
-	height:200px;
-	width:auto;
+#floorPlan span img{
+	height:auto;
+	width:100%;
+	position:relative;
 }
 .floorExhibitionList{
 	height:620px;
