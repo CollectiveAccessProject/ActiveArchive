@@ -369,6 +369,9 @@ p {
 .buildingFloorplans{
 	text-align:center;
 }
+.buildingFloorplansScroll{
+	white-space:nowrap;
+}
 .buildingFloorplan{
 	display:inline-block;
 	padding:0px 10px 0px 10px;
@@ -505,9 +508,6 @@ p {
     text-shadow: 0 0 1px white;
    	color: transparent;
 }
-.floorExhibitionList .item h2 .redDot{
-	display:none;
-}
 .floorExhibitionList .active {
     opacity:1 !important;
 }
@@ -518,17 +518,6 @@ p {
 	color: #fff;
 	text-shadow:none;
     font-size: 2em;
-}
-.floorExhibitionList .active h2 .redDot{
-	display:inline;
-	position:absolute;
-	left:0px;
-	top:12px;
-	z-index:10;
-}
-.floorExhibitionList .item .active h2 .redDot img{
-	width:10px;
-	height:auto;
 }
 .floorExhibitionList .item .exhibitImage{
 	float:left;
@@ -546,6 +535,18 @@ p {
 .floorExhibitionList .item.active .exhibitImage img{
 	-webkit-filter: blur(0px);
 	filter: blur(0px);
+}
+.exhibitName{
+	padding-top:1em;
+}
+.floorExhibitionList .item.active .exhibitName{
+	padding-top:.5em;
+}
+.exhibitLink{
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:proximanova;
+	padding-top:10px;
 }
 .floorExhibitionListInfoContainer{
 	height:250px;

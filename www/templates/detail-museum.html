@@ -14,8 +14,9 @@
 					<ion-item class='floorExhibitionListItem' ng-class='{"active":highlightExhibition=={{exhibition.occurrence_id}}}' ng-repeat="exhibition in exhibitions" type="item-text-wrap" id="exhibition_{{exhibition.occurrence_id}}" ng-click="highlightCoor({{exhibition.occurrence_id}}); highlightExhibitionTitle({{exhibition.occurrence_id}});">
 						<h2>
 							<div class="exhibitImage" ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
-							<br/>{{exhibition.name}}
+							<div class='exhibitName'>{{exhibition.name}}</div>
 							<div ng-if='exhibition.dates' class="red date">{{exhibition.dates}}</div>
+							<div class='exhibitLink'><a href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">View Exhibiton</div>
 						</h2>
 					</ion-item>
 				</ion-list>

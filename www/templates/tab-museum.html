@@ -7,8 +7,9 @@
 		</div>
 	</div>
 	<div ng-repeat="place in places" class="buildingFloorplans">
-		<div ng-show="highlightBuilding == {{place.place_id}}" ng-bind-html="place.children"></div>
-		<div style="clear:both;"></div>
+		<ion-scroll direction="x" class="buildingFloorplansScroll" ng-show="highlightBuilding == {{place.place_id}}">
+			<div ng-bind-html="place.children"></div>
+		</ion-scroll>
 	</div>
 			
 	

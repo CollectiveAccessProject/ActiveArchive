@@ -496,7 +496,7 @@ angular.module('mfactivearchive.controllers', [])
 				coor_entires = $scope.floor.floor_plan_coor[occ_id];
 				//$log.log($scope.floor.floor_plan_coor[occ_id]);
 				for (var key in coor_entires) {
-					var tag = "<div class='floorArea coorBlock" + occ_id + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'>" + coor_entires[key].label + "</div>";
+					var tag = "<div class='floorArea coorBlock" + occ_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'>" + coor_entires[key].label + "</div>";
 					$scope.coordinates += tag;
 				}
 			}
@@ -544,7 +544,7 @@ angular.module('mfactivearchive.controllers', [])
 	
 	$scope.highlightCoor = function(exhibition_id){
 		angular.element(document.querySelectorAll('.floorArea')).css('display', 'none');
-		angular.element(document.querySelector('.coorBlock' + exhibition_id)).css('display', 'block');
+		angular.element(document.querySelectorAll('.coorBlock' + exhibition_id)).css('display', 'block');
 	};
 	
 	// Handle scrolling of exhibition title
