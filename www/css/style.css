@@ -379,6 +379,8 @@ p {
 .buildingFloorplan img{
 	height:150px;
 	width:auto;
+	-webkit-filter: invert(1);
+   filter: invert(1);
 }
 
 /* Museum list*/
@@ -492,6 +494,8 @@ p {
 	height:auto;
 	width:100%;
 	position:relative;
+	-webkit-filter: invert(1);
+   filter: invert(1);
 }
 /*
 #floorPlan span img{
