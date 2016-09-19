@@ -6,7 +6,7 @@
 			<ion-scroll class="col col-50">
 				<div class="floorTitle">{{floor.parent}}: {{floor.name}}</div>
 				<div id="floorPlan">
-					<span ng-bind-html="trustAsHtml(floor.floor_plan + coordinates)"></span>
+					<span ng-bind-html="trustAsHtml(floor.floor_plan + coordinates)" class="fpOrientation{{getOrientation(floor.floor_plan)}}"></span>
 				</div>
 			</ion-scroll>
 			<ion-scroll class="col col-50 floorExhibitionList" delegate-handle="floorExhibitionList" on-scroll="getScrollPosition()">
@@ -16,7 +16,7 @@
 							<div class="exhibitImage" ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
 							<div class='exhibitName'>{{exhibition.name}}</div>
 							<div ng-if='exhibition.dates' class="red date">{{exhibition.dates}}</div>
-							<div class='exhibitLink'><a href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">View Exhibiton</div>
+							<div ng-if='exhibition.occurrence_id' class='exhibitLink'><a href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">View Exhibiton</div>
 						</h2>
 					</ion-item>
 				</ion-list>

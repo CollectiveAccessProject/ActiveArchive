@@ -457,11 +457,20 @@ p {
 #floorPlan{
 	text-align:center;
 	color:#fff;
+	margin-top:10px;
 }
 #floorPlan span{
 	display:inline-block;
 	position:relative;
-	width:75%;
+}
+#floorPlan span.fpOrientationHorizontal{
+	width:90%;
+}
+#floorPlan span.fpOrientationVertical{
+	width:60%;
+}
+#floorPlan span.fpOrientationSkinnyVertical{
+	width:40%;
 }
 #floorPlan span .floorArea{
 	background-color:rgba(255,0,0,.7);
@@ -484,6 +493,12 @@ p {
 	width:100%;
 	position:relative;
 }
+/*
+#floorPlan span img{
+	object-fit:contain;
+	max-height: 500px;
+}
+*/
 .floorExhibitionList{
 	height:620px;
 }
@@ -574,7 +589,7 @@ p {
 	background:none;
 }
 .floorTitle{
-	font-size: 40px;
+	font-size: 35px;
 	font-family: "ProximaNovaBold";
 	line-height:1em;
 	padding-left:20px;

@@ -488,6 +488,7 @@ angular.module('mfactivearchive.controllers', [])
 	//$scope.showExhibition = null;
 	$scope.highlightExhibition = null;
 	$scope.coordinates = "";
+	$scope.orientation = "";
 	
 	Museum.get($stateParams.id).then(function(d) {
 		$scope.floor = d;
@@ -507,8 +508,6 @@ angular.module('mfactivearchive.controllers', [])
 		$log.log("Could not load place");
 	});
 	
-	
-	
 	Exhibitions.loadFloor(0,32,$stateParams.id).then(function(d) {
 		$scope.exhibitions = d;
 		exhibitionsLoaded = d.length;
@@ -518,6 +517,22 @@ angular.module('mfactivearchive.controllers', [])
 		// Highlight first exhibition floorplans
 		$scope.highlightCoor(d[0]['occurrence_id']);
 	});
+	
+$scope.getOrientation = function(fpImg) {
+	if(fpImg && !$scope.orientation){
+		var orientation = "Horizontal";
+		//var width = fpImg.match("(?=width=').*?(?=')");
+		var parts = fpImg.split("'");
+		if((parts[3]/parts[5]) < 1){
+			orientation = "Vertical";
+		}
+		if((parts[3]/parts[5]) < .5){
+			orientation = "SkinnyVertical";
+		}
+	}
+
+	return orientation;
+};
 	
 	$scope.loadNextExhibitionPage = function() {
 		Exhibitions.loadFloor(exhibitionsLoaded, 32,$stateParams.id).then(function(d) {
