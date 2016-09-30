@@ -1,11 +1,13 @@
-<ion-view view-title="Explore the Museum">
+<ion-view <!--view-title="Explore the Museum"-->>
   <ion-content>
-	<div class="row buildings">
-		<div ng-repeat="building in buildings" class="col building" ng-class="(highlightBuilding==building.place_id ? ' activeBuilding' : '') + ($index==0 ? ' col-50' : ' col-25')" id="museum_building_{{building.place_id}}" ng-click="highlightTheBuilding({{building.place_id}});">
-			<img src='img/{{building.image}}'>
-			<br/>{{placeNames[building.place_id]}}
+	<ion-scroll direction="y" class='buildingContainer'>
+		<div class="row responsive-lg buildings">
+			<div ng-repeat="building in buildings" class="col building" ng-class="(highlightBuilding==building.place_id ? ' activeBuilding' : '') + ($index==0 ? ' col-50' : ' col-25')" id="museum_building_{{building.place_id}}" ng-click="highlightTheBuilding({{building.place_id}});">
+				<img src='img/{{building.image}}'>
+				<br/>{{placeNames[building.place_id]}}
+			</div>
 		</div>
-	</div>
+	</ion-scroll>
 	<div ng-repeat="place in places" class="buildingFloorplans">
 		<ion-scroll direction="x" class="buildingFloorplansScroll" ng-show="highlightBuilding == {{place.place_id}}">
 			<div ng-bind-html="place.children"></div>

@@ -2,6 +2,7 @@
 /** ionic overrides **/
 .scroll{height: 100%; background-color: #000; padding: 0; margin: 0; border: 0px; } /* forces ionic to fill screen */
 .bar-black { background-color: #000; padding: 0; margin: 0; border: 0px; }
+ion-header-bar.back-botton{ display:none; }
 
 /** MF styles **/
 * {
@@ -41,7 +42,6 @@
 
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color:#000000;
 	color:#ffffff;
@@ -255,7 +255,8 @@ p {
 }
 .letterBar{
 	opacity:.5;
-	margin-left:100px;
+	margin-left:10%;
+	min-width:90%;
 }
 .artistListScroller {
 	width:100%;
@@ -280,6 +281,7 @@ p {
 .activeLetter .artistList {
 	border-top:2px solid #FFF;
 	border-bottom:2px solid #FFF;
+	min-width:100%;
 }
 .artistList{
 	padding-left:100px;
@@ -331,11 +333,19 @@ p {
 	font-weight:bold;
 	padding-top:70px;
 }
+/* iPads (portrait) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
+@media only screen and (orientation : portrait) {
+	.artistListContainer{
+		padding-bottom:360px;
+	}
+}
 /* Museum list*/
-.buildings{
+.buildingContainer{
+	height:410px;
 	border-bottom:2px solid #FFF;
-	padding-bottom:10px;
 	margin-bottom:10px;
+	margin-top:30px;
 }
 .building{
 	text-align:center;
@@ -382,7 +392,23 @@ p {
 	-webkit-filter: invert(1);
    filter: invert(1);
 }
+/* iPads (landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/* Styles */
+}
 
+/* iPads (portrait) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
+@media only screen and (orientation : portrait) {
+	.buildingContainer{
+		height:700px;
+		margin-top:0px;
+	}
+	.building{
+		height:auto;
+		margin-bottom:20px;
+	}
+}
 /* Museum list*/
 /*.museumListContainer{
 	padding-top:100px;
@@ -536,7 +562,7 @@ p {
 .floorExhibitionList .active h2 {
 	color: #fff;
 	text-shadow:none;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 .floorExhibitionList .item .exhibitImage{
 	float:left;
@@ -557,9 +583,12 @@ p {
 }
 .exhibitName{
 	padding-top:1em;
+	max-height:3.5em;
+	overflow:hidden;
 }
 .floorExhibitionList .item.active .exhibitName{
 	padding-top:.5em;
+	max-height:3em;
 }
 .exhibitLink{
 	font-size:12px;
@@ -596,9 +625,29 @@ p {
 	font-size: 35px;
 	font-family: "ProximaNovaBold";
 	line-height:1em;
-	padding-left:20px;
+	position:absolute;
+	left:20px;
+	top:0px;
 }
-
+.floorSubTitle{
+	font-family: "ProximaNova";
+}
+/* iPads (portrait) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
+@media only screen and (orientation : portrait) {
+	.floorExhibitionList{
+		height:900px;
+	}
+	.floorTitle{
+		font-size: 25px;
+	}
+	.floorExhibitionList .active h2, .floorExhibitionList .item h2, .floorExhibitionList .item .date {
+		font-size:14px;
+	}
+	.floorExhibitionList .item.active .exhibitName, .floorExhibitionList .item .exhibitName{
+		padding-top:2em;
+	}
+}
 
 
 
@@ -748,35 +797,8 @@ p.red {
 .artistBio {
 	height:500px;
 }
-.unit {
-	margin-bottom:30px;
-}
-.artistScroller {
-	-webkit-overflow-scrolling: touch;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;	
-}
-.contentMain .upperImages {
-	clear:both;
-	overflow:scroll;
-	overflow-x:scroll;
-	width:100%;
-	height:290px;
-}
-.contentMain .upperImages div{
-	width:990px;
-	height:290px;
-}
-.contentMain {
-	clear:both;
-}
-.upperImages img{
-	/* width:500px; */
-	height:100%;
-	width:auto;
-}
-.contentMain .right {
+
+/*.contentMain .right {
 	width:35%;
 	color:#fff;
 	font-size:16px;
@@ -794,6 +816,7 @@ p.red {
 	height:270px;
 	overflow-y:scroll;
 }
+*/
 .pointer {
 	color:#fff;
 	font-size:30px;
@@ -890,49 +913,17 @@ p.red {
 	font-size: 40px;
 	font-family: "ProximaNovaBold";
 	line-height:1em;
-	padding-left:20px;
+	padding-left:25px;
+	position:absolute;
+	top:0px;
+	z-index:2;
 }
-/*.artistRow {
-	width:994px;
-	height:240px;
-	overflow-x: scroll;	
-	float:left;
-}
-
-
-
-.gallery {
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-.artistList .item {
-	border-width:0px;
-	float:left;
-}
-.artistList .item, .item-complex .item-content, .artistList .item-radio .item-content{
-	background-color:#000;
-	color:#ffffff;
-	padding:20px;
-}
-.artistList .item, .item-complex .item-content h2, .artistList .item, .item-complex .item-content p {
-	text-align:center;
-}
-.artistList .item-avatar .item-content {
-	padding:0px;
-}
-div.artistImage {
-	height:180px;
-	width:180px;
-	margin:auto;
-}
-.artistThumb {
-	margin: 0px auto 10px auto;
-	background-color:#333;
-	width:180px;
-	height:180px; 
-}
-.item p {
-	color: #ffffff;
+/* iPads (portrait) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
+@media only screen and (orientation : portrait) {
+	.exhibitionList{
+		height:900px;
+	}
 }
 
 
@@ -1056,6 +1047,77 @@ div.artistImage {
 	line-height: 1.2em;
 	text-transform: uppercase;
 }
+.unit {
+	padding-bottom:30px;
+}
+.contentMain {
+	clear:both;
+}
+.imageScroller {
+	-webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;	
+}
+.contentMain .upperImages {
+	clear:both;
+	overflow:scroll;
+	overflow-x:scroll;
+	width:100%;
+	height:290px;
+}
+.contentMain .upperImages div{
+	width:100%;
+	height:290px;
+}
+.upperImages img{
+	/* width:500px; */
+	height:100%;
+	width:auto;
+}
+.detailScroll{
+	max-height:200px;
+	padding-right:10px;
+	padding-left:10px;
+}
+.detailScrollTall{
+	max-height:280px;
+	padding-right:10px;
+	padding-left:10px;
+}
+/* iPads (portrait) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+	.detailScroll{
+		max-height:450px;
+	}
+	.detailScrollTall{
+		max-height:520px;
+	}
+}
+/* phone (portrait) ----------- */
+@media only screen and (max-device-width : 767px) and (orientation : portrait) {
+	.detailScroll{
+		max-height:225px
+	}
+	.detailScrollTall{
+		max-height:260px;
+	}
+}
+/* phone (landscape) ----------- */
+@media only screen and (max-device-width : 767px) and (orientation : landscape) {
+	.detailScroll{
+		height:225px;
+	}
+	.detailScrollTall{
+		height:220px;
+	}
+	.contentMain .upperImages {
+		height:150px;
+	}	
+	.contentMain .upperImages div{
+		height:150px;
+	}
+}
 .col1{
 	float:left;
 	width:65%;
@@ -1084,10 +1146,8 @@ div.artistImage {
 .exHeader{
 	padding-top:30px;
 	padding-bottom:20px;
+	padding-left:10px;
 	line-height:30px;	
-}
-.exLowerInfo{
-	padding-left:20px;
 }
 .exTitle {
 	font-size: 30px;
@@ -1101,8 +1161,8 @@ div.artistImage {
 }
 /* Artist Detail */
 .artistLowerInfo{
-	padding-top:30px;
-	padding-left:20px;
+	padding-top:20px;
+	padding-left:10px;
 }
 
 /* on view */
@@ -1153,4 +1213,57 @@ div.artistImage {
 	font-weight:normal;
 	font-family:proximanova;
 	padding-bottom:10px;
+}
+/* iPads (portrait) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
+@media only screen and (orientation : portrait) {
+	.onViewSlide{
+		margin-top:190px;
+	}
+	.onViewSlide .exhibitionInfo{
+		bottom:200px;
+	}
+	/*.onViewSlide{
+		height:900px;
+	}
+	.onViewSlide img{
+		height:900px;
+		width:auto;
+		position:relative;
+		left:-30%;
+	}*/
+}
+/* phone (portrait) ----------- */
+@media only screen and (max-device-width : 767px) and (orientation : portrait) {
+	.onViewSlide .exhibitionInfo{
+		bottom:50px;
+	}
+}
+/* phone (landscape) ----------- */
+@media only screen and (max-device-width : 767px) and (orientation : landscape) {
+	.onViewSlide .exhibitionInfo{
+		top:250px;
+	}
+}
+
+
+
+
+
+
+
+
+
+/* iPads (landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
+@media only screen and (orientation : portrait) {
+/* Styles */
+	.bar-footer {
+		background-color:red;
+	}
 }

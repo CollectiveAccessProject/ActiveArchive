@@ -1,4 +1,4 @@
-<ion-view >
+<ion-view on-swipe-right="$ionicGoBack()">
   <ion-content>
 
 	<div id="deviceready" class="viewArea">
@@ -9,38 +9,38 @@
 			</div>
 		
 			<div class='upperImages'>
-				<ion-scroll direction="x" class="artistScroller">
+				<ion-scroll direction="x" class="imageScroller">
 					<div ng-bind-html="artwork.pics"></div>
 				</ion-scroll>
 			</div>
-
-			<div class='exLowerInfo'>
-				<br/>
-				<ion-scroll direction="y" class='col1' ng-if='artwork.statement || artwork.abstract'>
+			<div class='artistLowerInfo'>
+				<div class="row responsive-md">							
+					<ion-scroll direction="y" class='col col-67 detailScrollTall' ng-if='artwork.statement || artwork.abstract'>
 						<div ng-bind-html="artwork.abstract"></div>
 						<p ng-if='exhibition.statement'>
 							<br/><H5>Artist Statement</H5>
 							<div ng-bind-html="artwork.statement"></div>	
 						</p>					
-				</ion-scroll>
-				<ion-scroll class='related col2'>
-					<div class='unit' ng-if='artwork.artist'>
-						<h5>Artist</h5>
-						<div ng-bind-html="artwork.artist"></div> 
-					</div>	
-					<div class='unit' ng-if='artwork.exhibitions'>
-						<h5>Exhibitions</h5>
-						<div ng-bind-html='artwork.exhibitions'></div> 
-					</div>	
-					<div class='unit' ng-if='artwork.contributors'>
-						<h5>Contributors</h5>
-						<div ng-bind-html="artwork.contributors"></div> 
-					</div>
-					<div class='unit' ng-if='artwork.events'>
-						<h5>Events</h5>
-						<div ng-bind-html='artwork.events'></div> 
-					</div>
-				</ion-scroll>
+					</ion-scroll>				
+					<ion-scroll class='col col-33 related detailScrollTall'>
+						<div class='unit' ng-if='artwork.artist'>
+							<h5>Artist</h5>
+							<div ng-bind-html="artwork.artist"></div> 
+						</div>	
+						<div class='unit' ng-if='artwork.exhibitions'>
+							<h5>Exhibitions</h5>
+							<div ng-bind-html='artwork.exhibitions'></div> 
+						</div>	
+						<div class='unit' ng-if='artwork.contributors'>
+							<h5>Contributors</h5>
+							<div ng-bind-html="artwork.contributors"></div> 
+						</div>
+						<div class='unit' ng-if='artwork.events'>
+							<h5>Events</h5>
+							<div ng-bind-html='artwork.events'></div> 
+						</div>
+					</ion-scroll>
+				</div>
 			</div>				
 		</div>
 	</div>	

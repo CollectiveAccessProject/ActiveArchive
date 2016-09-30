@@ -4,46 +4,51 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view >
+<ion-view on-swipe-right="$ionicGoBack()">
   <ion-content>
 
 	<div id="deviceready" class="viewArea">
 		<div class='contentMain'>
 			<div class='upperImages'>
-				<ion-scroll direction="x" class="artistScroller"><div ng-bind-html="exhibition.pics">
+				<ion-scroll direction="x" class="imageScroller"><div ng-bind-html="exhibition.pics">
 				</div></ion-scroll>
 			</div>
-
-			<div class='exLowerInfo'>
-				<div class='exHeader'>
-					<div class='exTitle'>{{exhibition.name}}<small ng-if='exhibition.curator'>, curated by {{exhibition.curator}}</small></div>
-					<div class='red date'>{{exhibition.dates}}</div>
+			<div class='lowerInfo'>
+				<div class="row">
+					<div class="col">
+						<div class='exHeader'>
+							<div class='exTitle'>{{exhibition.name}}<small ng-if='exhibition.curator'>, curated by {{exhibition.curator}}</small></div>
+							<div class='red date'>{{exhibition.dates}}</div>
+						</div>
+					</div>
 				</div>
-				<ion-scroll direction="y" class='col1' ng-if='exhibition.statement || exhibition.description'>
-						<div ng-bind-html="exhibition.description"></div>
-						<p ng-if='exhibition.statement'>
-							<br/><H5>Artist Statement</H5>
-							<div ng-bind-html="exhibition.statement"></div>	
-						</p>					
-				</ion-scroll>
-				<ion-scroll class='related col2'>
-					<div class='unit' ng-if='exhibition.contributors'>
-						<h5>Contributors</h5>
-						<div ng-bind-html="exhibition.contributors"></div> 
-					</div>
-					<div class='unit' ng-if='exhibition.artworks'>
-						<h5>Artworks</h5>
-						<div ng-bind-html="exhibition.artworks"></div> 
-					</div>
-					<div class='unit' ng-if='exhibition.events'>
-						<h5>Events</h5>
-						<div ng-bind-html='exhibition.events'></div> 
-					</div>	
-					<div class='unit' ng-if='exhibition.exhibitions'>
-						<h5>Exhibitions</h5>
-						<div ng-bind-html='exhibition.exhibitions'></div> 
-					</div>	
-				</ion-scroll>
+				<div class="row responsive-md">
+					<ion-scroll direction="y" class='col col-67 detailScroll' ng-if='exhibition.statement || exhibition.description'>
+							<div ng-bind-html="exhibition.description"></div>
+							<p ng-if='exhibition.statement'>
+								<H5 ng-if='exhibition.statement'>Artist Statement</H5>
+								<div ng-bind-html="exhibition.statement"></div>	
+							</p>					
+					</ion-scroll>
+					<ion-scroll class='col col-33 related detailScroll'>
+						<div class='unit' ng-if='exhibition.contributors'>
+							<h5>Contributors</h5>
+							<div ng-bind-html="exhibition.contributors"></div> 
+						</div>
+						<div class='unit' ng-if='exhibition.artworks'>
+							<h5>Artworks</h5>
+							<div ng-bind-html="exhibition.artworks"></div> 
+						</div>
+						<div class='unit' ng-if='exhibition.events'>
+							<h5>Events</h5>
+							<div ng-bind-html='exhibition.events'></div> 
+						</div>	
+						<div class='unit' ng-if='exhibition.exhibitions'>
+							<h5>Exhibitions</h5>
+							<div ng-bind-html='exhibition.exhibitions'></div> 
+						</div>	
+					</ion-scroll>
+				</div>
 			</div>				
 		</div>
 	</div>	
