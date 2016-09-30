@@ -18,8 +18,7 @@
 			StatusBar.styleLightContent();
 			}
 			if (document.documentElement.clientWidth < 768) { 			
-				  alert(document.documentElement.clientWidth);
-				document.querySelector("meta[name=viewport]").setAttribute(
+				  document.querySelector("meta[name=viewport]").setAttribute(
 				  'content', 
 				  'width=device-width, initial-scale=.65, maximum-scale=.65, minimum-scale=.65, user-scalable=no');
 			}
