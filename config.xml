@@ -78,10 +78,8 @@
 		<splash src="Default-Landscape@2x.png" width="2048" height="1536"/>
 		<splash src="Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
 		<splash src="Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-		<splash src="splash.png" />
     </platform>
     <engine name="ios" spec="^4.0.0" />
     <preference name="SplashScreenDelay" value="10000" />
-    <preference name="SplashScreen" value="splash" />
-    <splash src="splash.png" />
+    <preference name="SplashScreen" value="screen" />
 </widget>
