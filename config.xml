@@ -25,7 +25,6 @@
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
     <plugin name="org.apache.cordova.device-orientation" />
-    <plugin name="org.apache.cordova.splashscreen" />  
 <gap:config-file platform="ios" parent="UISupportedInterfaceOrientations" mode="replace">
     <array>
       <string>UIInterfaceOrientationLandscapeLeft</string>
@@ -58,4 +57,8 @@
     <engine name="ios" spec="^3.8.0" />
     
     <icon src="res/ios/icon.jpg" platform="ios" width="57" height="57" density="mdpi" />
+    <platform name="ios">
+		<splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
+		<splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
+	</platform>
 </widget>
