@@ -270,10 +270,13 @@ angular.module('mfactivearchive.controllers', [])
 	};
 })
 
-.controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log) {
+.controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log, $sce) {
 
 	Artists.get($stateParams.id).then(function(d) {
 		$scope.artist = d;
+		if($scope.artist.soundcloud_playlist_id){
+			$scope.artist.pics = $sce.trustAsHtml(String("<iframe width='250' height='100%' scrolling='no' frameborder='no' src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/98645197&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=true'></iframe>" + $scope.artist.pics));
+		}
        
         console.log($scope.artist);
         $ionicSlideBoxDelegate.slide(0);
