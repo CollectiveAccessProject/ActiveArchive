@@ -70,8 +70,8 @@
 		<icon src="icon-40.png" width="40" height="40" />
 		<icon src="icon-40@2x.png" width="80" height="80" />
 		
-		<splash src="Default-Portrait~ipad.png" width="768" height="1024"/>
-		<splash src="Default-Landscape~ipad.png" width="1024" height="768"/>
+		<splash src="Default-Portrait.png" width="768" height="1024"/>
+		<splash src="Default-Landscape.png" width="1024" height="768"/>
     </platform>
     <engine name="ios" spec="^4.0.0" />
 </widget>
