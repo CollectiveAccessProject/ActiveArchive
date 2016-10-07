@@ -56,4 +56,6 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <engine name="ios" spec="^3.8.0" />
+    
+    <icon src="res/ios/icon.jpg" platform="ios" width="57" height="57" density="mdpi" />
 </widget>
