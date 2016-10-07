@@ -20,7 +20,6 @@
     <preference name="detect-data-types" value="true" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />
-    <preference name="auto-hide-splash-screen" value="true" />
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
@@ -38,9 +37,7 @@
 	<true/> 
 </gap:config-file> 
  
-    <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
     <access origin="*" />
-    <plugin name="cordova-plugin-whitelist" version="1" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -53,12 +50,10 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-    </platform>
-    <engine name="ios" spec="^3.8.0" />
-    
-    <icon src="res/ios/icon.jpg" platform="ios" width="57" height="57" density="mdpi" />
-    <platform name="ios">
+        
+   	 	<icon src="res/ios/icon.png" platform="ios" width="256" height="256" density="mdpi" />
 		<splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
 		<splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
-	</platform>
+    </platform>
+    <engine name="ios" spec="^3.8.0" />
 </widget>
