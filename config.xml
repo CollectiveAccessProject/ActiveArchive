@@ -1,87 +1,32 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Mattress Factory Active Archive</name>
-    <description>
-        Mattress Factory Active Archive app
-    </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        Whirl-i-gig
-    </author>
-    <content src="index.html" />
-    <preference name="permissions" value="none" />
-    <preference name="autorotate" value="true" readonly="true"/>
-    <preference name="Orientation" value="portrait and landscape" />
-    <preference name="target-device" value="universal" />
-    <preference name="fullscreen" value="true" />
-    <preference name="webviewbounce" value="true" />
-    <preference name="prerendered-icon" value="true" />
-    <preference name="stay-in-webview" value="false" />
-    <preference name="ios-statusbarstyle" value="black-opaque" />
-    <preference name="detect-data-types" value="true" />
-    <preference name="exit-on-suspend" value="false" />
-    <preference name="show-splash-screen-spinner" value="true" />
-    <preference name="disable-cursor" value="false" />
-    <preference name="android-minSdkVersion" value="7" />
-    <preference name="android-installLocation" value="auto" />
-    <plugin name="org.apache.cordova.device-orientation" />
-    <plugin name="br.com.paveisitemas.splashscreen" spec="2.1.1" source="pgb" />
-<gap:config-file platform="ios" parent="UISupportedInterfaceOrientations" mode="replace">
-    <array>
-      <string>UIInterfaceOrientationLandscapeLeft</string>
-      <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-</gap:config-file> 
-<gap:config-file platform="ios" parent="UIViewControllerBasedStatusBarAppearance" overwrite="true">
-    <false/>
-</gap:config-file>
-<gap:config-file platform="ios" parent="UIStatusBarHidden" overwrite="true"> 
-	<true/> 
-</gap:config-file> 
- 
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
-    <platform name="android">
-        <allow-intent href="market:*" />
-    </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
-        
-   	 	<!-- iPhone 6 / 6+ -->
-		<icon src="icon-60@3x.png" width="180" height="180" />
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="org.mattress.activearchive" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+	<name>AA</name>
+	<description>
+		Mattress Factory Active Archive app
+	</description>
+	<author email="seth@whirl-i-gig.com" href="http://whirl-i-gig.com">
+		Whirl-i-Gig
+	</author>
 
-		<!-- iPhone / iPod Touch  -->
-		<icon src="icon-60.png" width="60" height="60" />
-		<icon src="icon-60@2x.png" width="120" height="120" />
+	<content src="index.html"/>
+	<access origin="*" />
+	<allow-navigation href="*"/>
 
-		<!-- iPad -->
-		<icon src="icon-76.png" width="76" height="76" />
-		<icon src="icon-76@2x.png" width="152" height="152" />
-
-		<!-- Settings Icon -->
-		<icon src="icon-small.png" width="29" height="29" />
-		<icon src="icon-small@2x.png" width="58" height="58" />
-
-		<!-- Spotlight Icon -->
-		<icon src="icon-40.png" width="40" height="40" />
-		<icon src="icon-40@2x.png" width="80" height="80" />
-		
-		<splash src="LaunchImage.png" width="768" height="1024"/>
-		<splash src="Default-Portrait.png" width="768" height="1024"/>
-		<splash src="Default-Landscape.png" width="1024" height="768"/>
-		<splash src="Default-Portrait~ipad.png" width="768" height="1024"/>
-		<splash src="Default-Landscape~ipad.png" width="1024" height="768"/>
-		<splash src="Default-Portrait@2x.png" width="1536" height="2048"/>
-		<splash src="Default-Landscape@2x.png" width="2048" height="1536"/>
-		<splash src="Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
-		<splash src="Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-    </platform>
-    <engine name="ios" spec="^4.0.0" />
-    <preference name="SplashScreenDelay" value="10000" />
-    <preference name="SplashScreen" value="LaunchImage" />
+	<preference name="webviewbounce" value="false"/>
+	<preference name="UIWebViewBounce" value="false"/>
+	<preference name="DisallowOverscroll" value="true"/>
+	<preference name="SplashScreenDelay" value="2000"/>
+	<preference name="FadeSplashScreenDuration" value="2000"/>
+	<preference name="android-minSdkVersion" value="16"/>
+	<preference name="BackupWebStorage" value="none"/>
+	<preference name="AllowInlineMediaPlayback" value="true" />
+	<feature name="StatusBar">
+		<param name="ios-package" onload="true" value="CDVStatusBar"/>
+	</feature>
+	<plugin name="cordova-plugin-device" spec="~1.1.3"/>
+	<plugin name="cordova-plugin-console" spec="~1.0.4"/>
+	<plugin name="cordova-plugin-whitelist" spec="~1.3.0"/>
+	<plugin name="cordova-plugin-splashscreen" spec="~4.0.0"/>
+	<plugin name="cordova-plugin-statusbar" spec="~2.2.0"/>
+	<plugin name="ionic-plugin-keyboard" spec="~2.2.1"/>
 </widget>

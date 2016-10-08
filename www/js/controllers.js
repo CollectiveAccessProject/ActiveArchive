@@ -1,5 +1,8 @@
 angular.module('mfactivearchive.controllers', [])
-
+.config(function ($sceDelegateProvider) {
+    $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://google.com/']);
+})
+ 
 .controller('FrontCtrl', function($scope, $ionicSideMenuDelegate) {
  	
 })
@@ -272,13 +275,15 @@ angular.module('mfactivearchive.controllers', [])
 
 .controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log, $sce) {
 
+	$scope.iframe_url = $sce.trustAsResourceUrl(decodeURIComponent("http://w.soundcloud.com"));
 	Artists.get($stateParams.id).then(function(d) {
 		$scope.artist = d;
+		
+		$scope.artist.sound = '';
 		if($scope.artist.soundcloud_playlist_id){
-			$scope.artist.pics = $sce.trustAsHtml(String("<iframe width='250' height='100%' scrolling='no' frameborder='no' src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/98645197&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=true'></iframe>" + $scope.artist.pics));
+			$scope.artist.sound = $sce.trustAsHtml(String("<iframe width='240' height='240' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/98645197&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=true&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
 		}
        
-        console.log($scope.artist);
         $ionicSlideBoxDelegate.slide(0);
         $ionicSlideBoxDelegate.update();
 
