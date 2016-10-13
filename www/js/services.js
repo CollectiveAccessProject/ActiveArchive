@@ -9,7 +9,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     	
 		var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/artists?q=ca_entities.preferred_labels.surname:' + letter + '*&noCache=' + dataConfig.noCache
+		url : dataConfig.backend + '/service.php/simple/artists?q=ca_entities.artist_browse:Yes AND ca_entities.preferred_labels.surname:' + letter + '*&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete for ' + letter);
 			return response.data['data'];
@@ -74,7 +74,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     	$log.log('loading on view');
     	var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_occurrences.event_dates:may 2015&noCache=' + dataConfig.noCache
+		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_occurrences.event_dates:today&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data['data'];

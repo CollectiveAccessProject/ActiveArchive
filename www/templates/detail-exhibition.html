@@ -20,6 +20,10 @@
 							<div class='exTitle'>{{exhibition.name}}<small ng-if='exhibition.curator'>, curated by {{exhibition.curator}}</small></div>
 							<div class='red date'>{{exhibition.dates}}</div>
 						</div>
+						<!--<div id="floorPlanExhibitionDetail">
+							<span ng-bind-html="trustAsHtml(exhibition.floor_plan + coordinates)" class="fpOrientation{{getOrientation(exhibition.floor_plan)}}"></span>
+						</div>-->
+					
 					</div>
 				</div>
 				<div class="row responsive-md">

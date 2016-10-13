@@ -86,7 +86,7 @@ angular.module('mfactivearchive.controllers', [])
 	}
 	$scope.decadeTitle = $scope.decade.substring(0,$scope.decade.indexOf("-")) + "'s";
 	
-	Exhibitions.load(0,32,$scope.decade).then(function(d) {
+	Exhibitions.load(0,50,$scope.decade).then(function(d) {
 		$scope.exhibitions = d;
 		exhibitionsLoaded = d.length;
 
@@ -180,14 +180,6 @@ angular.module('mfactivearchive.controllers', [])
             $scope.value = value;
         }
     }
-})
-
-.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log) {
-    Exhibitions.get($stateParams.id).then(function(d) {
-        $scope.exhibition = d;
-    }, function() {
-        $log.log("Could not load exhibition");
-    });
 })
 
 .controller('OnViewCtrl', function($scope, $stateParams, Exhibitions, $log, $ionicSlideBoxDelegate) {
@@ -292,13 +284,51 @@ angular.module('mfactivearchive.controllers', [])
 	});
 })
 
-.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log) {
-	Exhibitions.get($stateParams.id).then(function(d) {
-		$scope.exhibition = d;
-	}, function() {
-		$log.log("Could not load exhibition");
-	});
+.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log, $sce) {    
+	$scope.coordinates = "";
+	$scope.orientation = "";
+    Exhibitions.get($stateParams.id).then(function(d) {
+        $scope.exhibition = d;
+        console.log("loaded!! ");
+        for (var place_id in $scope.exhibition.floor_plan_coor) {
+			if ($scope.exhibition.floor_plan_coor.hasOwnProperty(place_id)) {
+				coor_entires = $scope.exhibition.floor_plan_coor[place_id];
+				//$log.log($scope.exhibition.floor_plan_coor[place_id]);
+				for (var key in coor_entires) {
+					var tag = "<div class='floorArea coorBlock" + place_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'>" + coor_entires[key].label + "</div>";
+					$scope.coordinates += tag;
+				}
+			}
+		}
+		$scope.coordinates = $sce.trustAsHtml(String($scope.coordinates));
+		$scope.exhibition.floorplan = $sce.trustAsHtml($scope.exhibition.floorplan);
+		
+		console.log("coordinates " + $scope.coordinates);
+		
+    }, function() {
+        $log.log("Could not load exhibition");
+    });
+    
+	$scope.getOrientation = function(fpImg) {
+		if(fpImg && !$scope.orientation){
+			var orientation = "Horizontal";
+			//var width = fpImg.match("(?=width=').*?(?=')");
+			var parts = fpImg.split("'");
+			if((parts[3]/parts[5]) < 1){
+				orientation = "Vertical";
+			}
+			if((parts[3]/parts[5]) < .5){
+				orientation = "SkinnyVertical";
+			}
+		}
+
+		return orientation;
+	};
+	$scope.trustAsHtml = function(html){
+		return $sce.trustAsHtml(String(html));
+	};
 })
+
 
 .controller('ArtworkDetailCtrl', function($scope, $stateParams, Artworks, $log) {
 	Artworks.get($stateParams.id).then(function(d) {
