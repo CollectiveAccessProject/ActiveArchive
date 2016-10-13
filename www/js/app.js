@@ -15,9 +15,6 @@
 			if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
                 ionic.Platform.fullScreen();
-                if (window.StatusBar) {
-                    return StatusBar.hide();
-                }
 			}
 			if (document.documentElement.clientWidth < 768) { 			
 				  document.querySelector("meta[name=viewport]").setAttribute(
