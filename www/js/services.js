@@ -46,7 +46,7 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
     	
 		var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_occurrences.event_dates:' + decade + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
+		url : dataConfig.backend + '/service.php/simple/exhibitions?q=ca_occurrences.event_dates:"' + decade + '"&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
 		}).then(function(response) {
 			$log.log('Load complete');
 			return response.data['data'];
