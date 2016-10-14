@@ -1,7 +1,7 @@
-<ion-view view-title="Search the Archive"> 
+<ion-view> 
   <ion-content has-bouncing="false" overflow-scroll="false">
   	<div class="row">
-  		<ion-scroll class="col col-50">
+  		<ion-scroll class="col col-50" has-bouncing="false" overflow-scroll="false">
 			<div class="resultHeading">
 				<form name="searchForm" id="searchForm" novalidate="" ng-submit="search(searchForm)">
 					Search the Mattress Factory Archive<br/><input class="search-bar" type="text" name="searchterm" ng-model="search.searchterm" placeholder="enter search terms"><button type="submit"><i class='fa fa-search'></i></button>
@@ -17,7 +17,7 @@
 				  </ion-item>
 			</ion-list>
 		</ion-scroll>
-		<ion-scroll class="col col-50 resultList" delegate-handle="resultList" on-scroll="getScrollPosition()">
+		<ion-scroll class="col col-50 resultList" delegate-handle="resultList" on-scroll="getScrollPosition()" has-bouncing="false" overflow-scroll="false">
 			<ion-list>
 				<ion-item class='resultListItem' ng-class='{"active":highlightResult=={{result.collection_id}}}' ng-repeat="result in results" type="item-text-wrap" id="result_{{result.collection_id}}" ng-click="showResultInfo({{result.collection_id}}); highlightResultTitle({{result.collection_id}});">
 					<h2><span class="redDot"><img src='img/redDot.png'></span>{{result.name}}</h2>

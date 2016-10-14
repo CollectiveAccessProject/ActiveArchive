@@ -57,11 +57,13 @@
                     <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
                         <h5>Audio</h5>
                         <div class='unit' ng-bind-html="exhibition.sound"></div>
+                        <br/><br/><br/><br/>
                     </ion-scroll>
                 </div>
                 <div ng-show="showArea == 'area4'" ng-if="exhibition.floor_plan" class="">
                     <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
                         <div ng-repeat="floorplanTag in floorplanTags" class="floorPlanExhibitionDetail"><span ng-bind-html="trustAsHtml(floorplanTag)"></span></div>
+                        <br/><br/><br/><br/>
                     </ion-scroll>
                 </div>
 			</div>				
