@@ -1,5 +1,5 @@
 <ion-view <!--view-title="Browse Mattress Factory Artists" -->>
-  <ion-content overflow-scroll="true"  delegate-handle="artistListRow" on-scroll="getScrollPosition()">
+  <ion-content overflow-scroll="true"  delegate-handle="artistListRow" on-scroll="getScrollPosition()" has-bouncing="false">
 	<div class="artistListContainer">
 		<div ng-repeat="artists in artistsList" style="position:relative;" ng-class="highlightLetter==artists.letter ? 'activeLetter letterBar' : 'letterBar'" id="artist_letter_{{artists.letter}}">
 			<p class="artistLetter">{{artists.letter}}</p>

@@ -1,5 +1,5 @@
 <ion-view <!--view-title="On View"-->> 
-	<ion-content scroll="false">
+	<ion-content scroll="false" has-bouncing="false" overflow-scroll="false">
 		<ion-slide-box does-continue="true" auto-play="true" interval="3000" show-pager="false">
 			<ion-slide ng-repeat="exhibition in exhibitions" id="exhibition_{{exhibition.occurrence_id}}">
 					<a href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}"><div class="onViewSlide">

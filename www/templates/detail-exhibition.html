@@ -5,7 +5,7 @@
   The Friends service returns an array of friend data
 -->
 <ion-view on-swipe-right="$ionicGoBack()">
-  <ion-content>
+  <ion-content has-bouncing="false" overflow-scroll="false">
 
 	<div id="deviceready" class="viewArea">
 		<div class='contentMain'>
@@ -20,21 +20,20 @@
 							<div class='exTitle'>{{exhibition.name}}<small ng-if='exhibition.curator'>, curated by {{exhibition.curator}}</small></div>
 							<div class='red date'>{{exhibition.dates}}</div>
 						</div>
-						<!--<div id="floorPlanExhibitionDetail">
-							<span ng-bind-html="trustAsHtml(exhibition.floor_plan + coordinates)" class="fpOrientation{{getOrientation(exhibition.floor_plan)}}"></span>
-						</div>-->
-					
 					</div>
 				</div>
-				<div class="row responsive-md">
-					<ion-scroll direction="y" class='col col-67 detailScroll' ng-if='exhibition.statement || exhibition.description'>
-							<div ng-bind-html="exhibition.description"></div>
-							<p ng-if='exhibition.statement'>
-								<H5 ng-if='exhibition.statement'>Artist Statement</H5>
-								<div ng-bind-html="exhibition.statement"></div>	
-							</p>					
+				<div class="row" ng-show="showArea == 'area1'" ng-if="exhibition.statement || exhibition.description">
+					<ion-scroll direction="y" class="col detailScroll" has-bouncing="false" overflow-scroll="false">
+                        <div ng-bind-html="exhibition.description"></div>
+                        <p ng-if='exhibition.statement'>
+                            <H5 ng-if='exhibition.statement'>Artist Statement</H5>
+                            <div ng-bind-html="exhibition.statement"></div>	
+                        </p>
+                        <br/><br/><br/><br/>
 					</ion-scroll>
-					<ion-scroll class='col col-33 related detailScroll'>
+                </div>
+                <div class="row" ng-show="showArea == 'area2'">
+					<ion-scroll class='col related detailScroll' has-bouncing="false" overflow-scroll="false">
 						<div class='unit' ng-if='exhibition.contributors'>
 							<h5>Contributors</h5>
 							<div ng-bind-html="exhibition.contributors"></div> 
@@ -50,16 +49,34 @@
 						<div class='unit' ng-if='exhibition.exhibitions'>
 							<h5>Exhibitions</h5>
 							<div ng-bind-html='exhibition.exhibitions'></div> 
-						</div>	
+						</div>
+                        <br/><br/><br/><br/>
 					</ion-scroll>
-				</div>
+                </div>
+                <div ng-show="showArea == 'area3'" ng-if="exhibition.sound">
+                    <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
+                        <h5>Audio</h5>
+                        <div class='unit' ng-bind-html="exhibition.sound"></div>
+                    </ion-scroll>
+                </div>
+                <div ng-show="showArea == 'area4'" ng-if="exhibition.floor_plan" class="">
+                    <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
+                        <div ng-repeat="floorplanTag in floorplanTags" class="floorPlanExhibitionDetail"><span ng-bind-html="trustAsHtml(floorplanTag)"></span></div>
+                    </ion-scroll>
+                </div>
 			</div>				
 		</div>
 	</div>	
   </ion-content>
   <ion-footer-bar>
-  	<div id="footer" class='menuToggle'>
+      <div class="footerIconBar">
+          <i class="icon icon ion-ios-paper" ng-class='{"red":showArea=="area1"}' ng-if="exhibition.statement || exhibition.description" ng-click="selectShowArea('area1')"></i>
+          <i class="icon icon ion-information-circled" ng-class='{"red":showArea=="area2"}' ng-click="selectShowArea('area2')"></i>
+          <i class="icon icon ion-android-volume-up" ng-class='{"red":showArea=="area3"}' ng-if="exhibition.sound" ng-click="selectShowArea('area3')"></i>
+          <i class="icon icon ion-location" ng-class='{"red":showArea=="area4"}' ng-click="selectShowArea('area4')"></i>
+      </div>
+      <div id="footer" class='menuToggle'>
 		<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
-	</div>
+	  </div>
   </ion-footer-bar> 
 </ion-view>

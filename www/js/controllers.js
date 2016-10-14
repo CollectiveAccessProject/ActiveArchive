@@ -266,44 +266,74 @@ angular.module('mfactivearchive.controllers', [])
 })
 
 .controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log, $sce) {
-
+    $scope.showArea = "area1";
 	$scope.iframe_url = $sce.trustAsResourceUrl(decodeURIComponent("http://w.soundcloud.com"));
 	Artists.get($stateParams.id).then(function(d) {
 		$scope.artist = d;
 		
 		$scope.artist.sound = '';
 		if($scope.artist.soundcloud_playlist_id){
-			$scope.artist.sound = $sce.trustAsHtml(String("<iframe width='240' height='240' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/98645197&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=true&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+			$scope.artist.sound = $sce.trustAsHtml(String("<iframe width='375' height='240' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/" + $scope.artist.soundcloud_playlist_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=true&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
 		}
-       
+                                      
+          if($scope.artist.soundcloud_track_id){
+              $scope.artist.sound = $sce.trustAsHtml(String("<iframe width='375' height='240' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.artist.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=true&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+          }
+                                      
         $ionicSlideBoxDelegate.slide(0);
         $ionicSlideBoxDelegate.update();
+          if(!artist.biography){
+            $scope.showArea = "area2";
+          }
 
 	}, function() {
 		$log.log("Could not load artist");
 	});
+    
+    $scope.selectShowArea = function(area) {
+            $scope.showArea = area;
+    };
 })
 
-.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log, $sce) {    
-	$scope.coordinates = "";
+.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log, $sce) {
+	$scope.floorplanTags = [];
 	$scope.orientation = "";
+    $scope.showArea = "area1";
     Exhibitions.get($stateParams.id).then(function(d) {
         $scope.exhibition = d;
-        console.log("loaded!! ");
-        for (var place_id in $scope.exhibition.floor_plan_coor) {
-			if ($scope.exhibition.floor_plan_coor.hasOwnProperty(place_id)) {
-				coor_entires = $scope.exhibition.floor_plan_coor[place_id];
-				//$log.log($scope.exhibition.floor_plan_coor[place_id]);
-				for (var key in coor_entires) {
-					var tag = "<div class='floorArea coorBlock" + place_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'>" + coor_entires[key].label + "</div>";
-					$scope.coordinates += tag;
-				}
-			}
-		}
-		$scope.coordinates = $sce.trustAsHtml(String($scope.coordinates));
-		$scope.exhibition.floorplan = $sce.trustAsHtml($scope.exhibition.floorplan);
-		
-		console.log("coordinates " + $scope.coordinates);
+        $scope.exhibition.sound = '';
+        if($scope.exhibition.soundcloud_playlist_id){
+            $scope.exhibition.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/" + $scope.exhibition.soundcloud_playlist_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+        }
+
+        if($scope.exhibition.soundcloud_track_id){
+            $scope.exhibition.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.exhibition.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+        }
+        if($scope.exhibition.floor_plan){
+            floor_plans = $scope.exhibition.floor_plan.split("; ");
+            $log.log("floorplans array" + floor_plans[0]);
+            
+        }
+                                          
+                 n = 0;
+                 for (var occ_id in $scope.exhibition.floor_plan_coor) {
+                    if ($scope.exhibition.floor_plan_coor.hasOwnProperty(occ_id)) {
+                        coor_entires = $scope.exhibition.floor_plan_coor[occ_id];
+                        //$log.log($scope.exhibition.floor_plan_coor[occ_id]);
+                        var tag = "";
+                        for (var key in coor_entires) {
+                            tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'>" + coor_entires[key].label + "</div>";
+                        }
+                        $scope.floorplanTags[n] = $sce.trustAsHtml(String(floor_plans[n])) + $sce.trustAsHtml(String(tag));
+                        $log.log($sce.trustAsHtml(String(floor_plans[n])) + $sce.trustAsHtml(String(tag)));
+                    }
+                    n++;
+                }
+                $log.log("floorplanTags" + $scope.floorplanTags[0]);
+
+          if(!$scope.exhibition.statement && !$scope.exhibition.description){
+              $scope.showArea = "area2";
+          }
 		
     }, function() {
         $log.log("Could not load exhibition");
@@ -326,7 +356,11 @@ angular.module('mfactivearchive.controllers', [])
 	};
 	$scope.trustAsHtml = function(html){
 		return $sce.trustAsHtml(String(html));
-	};
+    };
+    
+    $scope.selectShowArea = function(area) {
+            $scope.showArea = area;
+    };
 })
 
 

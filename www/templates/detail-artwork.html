@@ -1,5 +1,5 @@
 <ion-view on-swipe-right="$ionicGoBack()">
-  <ion-content>
+  <ion-content has-bouncing="false" overflow-scroll="false">
 
 	<div id="deviceready" class="viewArea">
 		<div class='contentMain'>
@@ -15,14 +15,15 @@
 			</div>
 			<div class='artistLowerInfo'>
 				<div class="row responsive-md">							
-					<ion-scroll direction="y" class='col col-67 detailScrollTall' ng-if='artwork.statement || artwork.abstract'>
+					<ion-scroll direction="y" class='col col-67 detailScrollTall' ng-if='artwork.statement || artwork.abstract' has-bouncing="false" overflow-scroll="false">
 						<div ng-bind-html="artwork.abstract"></div>
 						<p ng-if='exhibition.statement'>
 							<br/><H5>Artist Statement</H5>
 							<div ng-bind-html="artwork.statement"></div>	
-						</p>					
+						</p>
+                        <br/><br/><br/><br/>
 					</ion-scroll>				
-					<ion-scroll class='col col-33 related detailScrollTall'>
+					<ion-scroll class='col col-33 related detailScrollTall' has-bouncing="false" overflow-scroll="false">
 						<div class='unit' ng-if='artwork.artist'>
 							<h5>Artist</h5>
 							<div ng-bind-html="artwork.artist"></div> 
@@ -39,6 +40,7 @@
 							<h5>Events</h5>
 							<div ng-bind-html='artwork.events'></div> 
 						</div>
+                        <br/><br/><br/><br/>
 					</ion-scroll>
 				</div>
 			</div>				

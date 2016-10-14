@@ -1,5 +1,5 @@
 <ion-view on-swipe-right="$ionicGoBack()">
-  <ion-content>
+  <ion-content has-bouncing="false" overflow-scroll="false">
 
 	<div id="deviceready" class="viewArea">
 		<div class='headerMain'>
@@ -13,38 +13,54 @@
             </div>
 
 			<div class='artistLowerInfo'>
-				<div class="row responsive-md">					
-					<ion-scroll direction="y" class='col col-67 detailScrollTall' ng-if='artist.biography'>
-						<h5>Biography</h5>
-						<div ng-bind-html="artist.biography"></div>				
-					</ion-scroll>
-					<ion-scroll direction="y" class='col col-33 related detailScrollTall'>
-						<!--<div class='unit'>
-							<h5>Audio</h5>
-							<div style='margin-right:10px;'><iframe width="100%" height="70" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/268334580&amp;color=ff5500&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false"></iframe></div>
-						</div>-->
-						<div class='unit' ng-bind-html="artist.sound"></div>
-						<div class='unit' ng-if='artist.artworks'>
-							<h5>Artworks</h5>
-							<div ng-bind-html="artist.artworks"></div> 
-						</div>
-						<div class='unit' ng-if='artist.exhibitions'>
-							<h5>Exhibitions</h5>
-							<div ng-bind-html='artist.exhibitions'></div> 
-						</div>
-						<div class='unit' ng-if='artist.events'>
-							<h5>Events</h5>
-							<div ng-bind-html='artist.events'></div> 
-						</div>	
-					</ion-scroll>
-				</div>
+                <div class="row" ng-show="showArea == 'area1'" ng-if="artist.biography">
+                    <ion-scroll direction="y" class="col detailScrollTall" has-bouncing="false" overflow-scroll="false">
+                        <h5>Biography</h5>
+                        <div ng-bind-html="artist.biography"></div>
+                        <br/><br/><br/><br/>
+                    </ion-scroll>
+                </div>
+                <div class="row" ng-show="showArea == 'area2'">
+                    <ion-scroll direction="y" class='col related detailScrollTall' has-bouncing="false" overflow-scroll="false">
+                        <!--<div class='unit'>
+                         <h5>Audio</h5>
+                         <div style='margin-right:10px;'><iframe width="100%" height="70" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/268334580&amp;color=ff5500&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false"></iframe></div>
+                         </div>-->
+                        
+                        <div class='unit' ng-if='artist.artworks'>
+                            <h5>Artworks</h5>
+                            <div ng-bind-html="artist.artworks"></div>
+                        </div>
+                        <div class='unit' ng-if='artist.exhibitions'>
+                            <h5>Exhibitions</h5>
+                            <div ng-bind-html='artist.exhibitions'></div>
+                        </div>
+                        <div class='unit' ng-if='artist.events'>
+                            <h5>Events</h5>
+                            <div ng-bind-html='artist.events'></div> 
+                        </div>
+                        <br/><br/><br/><br/>
+                    </ion-scroll>
+                </div>
+                <div ng-show="showArea == 'area3'" ng-if="artist.sound">
+                    <h5>Audio</h5>
+                    <div class='unit' ng-bind-html="artist.sound"></div>
+                </div>
+                
+                
 			</div>				
 		</div>
 	</div>	
   </ion-content>
   <ion-footer-bar>
-  	<div id="footer" class='menuToggle'>
-		<a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
-	</div>
+      <div class="footerIconBar">
+          <i class="icon icon ion-ios-paper" ng-class='{"red":showArea=="area1"}' ng-if="artist.biography" ng-click="selectShowArea('area1')"></i>
+          <i class="icon icon ion-information-circled" ng-class='{"red":showArea=="area2"}' ng-click="selectShowArea('area2')"></i>
+          <i class="icon icon ion-android-volume-up" ng-class='{"red":showArea=="area3"}' ng-if="artist.sound" ng-click="selectShowArea('area3')"></i>
+          <i class="icon icon ion-location" ng-class='{"red":showArea=="area4"}' ng-click="selectShowArea('area4')"></i>
+      </div>
+      <div id="footer" class='menuToggle'>
+        <a menu-toggle="left"><img src='img/MF_logo.jpg'></a>
+      </div>
   </ion-footer-bar> 
 </ion-view>

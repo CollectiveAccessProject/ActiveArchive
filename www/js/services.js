@@ -118,7 +118,6 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 		
 		return promise;
     }
-    	
   };
 })
 .factory('Artworks', function($http, dataConfig, $log) {
