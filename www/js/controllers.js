@@ -282,7 +282,9 @@ angular.module('mfactivearchive.controllers', [])
                                       
         $ionicSlideBoxDelegate.slide(0);
         $ionicSlideBoxDelegate.update();
-          if(!artist.biography){
+          if($scope.artist.biography){
+            $scope.showArea = "area1";
+          }else{
             $scope.showArea = "area2";
           }
 
@@ -512,7 +514,7 @@ angular.module('mfactivearchive.controllers', [])
 
 
 
-.controller('MuseumCtrl', function($scope, $stateParams, Museum, $log, $ionicScrollDelegate, $state, buildings) {
+.controller('MuseumCtrl', function($scope, $stateParams, Museum, $log, $ionicScrollDelegate, $state, buildings, $ionicSlideBoxDelegate) {
 	$scope.buildings = buildings;
 	$scope.places = [];
 	$scope.placeNames = [];
@@ -543,15 +545,13 @@ angular.module('mfactivearchive.controllers', [])
 			$state.oldHighlightBuilding = $scope.highlightBuilding;
 		}
 		$scope.highlightBuilding = place_id;
+        $log.log("highlight place id: " + $scope.highlightBuilding);
 		if ($state.oldHighlightBuilding) {
 			angular.element(document.querySelector('#museum_building_' + $state.oldHighlightBuilding)).removeClass('activeBuilding');
 		}
 		angular.element(document.querySelector('#museum_building_' + place_id)).addClass('activeBuilding');
 		
 	};
-	
-	
-	
 	
 })
 .controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings, $ionicScrollDelegate, $sce) {
@@ -637,7 +637,7 @@ $scope.getOrientation = function(fpImg) {
 	// Handle scrolling of exhibition title
 	$scope.getScrollPosition = function(){
 		var t = $ionicScrollDelegate.$getByHandle('floorExhibitionList').getScrollPosition().top - 150;	// distance scrolled from top - minus padding
-		var l = Math.floor(t/150) + 1; // estimate # of lines in we are + 5 to highlight middle result
+		var l = Math.floor(t/150) + 2; // estimate # of lines in we are + # to highlight middle result
 		if (isNaN(l)) { return; }
 		if ((!$state.oldLine) || (l !== $state.oldLine)) {
 			// set current highlight

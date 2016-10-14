@@ -46,9 +46,7 @@
                     <h5>Audio</h5>
                     <div class='unit' ng-bind-html="artist.sound"></div>
                 </div>
-                
-                
-			</div>				
+             </div>				
 		</div>
 	</div>	
   </ion-content>
@@ -57,7 +55,6 @@
           <i class="icon icon ion-ios-paper" ng-class='{"red":showArea=="area1"}' ng-if="artist.biography" ng-click="selectShowArea('area1')"></i>
           <i class="icon icon ion-information-circled" ng-class='{"red":showArea=="area2"}' ng-click="selectShowArea('area2')"></i>
           <i class="icon icon ion-android-volume-up" ng-class='{"red":showArea=="area3"}' ng-if="artist.sound" ng-click="selectShowArea('area3')"></i>
-          <i class="icon icon ion-location" ng-class='{"red":showArea=="area4"}' ng-click="selectShowArea('area4')"></i>
       </div>
       <div id="footer" class='menuToggle'>
         <a menu-toggle="left"><img src='img/MF_logo.jpg'></a>

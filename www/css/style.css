@@ -258,7 +258,7 @@ p {
     padding-left:5px;
 }
 .frontText H1{
-    line-height:.9em;
+    margin-top:20px;
     margin-bottom:70px;
 }
 .frontText H2{
@@ -274,7 +274,7 @@ p {
 }
 /* Artist list*/
 .artistListContainer{
-	padding-top:180px;
+	padding-top:240px;
 }
 .letterBar{
 	opacity:.5;
@@ -368,10 +368,14 @@ p {
 	height:calc(100vh - 300px);
 	border-bottom:2px solid #FFF;
 	margin-bottom:10px;
+    margin-top:10px;
+}
+.buildingContainer .slider-pager .slider-pager-page{
+    color:#fff;
 }
 .building{
 	text-align:center;
-	height:400px;
+	height:calc(100vh - 300px);
 	font-size:18px;
 	color: #FFFFFF;
 	text-transform:uppercase;
@@ -387,7 +391,8 @@ p {
 	filter: blur(.7px);
 	height:300px;
 	width:auto;
-	margin-bottom:10px;
+    margin-bottom:5px;
+	margin-top:calc((100vh - 640px) / 2);
 }
 .building.activeBuilding{
 	opacity:1;
@@ -552,11 +557,11 @@ p {
 }
 */
 .floorExhibitionList{
-	height:620px;
+	height:calc(100vh - 94px); /* 50 bar-footer height + 44 .bar (header) */
 }
 .floorExhibitionList div.list{
 	padding-bottom:400px !important;
-	padding-top:150px !important;
+	padding-top:200px !important;
 }
 .floorExhibitionList .item {
 	border-width:0px;
@@ -650,6 +655,7 @@ p {
 	position:absolute;
 	left:20px;
 	top:0px;
+    z-index:10;
 }
 .floorSubTitle{
 	font-family: "ProximaNova";
@@ -657,9 +663,9 @@ p {
 /* iPads (portrait) ----------- */
 /*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
 @media only screen and (orientation : portrait) {
-	.floorExhibitionList{
+	/*.floorExhibitionList{
 		height:900px;
-	}
+	}*/
 	.floorTitle{
 		font-size: 25px;
 	}

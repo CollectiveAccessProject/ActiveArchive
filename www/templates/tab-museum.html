@@ -1,13 +1,22 @@
 <ion-view <!--view-title="Explore the Museum"-->>
   <ion-content has-bouncing="false" overflow-scroll="false">
-	<ion-scroll direction="y" class='buildingContainer' has-bouncing="false" overflow-scroll="false">
+	
+    <ion-slide-box class='buildingContainer' does-continue="true" auto-play="false" interval="3000" show-pager="true" ng-if="buildings"  on-slide-changed="highlightTheBuilding(buildings[$index + 1].place_id)">
+        <ion-slide ng-repeat="building in buildings" class="building"  ng-class="(highlightBuilding==building.place_id ? ' activeBuilding' : '')" id="museum_building_{{building.place_id}}" ng-click="highlightTheBuilding({{building.place_id}});">
+                <img src='img/{{building.image}}'>
+				<br/>{{placeNames[building.place_id]}}
+        </ion-slide>
+    </ion-slide-box>
+    
+    
+   <!-- <ion-scroll direction="y" class='buildingContainer' has-bouncing="false" overflow-scroll="false">
 		<div class="row responsive-lg buildings">
 			<div ng-repeat="building in buildings" class="col building" ng-class="(highlightBuilding==building.place_id ? ' activeBuilding' : '') + ($index==0 ? ' col-50' : ' col-25')" id="museum_building_{{building.place_id}}" ng-click="highlightTheBuilding({{building.place_id}});">
 				<img src='img/{{building.image}}'>
 				<br/>{{placeNames[building.place_id]}}
 			</div>
 		</div>
-	</ion-scroll>
+	</ion-scroll>-->
 	<div ng-repeat="place in places" class="buildingFloorplans">
 		<ion-scroll direction="x" class="buildingFloorplansScroll" ng-show="highlightBuilding == {{place.place_id}}" has-bouncing="false" overflow-scroll="false">
 			<div ng-bind-html="place.children"></div>
