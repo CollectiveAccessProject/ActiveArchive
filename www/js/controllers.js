@@ -273,11 +273,11 @@ angular.module('mfactivearchive.controllers', [])
 		
 		$scope.artist.sound = '';
 		if($scope.artist.soundcloud_playlist_id){
-			$scope.artist.sound = $sce.trustAsHtml(String("<iframe width='375' height='240' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/" + $scope.artist.soundcloud_playlist_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=true&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+			$scope.artist.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/" + $scope.artist.soundcloud_playlist_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
 		}
                                       
           if($scope.artist.soundcloud_track_id){
-              $scope.artist.sound = $sce.trustAsHtml(String("<iframe width='375' height='240' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.artist.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;visual=true&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+              $scope.artist.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.artist.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
           }
                                       
         $ionicSlideBoxDelegate.slide(0);
