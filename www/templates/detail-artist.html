@@ -46,6 +46,31 @@
                     <h5>Audio</h5>
                     <div class='unit' ng-bind-html="artist.sound"></div>
                 </div>
+                <div ng-show="showArea == 'area5'" >
+                    <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
+                        <div class='unit comments'>
+							<h5>Comments</h5>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis fermentum odio. Nam tempus odio quis metus venenatis, mollis maximus enim pellentesque.
+                                <small>John, 10/14/2016</small>
+                            </p>
+                            <p>
+                                Curabitur auctor cursus gravida. Duis blandit magna nisl, at pulvinar orci porta sit amet. Curabitur faucibus, est a placerat ultrices, urna mi convallis lectus, non egestas est purus ac turpis. Phasellus aliquam, metus vel luctus pulvinar, metus enim sodales lacus, sit amet sollicitudin odio neque a sapien. Sed ultricies arcu diam, a tristique erat gravida at. Donec id mauris sem.
+                                <small>Jane, 10/13/2016</small>
+                            </p>
+                        </div>
+                        <div class='unit commentForm'>
+                            <h5>Add Your Comment</h5>
+                            <form>
+                                <p>
+                                    <input type="text" name="firstname" placeholder="First name"> <input class="search-bar" type="text" name="lastname" placeholder="Last name"> <input type="text" name="email" placeholder="Email"> <button type="submit"><i class="icon icon ion-android-done"></i></button>
+                                </p>
+                                <textarea placholder="Enter your comment..."></textarea>
+                                
+                            </form>
+                        </div>
+                    </ion-scroll>
+                </div>
              </div>				
 		</div>
 	</div>	
@@ -55,6 +80,7 @@
           <i class="icon icon ion-ios-paper" ng-class='{"red":showArea=="area1"}' ng-if="artist.biography" ng-click="selectShowArea('area1')"></i>
           <i class="icon icon ion-information-circled" ng-class='{"red":showArea=="area2"}' ng-click="selectShowArea('area2')"></i>
           <i class="icon icon ion-android-volume-up" ng-class='{"red":showArea=="area3"}' ng-if="artist.sound" ng-click="selectShowArea('area3')"></i>
+          <i class="icon icon ion-chatbox" ng-class='{"red":showArea=="area5"}' ng-click="selectShowArea('area5')"></i>
       </div>
       <div id="footer" class='menuToggle'>
         <a menu-toggle="left"><img src='img/MF_logo.jpg'></a>

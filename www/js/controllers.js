@@ -372,6 +372,10 @@ angular.module('mfactivearchive.controllers', [])
 	}, function() {
 		$log.log("Could not load artwork");
 	});
+    $scope.showArea = "area1";
+	$scope.selectShowArea = function(area) {
+            $scope.showArea = area;
+    };
 })
 .controller('MuseumCtrl_1', function($scope, $stateParams, Museum, Exhibitions, $log, $ionicScrollDelegate, $state, buildings) {
 	$scope.buildings = buildings;
