@@ -135,7 +135,24 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 		});
 		
 		return promise;
-	}
+	},
+	loadFloor: function(s, l, id) {
+    	if (s < 1) { s = 0; }
+    	if (l < 1) { l = 20; }
+    	
+    	$log.log('loading floor exhibitions');
+    	var promise = $http({
+		method : 'POST',
+		url : dataConfig.backend + '/service.php/simple/artworks?q=ca_places.place_id:' + id  + '&limit=' + l + '&start=' + s + '&noCache=' + dataConfig.noCache
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data['data'];
+		}, function() { 
+			$log.log("Error loading floor artworks");
+		});
+		
+		return promise;
+    }
     	
   };
 })
