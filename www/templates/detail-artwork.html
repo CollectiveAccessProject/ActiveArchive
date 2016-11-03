@@ -28,10 +28,6 @@
 							<h5>Contributors</h5>
 							<div ng-bind-html="artwork.contributors"></div> 
 						</div>
-						<div class='unit' ng-if='artwork.events'>
-							<h5>Events</h5>
-							<div ng-bind-html='artwork.events'></div> 
-						</div>
                         <div ng-bind-html="artwork.abstract"></div>
 						<p ng-if='artwork.statement'>
 							<br/><H5 ng-if='artwork.statement'>Artist Statement</H5>
@@ -42,26 +38,32 @@
 				</div>
                 <div ng-show="showArea == 'area5'" >
                     <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
-                        <div class='unit comments'>
-							<h5>Comments</h5>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis fermentum odio. Nam tempus odio quis metus venenatis, mollis maximus enim pellentesque.
-                                <small>John, 10/14/2016</small>
-                            </p>
-                            <p>
-                                Curabitur auctor cursus gravida. Duis blandit magna nisl, at pulvinar orci porta sit amet. Curabitur faucibus, est a placerat ultrices, urna mi convallis lectus, non egestas est purus ac turpis. Phasellus aliquam, metus vel luctus pulvinar, metus enim sodales lacus, sit amet sollicitudin odio neque a sapien. Sed ultricies arcu diam, a tristique erat gravida at. Donec id mauris sem.
-                                <small>Jane, 10/13/2016</small>
-                            </p>
-                        </div>
-                        <div class='unit commentForm'>
-                            <h5>Add Your Comment</h5>
-                            <form>
-                                <p>
-                                    <input type="text" name="firstname" placeholder="First name"> <input class="search-bar" type="text" name="lastname" placeholder="Last name"> <input type="text" name="email" placeholder="Email"> <button type="submit"><i class="icon icon ion-android-done"></i></button>
-                                </p>
-                                <textarea placholder="Enter your comment..."></textarea>
-                                
-                            </form>
+                        <div class="row responsive-md">
+                            <div class="col">
+                                <div class='unit' ng-show='commentSubmitted'>
+                                    <h5 class="red">Thank you for contributing!</h5>
+                                    Your comment has been submitted and will be posted after review.
+                                </div>
+                                <div class='unit commentForm' ng-hide='commentSubmitted'>
+                                    <h5>Add Your Comment</h5>
+                                    <form name="commentForm" id="commentForm" novalidate="" ng-submit="submitComment(commentForm)">
+                                        <p ng-show="formError" class="red">
+                                            <b>There are errors with your form: {{formErrorMessage}}</b>
+                                        </p>
+                                        <p>
+                                            <input type="text" name="name" ng-model="comment.name" placeholder="Name"> <input type="email" ng-model="comment.email" name="email" placeholder="Email"> <button type="submit"><i class="icon icon ion-android-done"></i></button>
+                                        </p>
+                                        <textarea name="comment" ng-model="comment.comment" placeholder="Enter your comment..."></textarea>
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class='unit comments' ng-if='artwork.comments'>
+                                    <h5>Comments</h5>
+                                    <div ng-bind-html="artwork.comments"></div>
+                                </div>
+                            </div>
                         </div>
                     </ion-scroll>
                 </div>

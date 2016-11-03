@@ -26,6 +26,9 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
         $cordovaBeacon.startRangingBeaconsInRegion($cordovaBeacon.createBeaconRegion("estimote", "b9407f30-f5f8-466e-aff9-25556b57fe6d"));
     });
 })
+.controller('About', function($scope, $ionicSideMenuDelegate) {
+ 	
+})
 
 .controller('ArtistsCtrl', function($scope, $stateParams, Artists, $ionicScrollDelegate, $state) {
 	// With the new view caching in Ionic, Controllers are only called
@@ -98,8 +101,8 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 
 	var exhibitionsLoaded = 0;
 	$scope.decades = ["1980-1989", "1990-1999", "2000-2009", "2010-2019"];
-	
-	if($stateParams.decade && ($scope.decades.indexOf($stateParams.decade) != -1)){
+	$scope.decadeTitles = [{"title" : "1980's", "var" : "1980-1989"}, {"title" : "1990's", "var" : "1990-1999"}, {"title" : "2000's", "var" : "2000-2009"}, {"title" : "2010's", "var" : "2010-2019"}];
+    if($stateParams.decade && ($scope.decades.indexOf($stateParams.decade) != -1)){
 		$scope.decade = $stateParams.decade;
 	}else{
 		$scope.decade = $scope.decades[$scope.decades.length - 1];
@@ -285,7 +288,7 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	};
 })
 
-.controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log, $sce) {
+.controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log, $sce, Comments) {
     $scope.showArea = "area1";
 	$scope.iframe_url = $sce.trustAsResourceUrl(decodeURIComponent("http://w.soundcloud.com"));
 	Artists.get($stateParams.id).then(function(d) {
@@ -302,11 +305,7 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
                                       
         $ionicSlideBoxDelegate.slide(0);
         $ionicSlideBoxDelegate.update();
-          if($scope.artist.biography){
-            $scope.showArea = "area1";
-          }else{
-            $scope.showArea = "area2";
-          }
+        $scope.showArea = "area1";
 
 	}, function() {
 		$log.log("Could not load artist");
@@ -315,12 +314,51 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
     $scope.selectShowArea = function(area) {
             $scope.showArea = area;
     };
+    
+    $scope.addComment = function() {
+		Comments.set().then(function(d) {
+			console.log("comment saved");
+		});
+	};
+    
+    
+    $scope.comment = [];
+    $scope.commentSubmitted = 0;
+    $scope.submitComment = function(commentForm) {
+        $scope.formError = 0;
+        $scope.formErrorMessage = "";
+        if(!$scope.comment.email || commentForm.email.$invalid){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter a valid email address.";
+        }
+        if(!$scope.comment.name){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your name.";
+        }
+        if(!$scope.comment.comment){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your comment.";
+        }
+        
+        //$log.log('Form: ');
+        //$log.log('Comment' + $scope.comment.comment);
+        //$log.log('First name' + $scope.comment.firstname);
+       
+        if(!$scope.formError){
+            Comments.set(20, $scope.artist.entity_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
+                console.log("comment saved");
+                $scope.commentSubmitted = 1;
+            });
+        }
+    };
+
 })
 
-.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log, $sce) {
+.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log, $sce, Comments) {
 	$scope.floorplanTags = [];
 	$scope.orientation = "";
     $scope.showArea = "area1";
+    $scope.floor_plan_titles = [];
     Exhibitions.get($stateParams.id).then(function(d) {
         $scope.exhibition = d;
         $scope.exhibition.sound = '';
@@ -332,9 +370,13 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
             $scope.exhibition.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.exhibition.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
         }
         if($scope.exhibition.floor_plan){
-            floor_plans = $scope.exhibition.floor_plan.split("; ");
+            floor_plans = $scope.exhibition.floor_plan.split(";");
             $log.log("floorplans array" + floor_plans[0]);
             
+        }
+        if($scope.exhibition.floor_plan_title){
+            $scope.floor_plan_titles = $scope.exhibition.floor_plan_title.split("; ");
+
         }
                                           
                  n = 0;
@@ -344,7 +386,19 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
                         //$log.log($scope.exhibition.floor_plan_coor[occ_id]);
                         var tag = "";
                         for (var key in coor_entires) {
-                            tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'>" + coor_entires[key].label + "</div>";
+                            $log.log("coors: " + coor_entires[key].type);
+//                            if(coor_entires[key].type == "poly"){
+//                                points = coor_entires[key].points;
+//                                coor_points = "";
+//                                for (var keyp in points) {
+ //                                   $log.log(points[keyp]);
+ //                                   coor_points += points[keyp].x + "% " + points[keyp].y + "% , ";
+ //                               }
+                                 
+                            //tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='-moz-clip-path: polygon(" + coor_points + "); -webkit-clip-path: polygon(" + coor_points + "); clip-path: polygon(" + coor_points + "); width:100%; height:100%; left:0px; top:0px;'><span>" + coor_entires[key].label + "</span></div>";
+ //                           }else{
+                                tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'><span>" + coor_entires[key].label + "</span></div>";
+ //                           }
                         }
                         $scope.floorplanTags[n] = $sce.trustAsHtml(String(floor_plans[n])) + $sce.trustAsHtml(String(tag));
                         $log.log($sce.trustAsHtml(String(floor_plans[n])) + $sce.trustAsHtml(String(tag)));
@@ -353,9 +407,6 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
                 }
                 $log.log("floorplanTags" + $scope.floorplanTags[0]);
 
-          if(!$scope.exhibition.statement && !$scope.exhibition.description){
-              $scope.showArea = "area2";
-          }
 		
     }, function() {
         $log.log("Could not load exhibition");
@@ -381,12 +432,42 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
     };
     
     $scope.selectShowArea = function(area) {
-            $scope.showArea = area;
+        $scope.showArea = area;
+    };
+    
+    $scope.comment = [];
+    $scope.commentSubmitted = 0;
+    $scope.submitComment = function(commentForm) {
+        $scope.formError = 0;
+        $scope.formErrorMessage = "";
+        if(!$scope.comment.email || commentForm.email.$invalid){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter a valid email address.";
+        }
+        if(!$scope.comment.name){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your name.";
+        }
+        if(!$scope.comment.comment){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your comment.";
+        }
+        
+        //$log.log('Form: ');
+        //$log.log('Comment' + $scope.comment.comment);
+        //$log.log('First name' + $scope.comment.firstname);
+       
+        if(!$scope.formError){
+            Comments.set(67, $scope.exhibition.occurrence_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
+                console.log("comment saved");
+                $scope.commentSubmitted = 1;
+            });
+        }
     };
 })
 
 
-.controller('ArtworkDetailCtrl', function($scope, $stateParams, Artworks, $log) {
+.controller('ArtworkDetailCtrl', function($scope, $stateParams, Artworks, $log, Comments) {
 	Artworks.get($stateParams.id).then(function(d) {
 		$scope.artwork = d;
 	}, function() {
@@ -396,148 +477,37 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	$scope.selectShowArea = function(area) {
             $scope.showArea = area;
     };
+    
+    $scope.comment = [];
+    $scope.commentSubmitted = 0;
+    $scope.submitComment = function(commentForm) {
+        $scope.formError = 0;
+        $scope.formErrorMessage = "";
+        if(!$scope.comment.email || commentForm.email.$invalid){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter a valid email address.";
+        }
+        if(!$scope.comment.name){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your name.";
+        }
+        if(!$scope.comment.comment){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your comment.";
+        }
+        
+        //$log.log('Form: ');
+        //$log.log('Comment' + $scope.comment.comment);
+        //$log.log('First name' + $scope.comment.firstname);
+       
+        if(!$scope.formError){
+            Comments.set(13, $scope.artwork.collection_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
+                console.log("comment saved");
+                $scope.commentSubmitted = 1;
+            });
+        }
+    };
 })
-.controller('MuseumCtrl_1', function($scope, $stateParams, Museum, Exhibitions, $log, $ionicScrollDelegate, $state, buildings) {
-	$scope.buildings = buildings;
-	$scope.parent_ids = [];
-	$scope.exhibitions = [];
-	$scope.completeFloors = [];
-	//$log.log(buildings);
-	for (var key in buildings) {
-	  if (buildings.hasOwnProperty(key)) {
-		  //$log.log("what? " + buildings[key].name + buildings[key].place_id);
-		  $scope.parent_ids.push(Number(buildings[key].place_id));
-	  }
-	}
-	var exhibitionsLoaded = 0;
-	
-	if($stateParams.parent_id && ($scope.parent_ids.indexOf(Number($stateParams.parent_id)) != -1)){
-		$scope.parent_id = $stateParams.parent_id;
-	}else{
-		$scope.parent_id = $scope.parent_ids[0];
-	}
-	Museum.load($scope.parent_id).then(function(d) {
-		$scope.place = d;
- 		$scope.highlightFloor = d[0]['place_id'];
-		$scope.oldHighlightFloor = d[0]['place_id'];
-		for (var key in $scope.place) {
-		  if ($scope.place.hasOwnProperty(key)) {
-			console.log("initial loading exhibitions for : " + $scope.place[key].place_id);
-			p = $scope.place[key].place_id;
-			Exhibitions.loadBuilding(p, 0, 40).then(function(e) {
-				//returns array[floor_id, results]
-				$scope.exhibitions[Number(e[0])] = e[1];
-				console.log("completed initial loading exhibitions for : " + e[0]);
-				console.log($scope.exhibitions[Number(e[0])]);
-			});
-		  }
-		}
-
-	}, function() {
-		$log.log("Could not load place");
-	});
-	
-	$scope.loadMoreExhibitionsForFloor = function(floor_id) {	
-		$log.log("trying to load more" + $scope.exhibitions);
-		if($scope.exhibitions[Number(floor_id)]){
-			$log.log("loading more exhibitions for : " + floor_id + "already loaded " + $scope.exhibitions[Number(floor_id)].length);
-			Exhibitions.loadBuilding(floor_id, $scope.exhibitions[Number(floor_id)].length, 40).then(function(e) {
-				//returns array[floor_id, results]
-				if(!e[1]){
-					$log.log("Failed!!!");
-					$scope.completeFloors.push(Number(e[0]));
-					$scope.$broadcast('scroll.infiniteScrollComplete');
-				}else{
-					$log.log("results found!!!!");
-					$scope.exhibitions[Number(e[0])].concat(e[1]);
-					$scope.$broadcast('scroll.infiniteScrollComplete');
-				}
-			});
-		}
-	};
-	$scope.floorComplete = function(floor_id) {	
-		$log.log("checking floor complete " + $scope.completeFloors.indexOf(Number(floor_id)));
-		if($scope.completeFloors.indexOf(Number(floor_id)) > -1){
-			return false;
-		}else{
-			return true;
-		}
-	};
-	
-	// Handle scrolling of floors
-	var museumScrollDelegate = $ionicScrollDelegate.$getByHandle('museumListRow');
-	$scope.getScrollPosition = function(){
-		if(!$state.oldHighlightFloor){
-			$state.oldHighlightFloor = $scope.highlightFloor;
-		}
-		var t = parseInt(museumScrollDelegate.getScrollPosition().top);	// distance scrolled from top
-
-		if (isNaN(t)) { return; }
-		if (t < 0) { t = 0; }
-		var l = Math.floor(t/200); // estimate # of lines in we are
-		if (isNaN(l)) { return; }
-		if ((!$state.oldLine) || (l !== parseInt($state.oldLine))) {
-			// set current highlight
-			if (!$scope.place[l]) { return; }
-			if ($state.oldHighlightFloor) {
-				angular.element(document.querySelector('#museum_floor_' + $state.oldHighlightFloor)).removeClass('activeFloor');
-			}
-			angular.element(document.querySelector('#museum_floor_' + $scope.place[l]['place_id'])).addClass('activeFloor');
-			$state.oldLine = l;
-			$state.oldHighlightFloor =  $scope.place[l]['place_id'];
-		}
-	};
-	
-	
-	
-})
-.controller('MuseumDetailCtrl_1', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings) {
-	$scope.buildings = buildings;
-	var exhibitionsLoaded = 0;
-	$scope.showExhibition = null;
-	
-	Museum.get($stateParams.id).then(function(d) {
-		$scope.floor = d;
-
-
-	}, function() {
-		$log.log("Could not load place");
-	});
-	if($stateParams.exhibition){
-		$scope.showExhibition = $stateParams.exhibition;
-	}
-
-	Exhibitions.loadFloor(0,40,$stateParams.id).then(function(e) {
-		$scope.exhibitions = e;
-		exhibitionsLoaded = e.length;
-		if(!$scope.showExhibition){
-			$scope.showExhibition = $scope.exhibitions[0].occurrence_id;
-			console.log("highlighting exhibiton");
-		}
-	});
-	$scope.loadMoreExhibitions = function() {
-		Exhibitions.loadFloor(exhibitionsLoaded, 40,$stateParams.id).then(function(d) {
-			$scope.exhibitions = $scope.exhibitions.concat(d);
-			exhibitionsLoaded = $scope.exhibitions.length;
-			console.log("exhibitions loaded " + exhibitionsLoaded);
-			$scope.$broadcast('scroll.infiniteScrollComplete');
-		});
-	};
-	
-	$scope.showExhibitionInfo= function(showExhibition, $event){
-		$scope.showExhibition = showExhibition;
-		if ($event) { $event.stopPropagation(); }
-	};
-//	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
-//		angular.element(document.querySelectorAll('.exhibitionListItem')).css('opacity', '.3');
-//		$scope.highlightExhibition = highlightExhibition;
-//		angular.element(document.querySelector('#exhibition_' + highlightExhibition).previousElementSibling).css('opacity', '.7');
-//		if ($event) {$event.stopPropagation(); }
-//	};
-})
-
-
-
 .controller('MuseumCtrl', function($scope, $stateParams, Museum, $log, $ionicScrollDelegate, $state, buildings, $ionicSlideBoxDelegate) {
 	$scope.buildings = buildings;
 	$scope.places = [];
@@ -578,7 +548,109 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	};
 	
 })
-.controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings, $ionicScrollDelegate, $sce) {
+.controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Artworks, $location, $state, $log, buildings, $ionicScrollDelegate, $sce) {
+	$scope.buildings = buildings;
+	var artworksLoaded = 0;
+	$scope.highlightArtwork = null;
+	$scope.coordinates = "";
+	$scope.orientation = "";
+	
+	Museum.get($stateParams.id).then(function(d) {
+		$scope.floor = d;
+		for (var collection_id in $scope.floor.floor_plan_coor) {
+			if ($scope.floor.floor_plan_coor.hasOwnProperty(collection_id)) {
+				coor_entires = $scope.floor.floor_plan_coor[collection_id];
+				$log.log("collection_id: " + collection_id);
+                $log.log($scope.floor.floor_plan_coor[collection_id]);
+				for (var key in coor_entires) {
+					var tag = "<div class='floorArea coorBlock" + collection_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'></div>";
+					$scope.coordinates += tag;
+				}
+			}
+		}
+		$scope.coordinates = $sce.trustAsHtml(String($scope.coordinates));
+		$scope.floor.floorplan = $sce.trustAsHtml($scope.floor.floorplan);
+	}, function() {
+		$log.log("Could not load place");
+	});
+	
+	Artworks.loadFloor(0,32,$stateParams.id).then(function(d) {
+		$scope.artworks = d;
+		artworksLoaded = d.length;
+		$scope.$broadcast('scroll.infiniteScrollComplete');
+		// Highlight first artwork in list
+		$scope.highlightArtwork = d[0]['collection_id'];
+		// Highlight first artwork floorplans
+		$scope.highlightCoor(d[0]['collection_id']);
+	});
+	
+    $scope.getOrientation = function(fpImg) {
+        if(fpImg && !$scope.orientation){
+            var orientation = "Horizontal";
+            //var width = fpImg.match("(?=width=').*?(?=')");
+            var parts = fpImg.split("'");
+            if((parts[3]/parts[5]) < 1){
+                orientation = "Vertical";
+            }
+            if((parts[3]/parts[5]) < .5){
+                orientation = "SkinnyVertical";
+            }
+        }
+
+        return orientation;
+    };
+	
+	$scope.loadNextArtworkPage = function() {
+		Artworks.loadFloor(artworksLoaded, 32,$stateParams.id).then(function(d) {
+			$scope.artworks = $scope.artworks.concat(d);
+			artworksLoaded = $scope.artworks.length;
+			console.log("artworks loaded " + artworksLoaded);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+
+			// Highlight first artwork in list
+			$scope.showArtwork = $scope.highlightArtwork = d[0]['collection_id'];
+		});
+	};
+	
+	$scope.highlightArtworkTitle= function(highlightArtwork, $event){
+		angular.element(document.querySelectorAll('.floorArtworkListItem')).css('opacity', '.3');
+		$scope.highlightArtwork = highlightArtwork;
+		angular.element(document.querySelector('#artwork_' + highlightArtwork).previousElementSibling).css('opacity', '.7');
+		if ($event) {$event.stopPropagation(); }
+	};
+	
+	$scope.highlightCoor = function(collection_id){
+		$log.log("highlight collection_id: " + collection_id);
+        angular.element(document.querySelectorAll('.floorArea')).css('display', 'none');
+		angular.element(document.querySelectorAll('.coorBlock' + collection_id)).css('display', 'block');
+	};
+	
+	// Handle scrolling of artwork column
+	$scope.getScrollPosition = function(){
+		var t = $ionicScrollDelegate.$getByHandle('floorArtworkList').getScrollPosition().top - 200;	// distance scrolled from top - minus padding
+		var l = Math.floor(t/350) + 1; // estimate # of lines in we are + # to highlight middle result
+		if (isNaN(l)) { return; }
+		if ((!$state.oldLine) || (l !== $state.oldLine)) {
+			// set current highlight
+			$scope.highlightCoor($scope.artworks[l]['collection_id']);
+			$scope.highlightArtworkTitle($scope.artworks[l]['collection_id']);
+
+			// force view to reload
+			//$state.reload();
+			angular.element(document.querySelector('#artwork_' + $scope.artworks[l]['collection_id'])).triggerHandler('click');
+
+			$state.oldScrollTop = t;
+			$state.oldLine = l;
+		}
+	};	
+	
+	$scope.trustAsHtml = function(html){
+		return $sce.trustAsHtml(String(html));
+	};
+
+})
+
+.controller('MuseumDetailCtrl_2', function($scope, $stateParams, Museum, Exhibitions, $location, $state, $log, buildings, $ionicScrollDelegate, $sce) {
 	$scope.buildings = buildings;
 	var exhibitionsLoaded = 0;
 	//$scope.showExhibition = null;
@@ -642,10 +714,6 @@ $scope.getOrientation = function(fpImg) {
 		});
 	};
 	
-	// $scope.showExhibitionInfo= function(showExhibition, $event){
-// 		$scope.showExhibition = showExhibition;
-// 		if ($event) { $event.stopPropagation(); }
-// 	};
 	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
 		angular.element(document.querySelectorAll('.floorExhibitionListItem')).css('opacity', '.3');
 		$scope.highlightExhibition = highlightExhibition;
@@ -680,64 +748,6 @@ $scope.getOrientation = function(fpImg) {
 	$scope.trustAsHtml = function(html){
 		return $sce.trustAsHtml(String(html));
 	};
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-// 	if($stateParams.exhibition){
-// 		$scope.showExhibition = $stateParams.exhibition;
-// 	}
-// 
-// 	Exhibitions.loadFloor(0,40,$stateParams.id).then(function(e) {
-// 		$scope.exhibitions = e;
-// 		exhibitionsLoaded = e.length;
-// 		if(!$scope.showExhibition){
-// 			$scope.showExhibition = $scope.exhibitions[0].occurrence_id;
-// 			console.log("highlighting exhibiton");
-// 		}
-// 	});
-// 	$scope.loadMoreExhibitions = function() {
-// 		Exhibitions.loadFloor(exhibitionsLoaded, 40,$stateParams.id).then(function(d) {
-// 			$scope.exhibitions = $scope.exhibitions.concat(d);
-// 			exhibitionsLoaded = $scope.exhibitions.length;
-// 			console.log("exhibitions loaded " + exhibitionsLoaded);
-// 			$scope.$broadcast('scroll.infiniteScrollComplete');
-// 		});
-// 	};
-// 	
-// 	$scope.showExhibitionInfo= function(showExhibition, $event){
-// 		$scope.showExhibition = showExhibition;
-// 		if ($event) { $event.stopPropagation(); }
-// 	};
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	$scope.highlightExhibitionTitle= function(highlightExhibition, $event){
-//		angular.element(document.querySelectorAll('.exhibitionListItem')).css('opacity', '.3');
-//		$scope.highlightExhibition = highlightExhibition;
-//		angular.element(document.querySelector('#exhibition_' + highlightExhibition).previousElementSibling).css('opacity', '.7');
-//		if ($event) {$event.stopPropagation(); }
-//	};
+
 });
 
