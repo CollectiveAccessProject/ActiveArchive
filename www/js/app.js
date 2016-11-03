@@ -2,7 +2,7 @@
 	// the 2nd parameter is an array of 'requires'
 	// 'mfactivearchive.services' is found in services.js
 	// 'mfactivearchive.controllers' is found in controllers.js
-	angular.module('mfactivearchive', ['ionic', 'mfactivearchive.config', 'mfactivearchive.controllers', 'mfactivearchive.services'])
+	angular.module('mfactivearchive', ['ionic', 'mfactivearchive.config', 'mfactivearchive.controllers', 'mfactivearchive.services', 'ngCordovaBeacon'])
 
 	.run(function($ionicPlatform) {
 		$ionicPlatform.ready(function() {

@@ -1,10 +1,30 @@
-angular.module('mfactivearchive.controllers', [])
+angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 .config(function ($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://google.com/']);
 })
  
-.controller('FrontCtrl', function($scope, $ionicSideMenuDelegate) {
+.controller('FrontCtrl', function($scope, $rootScope, $ionicPlatform, $ionicSideMenuDelegate, $cordovaBeacon) {
  	
+ 	$scope.beacons = {};
+ 	
+    $ionicPlatform.ready(function() {
+		$cordovaBeacon.requestWhenInUseAuthorization();
+        $scope.beacon ="Looking for beacons...";
+        
+        $rootScope.$on("$cordovaBeacon:didRangeBeaconsInRegion", function(event, pluginResult) {
+            var uniqueBeaconKey;
+            $scope.beacon = '';
+            for(var i = 0; i < pluginResult.beacons.length; i++) {
+                uniqueBeaconKey = pluginResult.beacons[i].uuid + ":" + pluginResult.beacons[i].major + ":" + pluginResult.beacons[i].minor;
+                $scope.beacons[uniqueBeaconKey] = pluginResult.beacons[i];
+                $scope.beacon += "Found beacon " + uniqueBeaconKey + " (" + pluginResult.beacons[i].accuracy + ")\n";
+            }
+            $scope.$apply();
+            
+        });
+
+        $cordovaBeacon.startRangingBeaconsInRegion($cordovaBeacon.createBeaconRegion("estimote", "b9407f30-f5f8-466e-aff9-25556b57fe6d"));
+    });
 })
 
 .controller('ArtistsCtrl', function($scope, $stateParams, Artists, $ionicScrollDelegate, $state) {
@@ -15,7 +35,7 @@ angular.module('mfactivearchive.controllers', [])
 	//
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
-
+	
 	var artistLetter = "a";
 	$scope.letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 	var nextArtistLetter = $scope.letters[$scope.letters.indexOf(artistLetter) + 1];
