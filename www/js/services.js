@@ -1,9 +1,25 @@
 angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 
+.factory('Comments', function($http, dataConfig, $log) {
+  return {
+    set: function(table_num, row_id, comment, email, name) {
+		var promise = $http({
+			method : 'PUT',
+			url : dataConfig.backend + '/service.php/item/ca_item_comments',
+            data : {"intrinsic_fields" : {"table_num": table_num, "row_id": row_id, "user_id": "null", "comment": comment, "email": email, "name": name, "access": "0"}}
+		}).then(function(response) {
+			$log.log('response sent');
+			return response;
+		}, function() { 
+			$log.log("Error saving comment");
+		});
+		
+		return promise;
+	}	
+  };
+})
 .factory('Artists', function($http, dataConfig, $log) {
-  // Might use a resource here that returns a JSON array
-
- 	  
+   	  
   return {
     load: function(letter) {
     	

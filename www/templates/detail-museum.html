@@ -2,12 +2,12 @@
   <ion-content>
 		<div class="floorTitle">{{floor.parent}}<br/><span class='floorSubTitle'>{{floor.name}}</span></div>
 		<div class="row">
-			<ion-scroll class="col col-50 col-center" has-bouncing="false" overflow-scroll="false">
+			<ion-scroll class="col col-40 col-center" has-bouncing="false" overflow-scroll="false">
 				<div id="floorPlan">
 					<span ng-bind-html="trustAsHtml(floor.floor_plan + coordinates)" class="fpOrientation{{getOrientation(floor.floor_plan)}}"></span>
 				</div>
 			</ion-scroll>
-			<ion-scroll class="col col-50 floorArtworkList" delegate-handle="floorArtworkList" on-scroll="getScrollPosition()" has-bouncing="false" overflow-scroll="false">
+			<ion-scroll class="col col-60 floorArtworkList" delegate-handle="floorArtworkList" on-scroll="getScrollPosition()" has-bouncing="false" overflow-scroll="false">
 				<ion-list>
 					<ion-item class='floorArtworkListItem item-text-wrap' ng-class='{"active":highlightArtwork=={{artwork.collection_id}}}' ng-repeat="artwork in artworks" type="item-text-wrap" id="artwork_{{artwork.collection_id}}" ng-click="highlightCoor({{artwork.collection_id}}); highlightArtworkTitle({{artwork.collection_id}});">
 						<div class="artworkImage" ng-if='artwork.pic' ng-bind-html='artwork.pic'></div>

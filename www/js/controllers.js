@@ -6,6 +6,9 @@ angular.module('mfactivearchive.controllers', [])
 .controller('FrontCtrl', function($scope, $ionicSideMenuDelegate) {
  	
 })
+.controller('About', function($scope, $ionicSideMenuDelegate) {
+ 	
+})
 
 .controller('ArtistsCtrl', function($scope, $stateParams, Artists, $ionicScrollDelegate, $state) {
 	// With the new view caching in Ionic, Controllers are only called
@@ -78,8 +81,8 @@ angular.module('mfactivearchive.controllers', [])
 
 	var exhibitionsLoaded = 0;
 	$scope.decades = ["1980-1989", "1990-1999", "2000-2009", "2010-2019"];
-	
-	if($stateParams.decade && ($scope.decades.indexOf($stateParams.decade) != -1)){
+	$scope.decadeTitles = [{"title" : "1980's", "var" : "1980-1989"}, {"title" : "1990's", "var" : "1990-1999"}, {"title" : "2000's", "var" : "2000-2009"}, {"title" : "2010's", "var" : "2010-2019"}];
+    if($stateParams.decade && ($scope.decades.indexOf($stateParams.decade) != -1)){
 		$scope.decade = $stateParams.decade;
 	}else{
 		$scope.decade = $scope.decades[$scope.decades.length - 1];
@@ -265,7 +268,7 @@ angular.module('mfactivearchive.controllers', [])
 	};
 })
 
-.controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log, $sce) {
+.controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log, $sce, Comments) {
     $scope.showArea = "area1";
 	$scope.iframe_url = $sce.trustAsResourceUrl(decodeURIComponent("http://w.soundcloud.com"));
 	Artists.get($stateParams.id).then(function(d) {
@@ -291,12 +294,51 @@ angular.module('mfactivearchive.controllers', [])
     $scope.selectShowArea = function(area) {
             $scope.showArea = area;
     };
+    
+    $scope.addComment = function() {
+		Comments.set().then(function(d) {
+			console.log("comment saved");
+		});
+	};
+    
+    
+    $scope.comment = [];
+    $scope.commentSubmitted = 0;
+    $scope.submitComment = function(commentForm) {
+        $scope.formError = 0;
+        $scope.formErrorMessage = "";
+        if(!$scope.comment.email || commentForm.email.$invalid){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter a valid email address.";
+        }
+        if(!$scope.comment.name){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your name.";
+        }
+        if(!$scope.comment.comment){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your comment.";
+        }
+        
+        //$log.log('Form: ');
+        //$log.log('Comment' + $scope.comment.comment);
+        //$log.log('First name' + $scope.comment.firstname);
+       
+        if(!$scope.formError){
+            Comments.set(20, $scope.artist.entity_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
+                console.log("comment saved");
+                $scope.commentSubmitted = 1;
+            });
+        }
+    };
+
 })
 
-.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log, $sce) {
+.controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log, $sce, Comments) {
 	$scope.floorplanTags = [];
 	$scope.orientation = "";
     $scope.showArea = "area1";
+    $scope.floor_plan_titles = [];
     Exhibitions.get($stateParams.id).then(function(d) {
         $scope.exhibition = d;
         $scope.exhibition.sound = '';
@@ -308,9 +350,13 @@ angular.module('mfactivearchive.controllers', [])
             $scope.exhibition.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.exhibition.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
         }
         if($scope.exhibition.floor_plan){
-            floor_plans = $scope.exhibition.floor_plan.split("; ");
+            floor_plans = $scope.exhibition.floor_plan.split(";");
             $log.log("floorplans array" + floor_plans[0]);
             
+        }
+        if($scope.exhibition.floor_plan_title){
+            $scope.floor_plan_titles = $scope.exhibition.floor_plan_title.split("; ");
+
         }
                                           
                  n = 0;
@@ -320,7 +366,19 @@ angular.module('mfactivearchive.controllers', [])
                         //$log.log($scope.exhibition.floor_plan_coor[occ_id]);
                         var tag = "";
                         for (var key in coor_entires) {
-                            tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'>" + coor_entires[key].label + "</div>";
+                            $log.log("coors: " + coor_entires[key].type);
+//                            if(coor_entires[key].type == "poly"){
+//                                points = coor_entires[key].points;
+//                                coor_points = "";
+//                                for (var keyp in points) {
+ //                                   $log.log(points[keyp]);
+ //                                   coor_points += points[keyp].x + "% " + points[keyp].y + "% , ";
+ //                               }
+                                 
+                            //tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='-moz-clip-path: polygon(" + coor_points + "); -webkit-clip-path: polygon(" + coor_points + "); clip-path: polygon(" + coor_points + "); width:100%; height:100%; left:0px; top:0px;'><span>" + coor_entires[key].label + "</span></div>";
+ //                           }else{
+                                tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'><span>" + coor_entires[key].label + "</span></div>";
+ //                           }
                         }
                         $scope.floorplanTags[n] = $sce.trustAsHtml(String(floor_plans[n])) + $sce.trustAsHtml(String(tag));
                         $log.log($sce.trustAsHtml(String(floor_plans[n])) + $sce.trustAsHtml(String(tag)));
@@ -329,9 +387,6 @@ angular.module('mfactivearchive.controllers', [])
                 }
                 $log.log("floorplanTags" + $scope.floorplanTags[0]);
 
-          if(!$scope.exhibition.statement && !$scope.exhibition.description){
-              $scope.showArea = "area2";
-          }
 		
     }, function() {
         $log.log("Could not load exhibition");
@@ -357,12 +412,42 @@ angular.module('mfactivearchive.controllers', [])
     };
     
     $scope.selectShowArea = function(area) {
-            $scope.showArea = area;
+        $scope.showArea = area;
+    };
+    
+    $scope.comment = [];
+    $scope.commentSubmitted = 0;
+    $scope.submitComment = function(commentForm) {
+        $scope.formError = 0;
+        $scope.formErrorMessage = "";
+        if(!$scope.comment.email || commentForm.email.$invalid){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter a valid email address.";
+        }
+        if(!$scope.comment.name){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your name.";
+        }
+        if(!$scope.comment.comment){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your comment.";
+        }
+        
+        //$log.log('Form: ');
+        //$log.log('Comment' + $scope.comment.comment);
+        //$log.log('First name' + $scope.comment.firstname);
+       
+        if(!$scope.formError){
+            Comments.set(67, $scope.exhibition.occurrence_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
+                console.log("comment saved");
+                $scope.commentSubmitted = 1;
+            });
+        }
     };
 })
 
 
-.controller('ArtworkDetailCtrl', function($scope, $stateParams, Artworks, $log) {
+.controller('ArtworkDetailCtrl', function($scope, $stateParams, Artworks, $log, Comments) {
 	Artworks.get($stateParams.id).then(function(d) {
 		$scope.artwork = d;
 	}, function() {
@@ -371,6 +456,36 @@ angular.module('mfactivearchive.controllers', [])
     $scope.showArea = "area1";
 	$scope.selectShowArea = function(area) {
             $scope.showArea = area;
+    };
+    
+    $scope.comment = [];
+    $scope.commentSubmitted = 0;
+    $scope.submitComment = function(commentForm) {
+        $scope.formError = 0;
+        $scope.formErrorMessage = "";
+        if(!$scope.comment.email || commentForm.email.$invalid){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter a valid email address.";
+        }
+        if(!$scope.comment.name){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your name.";
+        }
+        if(!$scope.comment.comment){
+            $scope.formError = 1;
+            $scope.formErrorMessage += " Enter your comment.";
+        }
+        
+        //$log.log('Form: ');
+        //$log.log('Comment' + $scope.comment.comment);
+        //$log.log('First name' + $scope.comment.firstname);
+       
+        if(!$scope.formError){
+            Comments.set(13, $scope.artwork.collection_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
+                console.log("comment saved");
+                $scope.commentSubmitted = 1;
+            });
+        }
     };
 })
 .controller('MuseumCtrl', function($scope, $stateParams, Museum, $log, $ionicScrollDelegate, $state, buildings, $ionicSlideBoxDelegate) {
@@ -492,8 +607,8 @@ angular.module('mfactivearchive.controllers', [])
 	
 	// Handle scrolling of artwork column
 	$scope.getScrollPosition = function(){
-		var t = $ionicScrollDelegate.$getByHandle('floorArtworkList').getScrollPosition().top - 150;	// distance scrolled from top - minus padding
-		var l = Math.floor(t/150) + 2; // estimate # of lines in we are + # to highlight middle result
+		var t = $ionicScrollDelegate.$getByHandle('floorArtworkList').getScrollPosition().top - 200;	// distance scrolled from top - minus padding
+		var l = Math.floor(t/350) + 1; // estimate # of lines in we are + # to highlight middle result
 		if (isNaN(l)) { return; }
 		if ((!$state.oldLine) || (l !== $state.oldLine)) {
 			// set current highlight

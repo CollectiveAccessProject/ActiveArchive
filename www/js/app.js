@@ -165,6 +165,15 @@
 				controller: 'ArtworkDetailCtrl'
 			}
 		}
+	})
+	.state('tab.about', {
+		url: '/about',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-about.html',
+				controller: 'About'
+			}
+		}
 	});
 
 

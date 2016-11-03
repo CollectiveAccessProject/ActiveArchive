@@ -59,7 +59,6 @@ a{
 }
 a:active{
 	text-decoration:underline !important;
-    color:red !important;
 }
 /* Landscape layout (default) */
 .viewArea {
@@ -258,6 +257,11 @@ p {
 .item .item-content.activated{
 	background-color:#000 !important;
 }
+/* About */
+.aboutContent{
+    margin-left:15px;
+}
+
 /*  front page */
 .frontText{
     padding-left:5px;
@@ -549,10 +553,14 @@ p {
 	line-height:2em;
 	overflow:visible;
 	white-space: nowrap;
-	/*top:40px;
-	left:50px;
-	width:40px;
-	height:40px;*/
+}
+#floorPlan span .floorArea span{
+    position:absolute !important;
+    color:#fff;
+	font-size:10px;
+	line-height:2em;
+    left:50%;
+    top:50%;
 }
 #floorPlan span img{
 	height:auto;
@@ -671,8 +679,9 @@ p {
 	border-width:0px;
     background: #000;
    	opacity:.3;
-   	height:calc((100vh - 94px)/2); /* 50 bar-footer height + 44 .bar (header) */
-   	overflow:hidden;
+   	/*height:calc(((100vh - 94px)/3)*2);*/ /* 50 bar-footer height + 44 .bar (header) */
+   	height:350px;
+    overflow:hidden;
    	margin:0px !important;
 }
 .floorArtworkList .item h2 {
@@ -704,7 +713,7 @@ p {
 .floorArtworkList .item .artworkImage img{
 	height:100%;
     width:auto;
-    object-fit: cover;
+    object-fit: contain;
 	-webkit-filter: blur(.7px);
 	filter: blur(.7px);
 }
@@ -771,9 +780,9 @@ p {
 	.floorArtworkList .active h2, .floorArtworkList .item h2, .floorArtworkList .item .date {
 		font-size:14px;
 	}
-	.floorArtworkList .item.active .artworkName, .floorArtworkList .item .artworkName{
+	/*.floorArtworkList .item.active .artworkName, .floorArtworkList .item .artworkName{
 		padding-top:2em;
-	}
+	}*/
 }
 
 
@@ -1020,13 +1029,19 @@ p.red {
 	background:none;
 }
 .exhibitionDecade{
-	font-size: 40px;
-	font-family: "ProximaNovaBold";
+	font-size: 24px;
+	font-family: "ProximaNova";
 	line-height:1em;
 	padding-left:25px;
 	position:absolute;
 	top:0px;
 	z-index:2;
+}
+.exhibitionDecade span{
+    padding-right:20px;
+}
+.exhibitionDecade .red{
+    font-family: "ProximaNovaBold";
 }
 /* iPads (portrait) ----------- */
 /*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
@@ -1041,6 +1056,16 @@ p.red {
 }
 
 /* exhibition detail */
+
+.floorPlanExhibitionDetailContainer{
+    padding-bottom:20px;
+}
+.floorPlanExhibitionDetailContainer .slider-pager{
+    bottom:0px;
+}
+.floorPlanExhibitionDetailContainer .slider-pager .slider-pager-page{
+    color:#fff;
+}
 .floorPlanExhibitionDetail{
 	text-align:center;
 	color:#fff;
@@ -1069,10 +1094,14 @@ p.red {
 	line-height:2em;
 	overflow:visible;
 	white-space: nowrap;
-	/*top:40px;
-	left:50px;
-	width:40px;
-	height:40px;*/
+}
+.floorPlanExhibitionDetail span .floorArea span{
+    position:absolute !important;
+    color:#fff;
+	font-size:10px;
+	line-height:2em;
+    left:50%;
+    top:50%;
 }
 .floorPlanExhibitionDetail span img{
 	height:300px;
@@ -1081,7 +1110,15 @@ p.red {
 	-webkit-filter: invert(1);
    filter: invert(1);
 }
-
+/* poly */
+.floorPlanExhibitionDetail span canvas{
+    border:2px solid #DEDEDE;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+}
 /* Search Results */
 .resultLeft{
     height:100vh;
