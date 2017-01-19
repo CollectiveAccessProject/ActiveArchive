@@ -6,8 +6,15 @@ angular.module('mfactivearchive.controllers', [])
 .controller('FrontCtrl', function($scope, $ionicSideMenuDelegate) {
  	
 })
-.controller('About', function($scope, $ionicSideMenuDelegate) {
- 	
+.controller('About', function($scope, $ionicSideMenuDelegate, $stateParams, About, $log, $sce ) {
+ 	$scope.pageContent = [];
+ 	About.load().then(function(d) {
+		$scope.pageContent = d;
+		console.log("title: " + $scope.pageContent.title);
+	});
+	$scope.trustAsHtml = function(html){
+		return $sce.trustAsHtml(String(html));
+    };
 })
 
 .controller('ArtistsCtrl', function($scope, $stateParams, Artists, $ionicScrollDelegate, $state) {

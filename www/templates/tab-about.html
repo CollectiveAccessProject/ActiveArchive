@@ -2,16 +2,8 @@
   <ion-content has-bouncing="false" overflow-scroll="false">
   	 <div id="deviceready" class="viewArea">
 		<div id="content" class="aboutContent">
-            <h2>About Mattress Factory</h2>
-            <p>
-                Founded in 1977, the Mattress Factory is a contemporary art museum widely considered to be the foremost museum of installation art in the United States. We encourage artists to use the museum as an experimental lab where they can create three-dimensional artworks that transform the perception of a space.
-            </p>
-            <p>
-                The museum strives to both provide artists with unparalleled support in the creative process and advance the field of installation art. Invited from around the world, these artists are provided with absolutely everything they need to create new works – including housing, funding, materials and labor. Because the museum is used as a studio space, the pieces are constructed specifically for the space you view them in and will never be recreated in exactly the same way.
-            </p>
-            <p>
-                We encourage multidisciplinary thinking through education and outreach programs to learners of all ages, and aim to energize our urban neighborhood while also contributing to the cultural vibrancy of the City of Pittsburgh.
-            </p>
+            <H2 ng-bind-html="trustAsHtml(pageContent.title)"></H2>
+            <span ng-bind-html="trustAsHtml(pageContent.bodytext)"></span>
         </div>
 	</div>
   </ion-content>

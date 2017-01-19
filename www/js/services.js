@@ -261,4 +261,21 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
             return promise;
         }
     };
+})
+.factory('About', function($http, dataConfig, $log) {
+  return {
+    load: function() {
+    	var promise = $http({
+		method : 'POST',
+		url : dataConfig.backend + '/service.php/simple/page?path=%2Fpage%2FAppAbout&noCache=' + dataConfig.noCache
+		}).then(function(response) {
+			$log.log('Load complete');
+			return response.data['data'];
+		}, function() { 
+			$log.log("Error loading page"); 
+		});
+		
+		return promise;
+    }	
+  };
 });
