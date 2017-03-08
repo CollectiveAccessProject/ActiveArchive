@@ -3,28 +3,8 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
     $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://google.com/']);
 })
  
-.controller('FrontCtrl', function($scope, $rootScope, $ionicPlatform, $ionicSideMenuDelegate, $cordovaBeacon) {
+.controller('FrontCtrl', function($scope, $rootScope, $ionicPlatform, $ionicSideMenuDelegate) {
  	
- 	$scope.beacons = {};
- 	
-    $ionicPlatform.ready(function() {
-		$cordovaBeacon.requestWhenInUseAuthorization();
-        $scope.beacon ="Looking for beacons...";
-        
-        $rootScope.$on("$cordovaBeacon:didRangeBeaconsInRegion", function(event, pluginResult) {
-            var uniqueBeaconKey;
-            $scope.beacon = '';
-            for(var i = 0; i < pluginResult.beacons.length; i++) {
-                uniqueBeaconKey = pluginResult.beacons[i].uuid + ":" + pluginResult.beacons[i].major + ":" + pluginResult.beacons[i].minor;
-                $scope.beacons[uniqueBeaconKey] = pluginResult.beacons[i];
-                $scope.beacon += "Found beacon " + uniqueBeaconKey + " (" + pluginResult.beacons[i].accuracy + ")\n";
-            }
-            $scope.$apply();
-            
-        });
-
-        $cordovaBeacon.startRangingBeaconsInRegion($cordovaBeacon.createBeaconRegion("estimote", "b9407f30-f5f8-466e-aff9-25556b57fe6d"));
-    });
 })
 .controller('About', function($scope, $ionicSideMenuDelegate) {
  	
@@ -175,34 +155,6 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 		}
 	};
 		
-})
-	
-.controller('ExhibitionsCtrlOld', function($scope, $stateParams, Exhibitions, $ionicScrollDelegate) {	
-	var exhibitionsLoaded = 0;
-
-    $scope.value = 0;
-
-	Exhibitions.load(0,32).then(function(d) { $scope.exhibitions = d; exhibitionsLoaded = d.length; });
-	
-	$scope.loadNextExhibitionPage = function() {
-		Exhibitions.load(exhibitionsLoaded, 32).then(function(d) {
-			$scope.exhibitions = $scope.exhibitions.concat(d);
-			exhibitionsLoaded = $scope.exhibitions.length;
-			console.log("exhibitions loaded " + exhibitionsLoaded);
-			$scope.$broadcast('scroll.infiniteScrollComplete');
-		});
-	};
-
-    $scope.listScroll = function() {
-    
-        if($ionicScrollDelegate.getScrollPosition()) {
-            topscroll = $ionicScrollDelegate.getScrollPosition().top;
-
-            // Looking for better solution ... this voodoo dynamically sets the active list item for scrolling
-            value = Math.floor( (topscroll / 125) );
-            $scope.value = value;
-        }
-    }
 })
 
 .controller('OnViewCtrl', function($scope, $stateParams, Exhibitions, $log, $ionicSlideBoxDelegate) {

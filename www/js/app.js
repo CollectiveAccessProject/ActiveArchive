@@ -4,7 +4,7 @@
 	// 'mfactivearchive.controllers' is found in controllers.js
 	angular.module('mfactivearchive', ['ionic', 'mfactivearchive.config', 'mfactivearchive.controllers', 'mfactivearchive.services', 'ngCordovaBeacon'])
 
-	.run(function($ionicPlatform) {
+	.run(function($ionicPlatform, $rootScope, $cordovaBeacon) {
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 			// for form inputs)
@@ -21,6 +21,26 @@
 				  'content', 
 				  'width=device-width, initial-scale=.65, maximum-scale=.65, minimum-scale=.65, user-scalable=no');
 			}
+                             
+            $rootScope.beacons = {};
+                             
+            $cordovaBeacon.requestWhenInUseAuthorization();
+            $rootScope.beacon ="Looking for beacons...";
+                                                  
+            $rootScope.$on("$cordovaBeacon:didRangeBeaconsInRegion", function(event, pluginResult) {
+                var uniqueBeaconKey;
+                $rootScope.beacon = '';
+                for(var i = 0; i < pluginResult.beacons.length; i++) {
+                           uniqueBeaconKey = pluginResult.beacons[i].uuid + ":" + pluginResult.beacons[i].major + ":" + pluginResult.beacons[i].minor;
+                           $rootScope.beacons[uniqueBeaconKey] = pluginResult.beacons[i];
+                           $rootScope.beacon += "Found beacon " + uniqueBeaconKey + " (" + pluginResult.beacons[i].accuracy + ")\n";
+                }
+                           console.log("[BEACON] " + $rootScope.beacon);
+                $rootScope.$apply();
+                                                                 
+            });
+                                                  
+            $cordovaBeacon.startRangingBeaconsInRegion($cordovaBeacon.createBeaconRegion("estimote", "b9407f30-f5f8-466e-aff9-25556b57fe6d"));
 		});
 	})
 
