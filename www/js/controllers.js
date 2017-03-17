@@ -7,7 +7,7 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
  	
 })
 .controller('About', function($scope, $ionicSideMenuDelegate) {
- 	
+            
 })
 
 .controller('ArtistsCtrl', function($scope, $stateParams, Artists, $ionicScrollDelegate, $state) {
@@ -501,6 +501,9 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	
 })
 .controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Artworks, $location, $state, $log, buildings, $ionicScrollDelegate, $sce) {
+            console.log("LOAD MUSEUM DETAIL");
+            console.log($stateParams);
+            
 	$scope.buildings = buildings;
 	var artworksLoaded = 0;
 	$scope.highlightArtwork = null;
@@ -525,15 +528,17 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	}, function() {
 		$log.log("Could not load place");
 	});
-	
+            console.log("load floor", $stateParams.id);
+            
 	Artworks.loadFloor(0,32,$stateParams.id).then(function(d) {
+        if(!d) return;
 		$scope.artworks = d;
 		artworksLoaded = d.length;
 		$scope.$broadcast('scroll.infiniteScrollComplete');
 		// Highlight first artwork in list
-		$scope.highlightArtwork = d[0]['collection_id'];
+                                                  $scope.highlightArtwork = d[0] ? d[0]['collection_id'] : 0;
 		// Highlight first artwork floorplans
-		$scope.highlightCoor(d[0]['collection_id']);
+                                                  if (d[0]) { $scope.highlightCoor(d[0]['collection_id']); }
 	});
 	
     $scope.getOrientation = function(fpImg) {
@@ -554,6 +559,7 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	
 	$scope.loadNextArtworkPage = function() {
 		Artworks.loadFloor(artworksLoaded, 32,$stateParams.id).then(function(d) {
+                                                                    if(!d) return;
 			$scope.artworks = $scope.artworks.concat(d);
 			artworksLoaded = $scope.artworks.length;
 			console.log("artworks loaded " + artworksLoaded);

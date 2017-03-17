@@ -174,6 +174,19 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 })
 .factory('Museum', function($http, dataConfig, $log) {
   return {
+    all: function() {
+         var promise = $http({
+                             method : 'POST',
+                             url : dataConfig.backend + '/service.php/simple/places?q=*&noCache=' + dataConfig.noCache
+                             }).then(function(response) {
+                                     $log.log('Load complete');
+                                     return response.data['data'];
+                            }, function() {
+                                     $log.log("Error loading places"); 
+                            });
+         
+         return promise;
+    },
     load: function(parent) {
     	$log.log('parent ' + parent);
     	

@@ -4,7 +4,7 @@
 	// 'mfactivearchive.controllers' is found in controllers.js
 	angular.module('mfactivearchive', ['ionic', 'mfactivearchive.config', 'mfactivearchive.controllers', 'mfactivearchive.services', 'ngCordovaBeacon'])
 
-	.run(function($ionicPlatform, $rootScope, $cordovaBeacon) {
+	.run(function($ionicPlatform, $rootScope, $cordovaBeacon, Museum, $state) {
 		$ionicPlatform.ready(function() {
 			// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 			// for form inputs)
@@ -23,20 +23,59 @@
 			}
                              
             $rootScope.beacons = {};
+            $rootScope.last_jump_to_place_id = null;
                              
             $cordovaBeacon.requestWhenInUseAuthorization();
             $rootScope.beacon ="Looking for beacons...";
-                                                  
+                             
+                             $rootScope.beacon_places = {};
+            Museum.all().then(function(d) {
+                              if(d) {
+                                for(var index in d) {
+                                    if (d[index]['beacon_uuid']) {
+                                        $rootScope.beacon_places[d[index]['beacon_uuid']] = d[index]['place_id'];
+                              
+                                    }
+                                }
+                              }
+                              //console.log("places",  JSON.stringify($rootScope.beacon_places));
+            });
+                                        
             $rootScope.$on("$cordovaBeacon:didRangeBeaconsInRegion", function(event, pluginResult) {
                 var uniqueBeaconKey;
                 $rootScope.beacon = '';
+                rssi = -10000;
+                nearestBeacon = null;
+                           c = 0;
                 for(var i = 0; i < pluginResult.beacons.length; i++) {
+                           if
+                            (
+                             (pluginResult.beacons[i].proximity !== 'ProximityImmediate')
+                             &&
+                             (pluginResult.beacons[i].proximity !== 'ProximityNear')
+                             ) { continue; }
+                           
+                           
                            uniqueBeaconKey = pluginResult.beacons[i].uuid + ":" + pluginResult.beacons[i].major + ":" + pluginResult.beacons[i].minor;
                            $rootScope.beacons[uniqueBeaconKey] = pluginResult.beacons[i];
-                           $rootScope.beacon += "Found beacon " + uniqueBeaconKey + " (" + pluginResult.beacons[i].accuracy + ")\n";
+                           
+                           if (pluginResult.beacons[i].rssi > rssi) {
+                            rssi = pluginResult.beacons[i].rssi;
+                            nearestBeacon = uniqueBeaconKey;
+                           }
+                           c++;
+                           //console.log("[BEACON] " + JSON.stringify(pluginResult.beacons[i]));
                 }
-                           console.log("[BEACON] " + $rootScope.beacon);
-                $rootScope.$apply();
+                           $rootScope.beacon = "Nearest: " + nearestBeacon + "; found " + c + " near; " + pluginResult.beacons.length + " total";
+                           
+                        if ((jump_to_place_id = $rootScope.beacon_places[nearestBeacon]) && ($rootScope.last_jump_to_place_id != jump_to_place_id)) {
+                                $rootScope.beacon += "Jump to " + jump_to_place_id;
+                                $state.go("tab.detail-museum", {id: jump_to_place_id});
+                                $rootScope.last_jump_to_place_id = jump_to_place_id;
+                           
+                           }
+                           $rootScope.$apply();
+                           
                                                                  
             });
                                                   
