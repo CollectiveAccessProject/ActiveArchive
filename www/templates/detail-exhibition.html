@@ -9,7 +9,15 @@
 
 	<div id="deviceready" class="viewArea">
 		<div class='contentMain'>
-			<div class='upperImages'>
+			
+            <!--<p style="background-color:#DEDEDE;">
+             <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000;"></canvas>
+
+            </p>-->
+            
+            
+            
+            <div class='upperImages'>
 				<ion-scroll direction="x" class="imageScroller"><div style="width:auto;" ng-bind-html="exhibition.pics">
 				</div></ion-scroll>
 			</div>
@@ -49,10 +57,17 @@
                         <br/><br/><br/><br/>
 					</ion-scroll>
                 </div>
-                <div ng-show="showArea == 'area3'" ng-if="exhibition.sound">
+                <div ng-show="showArea == 'area3'" ng-if="exhibition.audio">
                     <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
                         <h5>Audio</h5>
-                        <div class='unit' ng-bind-html="exhibition.sound"></div>
+                        <div class='unit' ng-bind-html="trustAsHtml(exhibition.audio)"></div>
+                        <br/><br/><br/><br/>
+                    </ion-scroll>
+                </div>
+                <div ng-show="showArea == 'area6'" ng-if="exhibition.video">
+                    <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
+                        <h5>Video</h5>
+                        <div class='unit' ng-bind-html="trustAsHtml(exhibition.video)"></div>
                         <br/><br/><br/><br/>
                     </ion-scroll>
                 </div>
@@ -60,7 +75,7 @@
 <ion-scroll class='col detailScroll' has-bouncing="false" overflow-scroll="false">
     <ion-slide-box class="floorPlanExhibitionDetailContainer" does-continue="true" auto-play="false" show-pager="true">
         <ion-slide ng-repeat="floorplanTag in floorplanTags">
-                <div class="floorPlanExhibitionDetail"><span ng-bind-html="trustAsHtml(floorplanTag)"></span></div>
+                <div class="floorPlanExhibitionDetail"><span ng-bind-html="trustAsHtml(floorplanTag)" helloWorld></span></div>
                 <div style="text-align:center">{{floor_plan_titles[$index]}}</div>
         </ion-slide>
     </ion-slide-box>
@@ -112,8 +127,9 @@
       <div class="footerIconBar">
           <i class="icon icon ion-information-circled" ng-class='{"red":showArea=="area1"}' ng-click="selectShowArea('area1')"></i>
           <i class="icon icon ion-ios-paper" ng-class='{"red":showArea=="area2"}' ng-if="exhibition.statement || exhibition.description" ng-click="selectShowArea('area2')"></i>
-          <i class="icon icon ion-android-volume-up" ng-class='{"red":showArea=="area3"}' ng-if="exhibition.sound" ng-click="selectShowArea('area3')"></i>
-          <i class="icon icon ion-location" ng-class='{"red":showArea=="area4"}' ng-click="selectShowArea('area4')"></i>
+          <i class="icon icon ion-android-volume-up" ng-class='{"red":showArea=="area3"}' ng-if="exhibition.audio" ng-click="selectShowArea('area3')"></i>
+          <i class="icon icon ion-ios-videocam" ng-class='{"red":showArea=="area6"}' ng-if="exhibition.video" ng-click="selectShowArea('area6')"></i>
+          <i class="icon icon ion-location" ng-class='{"red":showArea=="area4"}' ng-click="selectShowArea('area4'); drawCanvas()"></i>
           <i class="icon icon ion-chatbox" ng-class='{"red":showArea=="area5"}' ng-click="selectShowArea('area5')"></i>
       </div>
       <div id="footer" class='menuToggle'>

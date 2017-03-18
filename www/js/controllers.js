@@ -1,13 +1,20 @@
-angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
+angular.module('mfactivearchive.controllers', [])
 .config(function ($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://google.com/']);
 })
  
-.controller('FrontCtrl', function($scope, $rootScope, $ionicPlatform, $ionicSideMenuDelegate) {
+.controller('FrontCtrl', function($scope, $ionicSideMenuDelegate) {
  	
 })
-.controller('About', function($scope, $ionicSideMenuDelegate) {
-            
+.controller('About', function($scope, $ionicSideMenuDelegate, $stateParams, About, $log, $sce ) {
+ 	$scope.pageContent = [];
+ 	About.load().then(function(d) {
+		$scope.pageContent = d;
+		console.log("title: " + $scope.pageContent.title);
+	});
+	$scope.trustAsHtml = function(html){
+		return $sce.trustAsHtml(String(html));
+    };
 })
 
 .controller('ArtistsCtrl', function($scope, $stateParams, Artists, $ionicScrollDelegate, $state) {
@@ -18,7 +25,7 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	//
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
-	
+
 	var artistLetter = "a";
 	$scope.letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 	var nextArtistLetter = $scope.letters[$scope.letters.indexOf(artistLetter) + 1];
@@ -156,6 +163,34 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	};
 		
 })
+	
+.controller('ExhibitionsCtrlOld', function($scope, $stateParams, Exhibitions, $ionicScrollDelegate) {	
+	var exhibitionsLoaded = 0;
+
+    $scope.value = 0;
+
+	Exhibitions.load(0,32).then(function(d) { $scope.exhibitions = d; exhibitionsLoaded = d.length; });
+	
+	$scope.loadNextExhibitionPage = function() {
+		Exhibitions.load(exhibitionsLoaded, 32).then(function(d) {
+			$scope.exhibitions = $scope.exhibitions.concat(d);
+			exhibitionsLoaded = $scope.exhibitions.length;
+			console.log("exhibitions loaded " + exhibitionsLoaded);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+		});
+	};
+
+    $scope.listScroll = function() {
+    
+        if($ionicScrollDelegate.getScrollPosition()) {
+            topscroll = $ionicScrollDelegate.getScrollPosition().top;
+
+            // Looking for better solution ... this voodoo dynamically sets the active list item for scrolling
+            value = Math.floor( (topscroll / 125) );
+            $scope.value = value;
+        }
+    }
+})
 
 .controller('OnViewCtrl', function($scope, $stateParams, Exhibitions, $log, $ionicSlideBoxDelegate) {
     Exhibitions.loadOnView().then(function(d) {
@@ -246,14 +281,14 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	Artists.get($stateParams.id).then(function(d) {
 		$scope.artist = d;
 		
-		$scope.artist.sound = '';
-		if($scope.artist.soundcloud_playlist_id){
-			$scope.artist.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/" + $scope.artist.soundcloud_playlist_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
-		}
+//		$scope.artist.sound = '';
+//		if($scope.artist.soundcloud_playlist_id){
+//			$scope.artist.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/" + $scope.artist.soundcloud_playlist_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+//		}
                                       
-          if($scope.artist.soundcloud_track_id){
-              $scope.artist.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.artist.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
-          }
+//        if($scope.artist.soundcloud_track_id){
+//              $scope.artist.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.artist.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+//          }
                                       
         $ionicSlideBoxDelegate.slide(0);
         $ionicSlideBoxDelegate.update();
@@ -303,6 +338,10 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
             });
         }
     };
+    
+	$scope.trustAsHtml = function(html){
+		return $sce.trustAsHtml(String(html));
+    };
 
 })
 
@@ -311,16 +350,17 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	$scope.orientation = "";
     $scope.showArea = "area1";
     $scope.floor_plan_titles = [];
+    $scope.canvas_coors = [];
     Exhibitions.get($stateParams.id).then(function(d) {
         $scope.exhibition = d;
-        $scope.exhibition.sound = '';
-        if($scope.exhibition.soundcloud_playlist_id){
-            $scope.exhibition.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/" + $scope.exhibition.soundcloud_playlist_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
-        }
+//        $scope.exhibition.sound = '';
+//        if($scope.exhibition.soundcloud_playlist_id){
+//            $scope.exhibition.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/playlists/" + $scope.exhibition.soundcloud_playlist_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+//        }
 
-        if($scope.exhibition.soundcloud_track_id){
-            $scope.exhibition.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.exhibition.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
-        }
+//        if($scope.exhibition.soundcloud_track_id){
+//            $scope.exhibition.sound = $sce.trustAsHtml(String("<iframe width='100%' height='400' scrolling='no' frameborder='no' src='http://w.soundcloud.com/player/?url=http%3A//api.soundcloud.com/track/" + $scope.exhibition.soundcloud_track_id + "&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;buying=false&amp;liking=false&amp;download=false'></iframe>"));
+//        }
         if($scope.exhibition.floor_plan){
             floor_plans = $scope.exhibition.floor_plan.split(";");
             $log.log("floorplans array" + floor_plans[0]);
@@ -330,7 +370,7 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
             $scope.floor_plan_titles = $scope.exhibition.floor_plan_title.split("; ");
 
         }
-                                          
+                
                  n = 0;
                  for (var occ_id in $scope.exhibition.floor_plan_coor) {
                     if ($scope.exhibition.floor_plan_coor.hasOwnProperty(occ_id)) {
@@ -338,31 +378,99 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
                         //$log.log($scope.exhibition.floor_plan_coor[occ_id]);
                         var tag = "";
                         for (var key in coor_entires) {
-                            $log.log("coors: " + coor_entires[key].type);
-//                            if(coor_entires[key].type == "poly"){
-//                                points = coor_entires[key].points;
-//                                coor_points = "";
-//                                for (var keyp in points) {
- //                                   $log.log(points[keyp]);
- //                                   coor_points += points[keyp].x + "% " + points[keyp].y + "% , ";
- //                               }
+                           // $log.log("coors: " + coor_entires[key].type);
+                            if(coor_entires[key].type == "poly"){
+                               // just output label
+                                points = coor_entires[key].points;
+                                x = '';
+                                y = '';
+                                for (var keyp in points) {
+                                    x = points[keyp].x;
+                                    y = points[keyp].y;
+                                    break;
+                                }
                                  
-                            //tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='-moz-clip-path: polygon(" + coor_points + "); -webkit-clip-path: polygon(" + coor_points + "); clip-path: polygon(" + coor_points + "); width:100%; height:100%; left:0px; top:0px;'><span>" + coor_entires[key].label + "</span></div>";
- //                           }else{
+                               // tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='-moz-clip-path: polygon(" + coor_points + "); -webkit-clip-path: polygon(" + coor_points + "); clip-path: polygon(" + coor_points + "); width:100%; height:100%; left:0px; top:0px;'><span>" + coor_entires[key].label + "</span></div>";
+                                tag += "<div class='floorArea' style='z-index:101; left:" + (x + 3) + "%; top:" + (y + 3) + "%;'><span>" + coor_entires[key].label + "</span></div>";
+                            }else{
                                 tag += "<div class='floorArea coorBlock" + occ_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'><span>" + coor_entires[key].label + "</span></div>";
- //                           }
+                            }
                         }
-                        $scope.floorplanTags[n] = $sce.trustAsHtml(String(floor_plans[n])) + $sce.trustAsHtml(String(tag));
+                        $scope.floorplanTags[n] = $sce.trustAsHtml("<canvas style='position:absolute; width:100%; height:100%; z-index:100;' id='canvas" + n + "'></canvas>" + String(floor_plans[n])) + $sce.trustAsHtml(String(tag));
                         $log.log($sce.trustAsHtml(String(floor_plans[n])) + $sce.trustAsHtml(String(tag)));
                     }
                     n++;
                 }
                 $log.log("floorplanTags" + $scope.floorplanTags[0]);
 
+
+
+
+
+
+//var canvas = document.querySelector('#myCanvas');
+//var ctx = canvas.getContext("2d");
+//ctx.beginPath();
+//ctx.moveTo(0,0);
+//ctx.lineTo(30,30);
+//ctx.lineTo(30,0);
+//ctx.lineTo(0,0);
+//ctx.stroke();
+//ctx.fill();
+
+
+
+
+
+
+
+
 		
     }, function() {
         $log.log("Could not load exhibition");
     });
+
+    $scope.canvasDrawnAlready = null;
+    $scope.drawCanvas = function() {
+        if(!$scope.canvasDrawnAlready){
+            if($scope.exhibition.floor_plan_coor){
+                n = 0;
+                for (var occ_id in $scope.exhibition.floor_plan_coor) {
+                    if ($scope.exhibition.floor_plan_coor.hasOwnProperty(occ_id)) {
+                        coor_entires = $scope.exhibition.floor_plan_coor[occ_id];
+                        for (var key in coor_entires) {
+                           // $log.log("coors: " + coor_entires[key].type);
+                            if(coor_entires[key].type == "poly"){
+                                var canvas = document.querySelector('#canvas' + n);
+                    $log.log("width: " + canvas.width + " height: " + canvas.height);
+                                var ctx = canvas.getContext("2d");
+                                ctx.beginPath();
+                            
+                                points = coor_entires[key].points;
+                                c = 0;
+                                for (var keyp in points) {
+                        $log.log(n + ' ' + points[keyp].x);
+                                    if(c == 0){
+                                        ctx.moveTo(Math.floor(canvas.width * (points[keyp].x / 100)),Math.floor(canvas.height * (points[keyp].y / 100)));
+                                    }else{
+                                        ctx.lineTo(Math.floor(canvas.width * (points[keyp].x / 100)),Math.floor(canvas.height * (points[keyp].y / 100)));
+                                    }
+                                    c++;
+                                }
+                                ctx.closePath();
+                                ctx.strokeStyle="#FF0000";
+                                ctx.fillStyle="rgba(255,0,0,.7)";
+                                ctx.stroke();
+                                ctx.fill();
+                            }
+                        }
+                    }
+                    n++;
+                }
+                $scope.canvasDrawnAlready = 1;
+            }
+        }
+    };
     
 	$scope.getOrientation = function(fpImg) {
 		if(fpImg && !$scope.orientation){
@@ -501,9 +609,6 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	
 })
 .controller('MuseumDetailCtrl', function($scope, $stateParams, Museum, Artworks, $location, $state, $log, buildings, $ionicScrollDelegate, $sce) {
-            console.log("LOAD MUSEUM DETAIL");
-            console.log($stateParams);
-            
 	$scope.buildings = buildings;
 	var artworksLoaded = 0;
 	$scope.highlightArtwork = null;
@@ -518,8 +623,12 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 				$log.log("collection_id: " + collection_id);
                 $log.log($scope.floor.floor_plan_coor[collection_id]);
 				for (var key in coor_entires) {
-					var tag = "<div class='floorArea coorBlock" + collection_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'></div>";
-					$scope.coordinates += tag;
+                    if(coor_entires[key].type == "poly"){
+                       tag += "<canvas style='position:absolute; width:100%; height:100%; z-index:100; left:0px; top:0px;' id='canvas" + collection_id.trim() + "'></canvas>";
+                    }else{
+                        var tag = "<div class='floorArea coorBlock" + collection_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'></div>";
+                    }
+                    $scope.coordinates += tag;
 				}
 			}
 		}
@@ -528,17 +637,15 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	}, function() {
 		$log.log("Could not load place");
 	});
-            console.log("load floor", $stateParams.id);
-            
+	
 	Artworks.loadFloor(0,32,$stateParams.id).then(function(d) {
-        if(!d) return;
 		$scope.artworks = d;
 		artworksLoaded = d.length;
 		$scope.$broadcast('scroll.infiniteScrollComplete');
 		// Highlight first artwork in list
-                                                  $scope.highlightArtwork = d[0] ? d[0]['collection_id'] : 0;
+		$scope.highlightArtwork = d[0]['collection_id'];
 		// Highlight first artwork floorplans
-                                                  if (d[0]) { $scope.highlightCoor(d[0]['collection_id']); }
+		$scope.highlightCoor(d[0]['collection_id']);
 	});
 	
     $scope.getOrientation = function(fpImg) {
@@ -559,7 +666,6 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	
 	$scope.loadNextArtworkPage = function() {
 		Artworks.loadFloor(artworksLoaded, 32,$stateParams.id).then(function(d) {
-                                                                    if(!d) return;
 			$scope.artworks = $scope.artworks.concat(d);
 			artworksLoaded = $scope.artworks.length;
 			console.log("artworks loaded " + artworksLoaded);
@@ -580,7 +686,12 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	$scope.highlightCoor = function(collection_id){
 		$log.log("highlight collection_id: " + collection_id);
         angular.element(document.querySelectorAll('.floorArea')).css('display', 'none');
+        angular.element(document.querySelectorAll('canvas')).css('display', 'none');
 		angular.element(document.querySelectorAll('.coorBlock' + collection_id)).css('display', 'block');
+        angular.element(document.querySelectorAll('#canvas' + collection_id)).css('display', 'block');
+        if(!$scope.canvasDrawnAlready){
+            $scope.drawCanvas();
+        }
 	};
 	
 	// Handle scrolling of artwork column
@@ -605,6 +716,57 @@ angular.module('mfactivearchive.controllers', ['ngCordovaBeacon'])
 	$scope.trustAsHtml = function(html){
 		return $sce.trustAsHtml(String(html));
 	};
+    
+    
+    
+    
+    
+    
+    $scope.canvasDrawnAlready = 0;
+    $scope.drawCanvas = function() {
+        if($scope.floor.floor_plan_coor){
+            for (var collection_id in $scope.floor.floor_plan_coor) {
+                if ($scope.floor.floor_plan_coor.hasOwnProperty(collection_id)) {
+                    coor_entires = $scope.floor.floor_plan_coor[collection_id];
+                    for (var key in coor_entires) {
+                       // $log.log("coors: " + coor_entires[key].type);
+                        if(coor_entires[key].type == "poly"){
+            $log.log("here" + collection_id);
+                            var canvas = document.querySelector('#canvas' + collection_id.trim());
+                $log.log("width: " + canvas.width + " height: " + canvas.height);
+                            var ctx = canvas.getContext("2d");
+                            ctx.beginPath();
+                        
+                            points = coor_entires[key].points;
+                            c = 0;
+                            for (var keyp in points) {
+                    $log.log(collection_id + ' ' + points[keyp].x);
+                                if(c == 0){
+                                    ctx.moveTo(Math.floor(canvas.width * (points[keyp].x / 100)),Math.floor(canvas.height * (points[keyp].y / 100)));
+                                }else{
+                                    ctx.lineTo(Math.floor(canvas.width * (points[keyp].x / 100)),Math.floor(canvas.height * (points[keyp].y / 100)));
+                                }
+                                c++;
+                            }
+                            ctx.closePath();
+                            ctx.strokeStyle="#FF0000";
+                            ctx.fillStyle="rgba(255,0,0,.7)";
+                            ctx.stroke();
+                            ctx.fill();
+                        }
+                    }
+                }
+            }
+            $scope.canvasDrawnAlready = 1;
+        }
+    };
+    
+    
+    
+    
+    
+    
+    
 
 })
 

@@ -2,19 +2,8 @@
   <ion-content has-bouncing="false" overflow-scroll="false">
   	 <div id="deviceready" class="viewArea">
 		<div id="content" class="aboutContent">
-            <h2>About Mattress Factory</h2>
-            <p>
-                The Mattress Factory was founded in 1977, by artists, to support artists working in residence to create site-specific installations. Since then, the museum has presented and commissioned new installation and performance works by more than 650 artists. The museum supports established and emerging artists through a residency program that provides leadership, guidance, resources and opportunities to create artwork that is unconventional, challenging and thought-provoking.  The museum’s flexibility and inventiveness allows artists to respond to developments in technology, explore audience interaction, and challenge traditional artistic ideals and practice.
-            </p>
-            <p>
-                The Mattress Factory has pioneered the development of alternative art forms through site-specific installations, video, and performance art. It is nationally and internationally recognized as a leader in site-specific, contemporary art and is notorious for pushing the boundaries of both artist and viewer. The unparalleled support that artists receive from the Mattress Factory, while working in residence, often result in the production of extraordinary artwork that propels the artist’s career and significantly impacts the field of contemporary art. Mattress Factory exhibitions present new works by critically-acclaimed regional, national and international artists and the museum's exhibitions appear in publications like The New York Times, Art in America, Art Asian/Pacific, and the Wall Street Journal, among many others.
-            </p>
-            <p>
-                The Mattress Factory Education Department has developed outreach programs using installation art to challenge, excite and motivate students and learners of all ages to engage the world around them in new and creative ways. In 2003, the museum opened a fully-equipped Education Studio for workshops, school programs, teacher training and community activities. The museum’s Education Department serves more than 20,000 students, teachers, adults and families annually through a wide range of programs. In 2013, the Education Department refocused its priorities to better serve the museum’s urban neighborhood by launching an after school program and a series of workshops dedicated to children 3-6 years of age.
-            </p>
-            <p>
-                Since its founding, the Mattress Factory has been a catalyst for community revitalization on Pittsburgh’s North Side. The museum has rehabilitated nine properties that were once abandoned or considered non-contributing buildings within the community. The positive impact of the Mattress Factory’s presence in the Pittsburgh region was documented in an economic impact study conducted by Carnegie Mellon University’s Center for Economic Development, which concluded that the museum “makes important contributions to local workforce development, neighborhood redevelopment, cultural tourism, artistic entrepreneurship, and economic growth."
-            </p>
+            <H2 ng-bind-html="trustAsHtml(pageContent.title)"></H2>
+            <span ng-bind-html="trustAsHtml(pageContent.bodytext)"></span>
         </div>
 	</div>
   </ion-content>
