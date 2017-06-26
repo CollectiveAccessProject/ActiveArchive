@@ -1,5 +1,10 @@
-<ion-view <!--view-title="Browse Mattress Factory Exhibitions"-->> 
+<ion-view <!--view-title="Browse Mattress Factory Exhibitions"-->>
   <ion-content has-bouncing="false" overflow-scroll="false">
+      
+      <div class="spinner" ng-hide="hideSpinner">
+          <ion-spinner icon="ios"></ion-spinner>
+      </div>
+      
   	<div class="exhibitionDecade"><span ng-repeat="decade in decadeTitles"><a href="#/tab/exhibitions/{{decade.var}}" ng-class='{"red":decade.title==decadeTitle}'>{{decade.title}}</a> </span></div>
   	<div class="row" on-swipe-right="loadPreviousDecade()" on-swipe-left="loadNextDecade()">
   		<ion-scroll class="col col-50 col-center">

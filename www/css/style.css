@@ -330,6 +330,7 @@ p {
 	text-transform:capitalize;
 	background: linear-gradient(to right, black, transparent);
 	z-index:10;
+    pointer-events: none;
 }
 .artistListItem {
 	float:left;
@@ -1533,4 +1534,17 @@ p.red {
 /*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
 @media only screen and (orientation : portrait) {
 /* Styles */
+}
+
+div.spinner {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 85px;
+    text-align: center;
+    z-index: 99999;
+}
+.spinner svg {
+    width: 19% !important;
+    height: 85px !important;
 }

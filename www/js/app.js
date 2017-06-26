@@ -33,8 +33,10 @@
                               if(d) {
                                 for(var index in d) {
                                     if (d[index]['beacon_uuid']) {
-                                        $rootScope.beacon_places[d[index]['beacon_uuid']] = d[index]['place_id'];
-                              
+                                        var uuids = d[index]['beacon_uuid'].split(";");
+                                        for(var x in uuids) {
+                                            $rootScope.beacon_places[uuids[x]] = d[index]['place_id'];
+                                        }
                                     }
                                 }
                               }

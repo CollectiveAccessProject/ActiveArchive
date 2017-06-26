@@ -2,8 +2,8 @@
   <ion-content has-bouncing="false" overflow-scroll="false">
   	 <div id="deviceready" class="viewArea">
 		<div id="content" class="aboutContent">
-            <H2 ng-bind-html="trustAsHtml(pageContent.title)"></H2>
-            <span ng-bind-html="trustAsHtml(pageContent.bodytext)"></span>
+            <H2 ng-bind-html="trustAsHtml(pageContent.title ? pageContent.title : '')"></H2>
+            <span ng-bind-html="trustAsHtml(pageContent.bodytext ? pageContent.bodytext : '')"></span>
         </div>
 	</div>
   </ion-content>

@@ -21,13 +21,11 @@ angular.module('mfactivearchive.services', ['mfactivearchive.config'])
 .factory('Artists', function($http, dataConfig, $log) {
    	  
   return {
-    load: function(letter) {
-    	
-		var promise = $http({
+    load: function() {
+        var promise = $http({
 		method : 'POST',
-		url : dataConfig.backend + '/service.php/simple/artists?q=ca_entities.artist_browse:Yes AND ca_entities.preferred_labels.surname:' + letter + '*&noCache=' + dataConfig.noCache
+		url : dataConfig.backend + '/service.php/simple/artists?q=ca_entities.artist_browse:Yes&noCache=' + dataConfig.noCache
 		}).then(function(response) {
-			$log.log('Load complete for ' + letter);
 			return response.data['data'];
 		}, function() { 
 			$log.log("Error loading artists"); 

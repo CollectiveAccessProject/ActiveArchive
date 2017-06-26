@@ -10,7 +10,7 @@ angular.module('mfactivearchive.controllers', [])
  	$scope.pageContent = [];
  	About.load().then(function(d) {
 		$scope.pageContent = d;
-		console.log("title: " + $scope.pageContent.title);
+		//console.log("title: " + $scope.pageContent.title);
 	});
 	$scope.trustAsHtml = function(html){
 		return $sce.trustAsHtml(String(html));
@@ -26,53 +26,73 @@ angular.module('mfactivearchive.controllers', [])
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
 
+            $scope.hideSpinner = false;
 	var artistLetter = "a";
 	$scope.letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 	var nextArtistLetter = $scope.letters[$scope.letters.indexOf(artistLetter) + 1];
 	$scope.artistsList = [];
 	$scope.highlightLetter = artistLetter;
 	$state.oldHighlightLetter = artistLetter;
-	
-	Artists.load(artistLetter).then(function(d) {
-		d["letter"] = artistLetter;
-		$scope.artistsList.push(d);
+            
+	Artists.load().then(function(d) {
+                        
+                       // console.log("in artists load");
+        var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        var artists_by_letter = {};
+                        var i;
+                                    for(i in d) {
+                                        var r = d[i];
+                                        var l = r['surname'].substring(0,1).toLowerCase();
+                                        r['letter'] = l;
+                        if (!artists_by_letter[l]) { artists_by_letter[l] = {'letter': l}; }
+                                        artists_by_letter[l][i] = r;
+                                    }
+                        
+                                    for(var x in letters) {
+                                        if(artists_by_letter[letters[x]]) {
+                                            $scope.artistsList.push(artists_by_letter[letters[x]]);                                        }
+                                    }
+                        
+                        //console.log("artists letter loaded ");
+                        $scope.hideSpinner = true;
 	});
 	
-	$scope.loadNextArtistPage = function() {
-		if(nextArtistLetter){
-			Artists.load(nextArtistLetter).then(function(d) {
-				d["letter"] = nextArtistLetter;
-				$scope.artistsList.push(d);
-				nextArtistLetter = $scope.letters[$scope.letters.indexOf(nextArtistLetter) + 1];
-				console.log("artists letter loaded " + nextArtistLetter);
-				$scope.$broadcast('scroll.infiniteScrollComplete');
-			});
-		}
-	};
 	// Handle scrolling of exhibition title
 	var artistScrollDelegate = $ionicScrollDelegate.$getByHandle('artistListRow');
 	$scope.getScrollPosition = function(){
 		if(!$state.oldHighlightLetter){
 			$state.oldHighlightLetter = "a";
 		}
-		var t = parseInt(artistScrollDelegate.getScrollPosition().top);	// distance scrolled from top
-
+            
+        var element = angular.element(document.querySelector('#artistListContainer'));
+        var deviceHeight = window.screen.height;
+        var contentHeight = element[0].offsetHeight + Math.ceil(0.5 * deviceHeight);
+        var lineHeight = Math.floor(contentHeight/$scope.artistsList.length);
+            var t = parseInt(artistScrollDelegate.getScrollPosition().top);	// distance scrolled from top
+            var p = (t + deviceHeight + lineHeight)/contentHeight;
+            
+           // console.log("DIM", contentHeight, lineHeight, deviceHeight);
 		if (isNaN(t)) { return; }
 		if (t < 0) { t = 0; }
-		var l = Math.floor(t/170); // estimate # of lines in we are
-		if (isNaN(l)) { return; }
+        var l = Math.ceil((t + (p * (deviceHeight-lineHeight)))/lineHeight);
+		
+            if (isNaN(l)) { return; }
+            
+            //console.log("scroll", contentHeight, t, p, l);
+            
+            
 		if ((!$state.oldLine) || (l !== parseInt($state.oldLine))) {
 			// set current highlight
-			if (!$scope.letters[l]) { return; }
+			if (!$scope.artistsList[l]) { return; }
 			//$scope.highlightLetter = $scope.letters[l];
 			// force view to reload
 			//$state.reload();
 			if ($state.oldHighlightLetter) {
 				angular.element(document.querySelector('#artist_letter_' + $state.oldHighlightLetter)).removeClass('activeLetter');
 			}
-			angular.element(document.querySelector('#artist_letter_' + $scope.letters[l])).addClass('activeLetter');
+			angular.element(document.querySelector('#artist_letter_' + $scope.artistsList[l]['letter'])).addClass('activeLetter');
 			$state.oldLine = l;
-			$state.oldHighlightLetter =  $scope.letters[l]
+            $state.oldHighlightLetter =  $scope.artistsList[l]['letter']; //$scope.letters[l]
 		}
 	};
 })
@@ -86,6 +106,9 @@ angular.module('mfactivearchive.controllers', [])
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
 
+            
+    $scope.hideSpinner = false;
+            
 	var exhibitionsLoaded = 0;
 	$scope.decades = ["1980-1989", "1990-1999", "2000-2009", "2010-2019"];
 	$scope.decadeTitles = [{"title" : "1980's", "var" : "1980-1989"}, {"title" : "1990's", "var" : "1990-1999"}, {"title" : "2000's", "var" : "2000-2009"}, {"title" : "2010's", "var" : "2010-2019"}];
@@ -102,13 +125,15 @@ angular.module('mfactivearchive.controllers', [])
 
 		// Highlight first exhibition in list
 		$scope.showExhibition = $scope.highlightExhibition = d[0]['occurrence_id'];
+                                              
+                                              $scope.hideSpinner = true;
 	});
 	
 	$scope.loadNextExhibitionPage = function() {
 		Exhibitions.load(exhibitionsLoaded, 32,$stateParams.decade).then(function(d) {
 			$scope.exhibitions = $scope.exhibitions.concat(d);
 			exhibitionsLoaded = $scope.exhibitions.length;
-			console.log("exhibitions loaded " + exhibitionsLoaded);
+			//console.log("exhibitions loaded " + exhibitionsLoaded);
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 
 			// Highlight first exhibition in list
@@ -175,7 +200,7 @@ angular.module('mfactivearchive.controllers', [])
 		Exhibitions.load(exhibitionsLoaded, 32).then(function(d) {
 			$scope.exhibitions = $scope.exhibitions.concat(d);
 			exhibitionsLoaded = $scope.exhibitions.length;
-			console.log("exhibitions loaded " + exhibitionsLoaded);
+			//console.log("exhibitions loaded " + exhibitionsLoaded);
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 		});
 	};
@@ -226,7 +251,7 @@ angular.module('mfactivearchive.controllers', [])
 
                 $scope.results = d;
                 searchLoaded = $scope.results.length;
-                console.log("search results gotten");
+           //     console.log("search results gotten");
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 // Highlight first result in list
 				$scope.showResult = $scope.highlightResult = d[0]['collection_id'];
@@ -238,7 +263,7 @@ angular.module('mfactivearchive.controllers', [])
 		Search.load(searchLoaded, 40, $scope.search_term).then(function(d) {
 			$scope.results = $scope.results.concat(d);
 			searchLoaded = $scope.results.length;
-			console.log("search results loaded " + searchLoaded);
+		//	console.log("search results loaded " + searchLoaded);
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 		});
 	};
@@ -304,7 +329,7 @@ angular.module('mfactivearchive.controllers', [])
     
     $scope.addComment = function() {
 		Comments.set().then(function(d) {
-			console.log("comment saved");
+		//	console.log("comment saved");
 		});
 	};
     
@@ -623,10 +648,11 @@ angular.module('mfactivearchive.controllers', [])
 				$log.log("collection_id: " + collection_id);
                 $log.log($scope.floor.floor_plan_coor[collection_id]);
 				for (var key in coor_entires) {
+                    var tag = '';
                     if(coor_entires[key].type == "poly"){
                        tag += "<canvas style='position:absolute; width:100%; height:100%; z-index:100; left:0px; top:0px;' id='canvas" + collection_id.trim() + "'></canvas>";
                     }else{
-                        var tag = "<div class='floorArea coorBlock" + collection_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'></div>";
+                        tag = "<div class='floorArea coorBlock" + collection_id.trim() + "' style='left:" + coor_entires[key].x + "%; top:" + coor_entires[key].y + "%; width:" + coor_entires[key].w + "%; height:" + coor_entires[key].h + "%;'> </div>";
                     }
                     $scope.coordinates += tag;
 				}
@@ -672,7 +698,7 @@ angular.module('mfactivearchive.controllers', [])
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 
 			// Highlight first artwork in list
-			$scope.showArtwork = $scope.highlightArtwork = d[0]['collection_id'];
+			$scope.showArtwork = $scope.highlightArtwork = d[0]['collection_id'] ? d[0]['collection_id']  : '';
 		});
 	};
 	
