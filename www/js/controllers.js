@@ -65,20 +65,22 @@ angular.module('mfactivearchive.controllers', [])
 		}
             
         var element = angular.element(document.querySelector('#artistListContainer'));
-        var deviceHeight = window.screen.height;
+        var deviceHeight = window.screen.height - 50;
         var contentHeight = element[0].offsetHeight + Math.ceil(0.5 * deviceHeight);
         var lineHeight = Math.floor(contentHeight/$scope.artistsList.length);
-            var t = parseInt(artistScrollDelegate.getScrollPosition().top);	// distance scrolled from top
-            var p = (t + deviceHeight + lineHeight)/contentHeight;
+        var t = parseInt(artistScrollDelegate.getScrollPosition().top);	// distance scrolled from top
+        var p = t/(contentHeight - deviceHeight - 480);
+            
+        var linePerScreen = Math.ceil(deviceHeight/lineHeight)
             
            // console.log("DIM", contentHeight, lineHeight, deviceHeight);
 		if (isNaN(t)) { return; }
 		if (t < 0) { t = 0; }
-        var l = Math.ceil((t + (p * (deviceHeight-lineHeight)))/lineHeight);
+            var l = Math.ceil(t/lineHeight) + Math.floor(linePerScreen * p);
 		
             if (isNaN(l)) { return; }
             
-            //console.log("scroll", contentHeight, t, p, l);
+           // console.log("scroll", contentHeight, t, p, l);
             
             
 		if ((!$state.oldLine) || (l !== parseInt($state.oldLine))) {
@@ -125,8 +127,7 @@ angular.module('mfactivearchive.controllers', [])
 
 		// Highlight first exhibition in list
 		$scope.showExhibition = $scope.highlightExhibition = d[0]['occurrence_id'];
-                                              
-                                              $scope.hideSpinner = true;
+        $scope.hideSpinner = true;
 	});
 	
 	$scope.loadNextExhibitionPage = function() {
@@ -639,8 +640,10 @@ angular.module('mfactivearchive.controllers', [])
 	$scope.highlightArtwork = null;
 	$scope.coordinates = "";
 	$scope.orientation = "";
-	
+	 $scope.hideSpinner = false;
+            
 	Museum.get($stateParams.id).then(function(d) {
+                                     $scope.hideSpinner = true;
 		$scope.floor = d;
 		for (var collection_id in $scope.floor.floor_plan_coor) {
 			if ($scope.floor.floor_plan_coor.hasOwnProperty(collection_id)) {

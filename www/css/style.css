@@ -265,6 +265,9 @@ p {
 /*  front page */
 .frontText{
     padding-left:5px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 .frontText H1{
     margin-top:20px;
@@ -273,18 +276,20 @@ p {
 .frontText H2{
     padding-left:10px;
 }
+
 @media (max-device-width : 786px) {
 	.frontText H1{
         margin-top:0px;
-        font-size:135px;
+        font-size:105px;
     }
     .frontText H2{
-        font-size:36px;
+        font-size:32px;
     }
 }
 /* Artist list*/
 .artistListContainer{
 	padding-top:240px;
+    padding-bottom:360px;
 }
 .letterBar{
 	opacity:.5;
@@ -962,6 +967,9 @@ p.red {
 
 /* Exhibition List */
 
+exhibitionDecadeList {
+    z-index: 10000;
+}
 .exhibitionList{
     height:calc(100vh - 94px); /* 50 bar-footer height + 44 .bar (header) */
 }
@@ -1416,6 +1424,7 @@ p.red {
 	padding-left:5 px;
     line-height:30px;
     margin-left:0px;
+    background-color: #000;
 }
 .exTitle {
     font-size: 30px;
