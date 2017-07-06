@@ -8,7 +8,7 @@
   	<div class="exhibitionDecade" id="exhibitionDecadeList"><span ng-repeat="decade in decadeTitles"><a href="#/tab/exhibitions/{{decade.var}}" ng-class='{"red":decade.title==decadeTitle}'>{{decade.title}}</a> </span></div>
   	<div class="row" on-swipe-right="loadPreviousDecade()" on-swipe-left="loadNextDecade()">
   		<ion-scroll class="col col-50 col-center">
-			<ion-list class='exhibitionListInfo'>
+			<ion-list class='exhibitionListInfo' ng-hide="!hideSpinner">
 				  <ion-item ng-show="showExhibition == {{exhibition.occurrence_id}}" ng-repeat="exhibition in exhibitions" type="item-text-wrap" href="#/tab/detail-exhibition/{{exhibition.occurrence_id}}">
 					<div ng-if='exhibition.thumb' ng-bind-html='exhibition.thumb'></div>
 					<div ng-if='exhibition.dates' class="red date">{{exhibition.dates}}</div>

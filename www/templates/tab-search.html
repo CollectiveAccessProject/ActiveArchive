@@ -1,5 +1,9 @@
 <ion-view> 
   <ion-content has-bouncing="false" overflow-scroll="false">
+      <div class="spinner" ng-hide="hideSpinner">
+          <ion-spinner icon="ios"></ion-spinner>
+      </div>
+      
   	<div class="row">
   		<ion-scroll class="col col-50" has-bouncing="false" overflow-scroll="false" class="resultLeft">
 			<div class="resultHeading">
@@ -20,7 +24,7 @@
 		<ion-scroll class="col col-50 resultList" delegate-handle="resultList" on-scroll="getScrollPosition()" has-bouncing="false" overflow-scroll="false">
 			<ion-list>
 				<ion-item class='resultListItem' ng-class='{"active":highlightResult=={{result.collection_id}}}' ng-repeat="result in results" type="item-text-wrap" id="result_{{result.collection_id}}" ng-click="showResultInfo({{result.collection_id}}); highlightResultTitle({{result.collection_id}});">
-					<h2><span class="redDot"><img src='img/redDot.png'></span>{{result.name}}</h2>
+					<h2><span class="redDot"><img src='img/redDot.png'></span>{{result.name_only}}</h2>
 				</ion-item>
 			</ion-list>
 			<ion-infinite-scroll

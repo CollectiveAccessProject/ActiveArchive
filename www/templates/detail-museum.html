@@ -2,9 +2,6 @@
   <ion-content>
 		<div class="floorTitle">{{floor.parent}}<br/><span class='floorSubTitle'>{{floor.name}}</span></div>
         
-        <div class="spinner" ng-hide="hideSpinner">
-            <ion-spinner icon="ios"></ion-spinner>
-        </div>
 		<div class="row">
 			<ion-scroll class="col col-40 col-center" has-bouncing="false" overflow-scroll="false">
 				<div id="floorPlan">
@@ -16,11 +13,14 @@
 					<ion-item class='floorArtworkListItem item-text-wrap' ng-class='{"active":highlightArtwork=={{artwork.collection_id}}}' ng-repeat="artwork in artworks" type="item-text-wrap" id="artwork_{{artwork.collection_id}}" ng-click="highlightCoor({{artwork.collection_id}}); highlightArtworkTitle({{artwork.collection_id}});">
 						<div class="artworkImage" ng-if='artwork.pic' ng-bind-html='artwork.pic'></div>
                         <h2>
-							<div class='artworkName'>{{artwork.name}}</div>
+							<div class='artworkName' ng-bind-html="artwork.name"></div>
 							<div ng-if='artwork.artist' class="red" ng-bind-html="artwork.artist"></div>
                         </h2>
 					</ion-item>
 				</ion-list>
+                <div class="spinner" ng-hide="hideSpinner">
+                    <ion-spinner icon="ios"></ion-spinner>
+                </div>
 				<ion-infinite-scroll
 					on-infinite="loadNextArtworkPage()" immediate-check="false"
 					distance="25%">

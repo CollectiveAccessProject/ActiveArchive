@@ -26,7 +26,7 @@
             $rootScope.last_jump_to_place_id = null;
                              
             $cordovaBeacon.requestWhenInUseAuthorization();
-            $rootScope.beacon ="Looking for beacons...";
+            $rootScope.beacon ="";
                              
                              $rootScope.beacon_places = {};
             Museum.all().then(function(d) {
@@ -68,8 +68,11 @@
                            c++;
                            //console.log("[BEACON] " + JSON.stringify(pluginResult.beacons[i]));
                 }
-                           $rootScope.beacon = "Nearest: " + nearestBeacon + "; found " + c + " near; " + pluginResult.beacons.length + " total";
                            
+                           var totalBeacons = pluginResult.beacons.length;
+                           if (totalBeacons > 0) {
+                            $rootScope.beacon = "Beacons: " + (nearestBeacon ? ("Nearest: " + nearestBeacon + "; ") : "") + c + " near; " + pluginResult.beacons.length + " total";
+                           }
                         if ((jump_to_place_id = $rootScope.beacon_places[nearestBeacon]) && ($rootScope.last_jump_to_place_id != jump_to_place_id)) {
                                 $rootScope.beacon += "Jump to " + jump_to_place_id;
                                 $state.go("tab.detail-museum", {id: jump_to_place_id});

@@ -266,7 +266,7 @@ p {
 .frontText{
     padding-left:5px;
     position: absolute;
-    top: 10px;
+    bottom: 35vh;
     left: 10px;
 }
 .frontText H1{
@@ -974,7 +974,7 @@ exhibitionDecadeList {
     height:calc(100vh - 94px); /* 50 bar-footer height + 44 .bar (header) */
 }
 .exhibitionList div.list{
-	padding-bottom:300px !important;
+	padding-bottom:75vh !important;
 	padding-top:275px !important;
 }
 .exhibitionList .item {
@@ -1136,7 +1136,7 @@ exhibitionDecadeList {
 	height:100vh;
 }
 .resultList div.list{
-	padding-bottom:300px !important;
+	padding-bottom:75vh !important;
 	padding-top:275px !important;
 }
 .resultList .item {
@@ -1204,11 +1204,12 @@ exhibitionDecadeList {
 }
 .resultHeading input{
 	display:inline;
-	width:70%;
+	width:60%;
 	background-color:rgba(255,255,255,.1);
 	color:#FFF;
 	font-family: proximanova;
 	padding:5px;
+    font-size: 24px;
 }
 .resultHeading button{
 	background-color:#000;
@@ -1223,7 +1224,7 @@ exhibitionDecadeList {
         font-size: 30px;
     }
     .resultHeading input{
-        width:60%;
+        width:40%;
     }
  
 }
@@ -1494,6 +1495,18 @@ exhibitionDecadeList {
 	font-family:proximanova;
 	padding-bottom:10px;
 }
+
+
+@media only screen
+and (min-device-width : 375px)
+and (max-device-width : 667px)
+and (orientation : portrait) {
+    .onViewSlide .exhibitionInfo{
+        bottom:150px;
+    }
+}
+
+
 /* iPads (portrait) ----------- */
 /*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
 @media only screen and (orientation : portrait) {
@@ -1516,7 +1529,7 @@ exhibitionDecadeList {
 /* phone (portrait) ----------- */
 @media only screen and (max-device-width : 767px) and (orientation : portrait) {
 	.onViewSlide .exhibitionInfo{
-		bottom:50px;
+		bottom:150px;
 	}
 }
 /* phone (landscape) ----------- */
@@ -1525,9 +1538,6 @@ exhibitionDecadeList {
 		top:250px;
 	}
 }
-
-
-
 
 
 
@@ -1556,4 +1566,11 @@ div.spinner {
 .spinner svg {
     width: 19% !important;
     height: 85px !important;
+}
+
+#beaconIndicator {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    font-size: 10px;
 }

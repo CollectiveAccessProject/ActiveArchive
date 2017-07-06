@@ -1,6 +1,8 @@
 angular.module('mfactivearchive.controllers', [])
-.config(function ($sceDelegateProvider) {
+.config(function ($sceDelegateProvider, $ionicConfigProvider) {
     $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://google.com/']);
+        $ionicConfigProvider.platform.ios.views.maxCache(50);
+        $ionicConfigProvider.platform.android.views.maxCache(50);
 })
  
 .controller('FrontCtrl', function($scope, $ionicSideMenuDelegate) {
@@ -10,7 +12,6 @@ angular.module('mfactivearchive.controllers', [])
  	$scope.pageContent = [];
  	About.load().then(function(d) {
 		$scope.pageContent = d;
-		//console.log("title: " + $scope.pageContent.title);
 	});
 	$scope.trustAsHtml = function(html){
 		return $sce.trustAsHtml(String(html));
@@ -26,7 +27,7 @@ angular.module('mfactivearchive.controllers', [])
 	//$scope.$on('$ionicView.enter', function(e) {
 	//});
 
-            $scope.hideSpinner = false;
+    $scope.hideSpinner = false;
 	var artistLetter = "a";
 	$scope.letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 	var nextArtistLetter = $scope.letters[$scope.letters.indexOf(artistLetter) + 1];
@@ -35,8 +36,6 @@ angular.module('mfactivearchive.controllers', [])
 	$state.oldHighlightLetter = artistLetter;
             
 	Artists.load().then(function(d) {
-                        
-                       // console.log("in artists load");
         var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
         var artists_by_letter = {};
                         var i;
@@ -127,7 +126,7 @@ angular.module('mfactivearchive.controllers', [])
 
 		// Highlight first exhibition in list
 		$scope.showExhibition = $scope.highlightExhibition = d[0]['occurrence_id'];
-        $scope.hideSpinner = true;
+        setInterval(function() { $scope.hideSpinner = true; }, 100); // delay show by 100ms to avoid flicker
 	});
 	
 	$scope.loadNextExhibitionPage = function() {
@@ -231,6 +230,7 @@ angular.module('mfactivearchive.controllers', [])
 .controller('SearchCtrl', function($scope, $stateParams, Search, $log, $location, $state, $ionicScrollDelegate) {
     var searchLoaded = 0;
 
+    $scope.hideSpinner = true;
     if($scope.search_term === null) {
         term = '';
     } else {
@@ -244,18 +244,18 @@ angular.module('mfactivearchive.controllers', [])
 
         if(form.$valid) {
             $scope.search_term = form.searchterm.$modelValue;
-
+            $scope.hideSpinner = false;
             Search.get($scope.search_term).then(function(d) {
-
-                $log.log('d: ');
-                $log.log(d);
+                cordova.plugins.Keyboard.close();
+                $scope.hideSpinner = true;
 
                 $scope.results = d;
                 searchLoaded = $scope.results.length;
-           //     console.log("search results gotten");
+                                                
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 // Highlight first result in list
 				$scope.showResult = $scope.highlightResult = d[0]['collection_id'];
+                $ionicScrollDelegate.$getByHandle('resultList').scrollTop();
             });
         }
     };
@@ -302,9 +302,11 @@ angular.module('mfactivearchive.controllers', [])
 })
 
 .controller('ArtistDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, Artists, $log, $sce, Comments) {
+    $scope.hideSpinner = false;
     $scope.showArea = "area1";
 	$scope.iframe_url = $sce.trustAsResourceUrl(decodeURIComponent("http://w.soundcloud.com"));
 	Artists.get($stateParams.id).then(function(d) {
+        $scope.hideSpinner = true;
 		$scope.artist = d;
 		
 //		$scope.artist.sound = '';
@@ -358,8 +360,10 @@ angular.module('mfactivearchive.controllers', [])
         //$log.log('First name' + $scope.comment.firstname);
        
         if(!$scope.formError){
+            $scope.hideSpinner = false;
             Comments.set(20, $scope.artist.entity_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
                 console.log("comment saved");
+                $scope.hideSpinner = true;
                 $scope.commentSubmitted = 1;
             });
         }
@@ -372,12 +376,14 @@ angular.module('mfactivearchive.controllers', [])
 })
 
 .controller('ExhibitionDetailCtrl', function($scope, $stateParams, Exhibitions, $log, $sce, Comments) {
+    $scope.hideSpinner = false;
 	$scope.floorplanTags = [];
 	$scope.orientation = "";
     $scope.showArea = "area1";
     $scope.floor_plan_titles = [];
     $scope.canvas_coors = [];
     Exhibitions.get($stateParams.id).then(function(d) {
+        $scope.hideSpinner = true;
         $scope.exhibition = d;
 //        $scope.exhibition.sound = '';
 //        if($scope.exhibition.soundcloud_playlist_id){
@@ -544,17 +550,18 @@ angular.module('mfactivearchive.controllers', [])
         //$log.log('First name' + $scope.comment.firstname);
        
         if(!$scope.formError){
+            $scope.hideSpinner = false;
             Comments.set(67, $scope.exhibition.occurrence_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
                 console.log("comment saved");
                 $scope.commentSubmitted = 1;
+                $scope.hideSpinner = true;
             });
         }
     };
-})
-
-
-.controller('ArtworkDetailCtrl', function($scope, $stateParams, Artworks, $log, Comments) {
+}).controller('ArtworkDetailCtrl', function($scope, $stateParams, Artworks, $log, Comments) {
+    $scope.hideSpinner = false;
 	Artworks.get($stateParams.id).then(function(d) {
+        $scope.hideSpinner = true;
 		$scope.artwork = d;
 	}, function() {
 		$log.log("Could not load artwork");
@@ -587,9 +594,11 @@ angular.module('mfactivearchive.controllers', [])
         //$log.log('First name' + $scope.comment.firstname);
        
         if(!$scope.formError){
+            $scope.hideSpinner = false;
             Comments.set(13, $scope.artwork.collection_id, $scope.comment.comment, $scope.comment.email, $scope.comment.name).then(function(d) {
                 console.log("comment saved");
                 $scope.commentSubmitted = 1;
+                $scope.hideSpinner = true;
             });
         }
     };
@@ -643,7 +652,6 @@ angular.module('mfactivearchive.controllers', [])
 	 $scope.hideSpinner = false;
             
 	Museum.get($stateParams.id).then(function(d) {
-                                     $scope.hideSpinner = true;
 		$scope.floor = d;
 		for (var collection_id in $scope.floor.floor_plan_coor) {
 			if ($scope.floor.floor_plan_coor.hasOwnProperty(collection_id)) {
@@ -667,7 +675,8 @@ angular.module('mfactivearchive.controllers', [])
 		$log.log("Could not load place");
 	});
 	
-	Artworks.loadFloor(0,32,$stateParams.id).then(function(d) {
+    Artworks.loadFloor(0,32,$stateParams.id).then(function(d) {
+        $scope.hideSpinner = true;
 		$scope.artworks = d;
 		artworksLoaded = d.length;
 		$scope.$broadcast('scroll.infiniteScrollComplete');
